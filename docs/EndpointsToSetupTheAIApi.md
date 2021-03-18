@@ -38,6 +38,7 @@ with irisnet_client.ApiClient() as api_client:
 <inDefineAI>
 	<inImage proto="nudityCheck"/>
 	<inImage proto="ageEstimation"/>
+	<inImage proto="textRecognition"/>
 	<inImage proto="illegalSymbols"/>
 </inDefineAI> # INDefineAI | 
 

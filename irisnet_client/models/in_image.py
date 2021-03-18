@@ -56,7 +56,7 @@ class INImage(object):
     def proto(self):
         """Gets the proto of this INImage.  # noqa: E501
 
-        Name of commonly used rule sets (prototypes). That can be used to speed up the setup process. * _nudityCheck_ - Commonly used prototype to check for nudity. * _ageVerification_ - Deprecated see 'ageEstimation'. * _ageEstimation_ - Checks if there are children, adults or seniors recognizable. This is intended to be a suggestion to help you implement further steps. * _illegalSymbols_ - Checks for symbols that are not permitted in Germany.   # noqa: E501
+        Name of commonly used rule sets (prototypes). That can be used to speed up the setup process. * _nudityCheck_ - Commonly used prototype to check for nudity. * _ageVerification_ - Deprecated see 'ageEstimation'. * _ageEstimation_ - Checks if there are children, adults or seniors recognizable. This is intended to be a suggestion to help you implement further steps. * _illegalSymbols_ - Checks for symbols that are not permitted in Germany. * _textRecognition_ - Checks for text occurrences.   # noqa: E501
 
         :return: The proto of this INImage.  # noqa: E501
         :rtype: str
@@ -67,12 +67,12 @@ class INImage(object):
     def proto(self, proto):
         """Sets the proto of this INImage.
 
-        Name of commonly used rule sets (prototypes). That can be used to speed up the setup process. * _nudityCheck_ - Commonly used prototype to check for nudity. * _ageVerification_ - Deprecated see 'ageEstimation'. * _ageEstimation_ - Checks if there are children, adults or seniors recognizable. This is intended to be a suggestion to help you implement further steps. * _illegalSymbols_ - Checks for symbols that are not permitted in Germany.   # noqa: E501
+        Name of commonly used rule sets (prototypes). That can be used to speed up the setup process. * _nudityCheck_ - Commonly used prototype to check for nudity. * _ageVerification_ - Deprecated see 'ageEstimation'. * _ageEstimation_ - Checks if there are children, adults or seniors recognizable. This is intended to be a suggestion to help you implement further steps. * _illegalSymbols_ - Checks for symbols that are not permitted in Germany. * _textRecognition_ - Checks for text occurrences.   # noqa: E501
 
         :param proto: The proto of this INImage.  # noqa: E501
         :type: str
         """
-        allowed_values = ["nudityCheck", "ageVerification", "ageEstimation", "illegalSymbols"]  # noqa: E501
+        allowed_values = ["nudityCheck", "ageVerification", "ageEstimation", "illegalSymbols", "textRecognition"]  # noqa: E501
         if self.local_vars_configuration.client_side_validation and proto not in allowed_values:  # noqa: E501
             raise ValueError(
                 "Invalid value for `proto` ({0}), must be one of {1}"  # noqa: E501
