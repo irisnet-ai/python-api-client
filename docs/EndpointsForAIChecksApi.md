@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **check_image**
-> IrisNet check_image(license_key, detail=detail, file=file)
+> IrisNet check_image(license_key, file, detail=detail)
 
 Upload and check image against previously chosen configuration.
 
@@ -33,12 +33,12 @@ with irisnet_client.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = irisnet_client.EndpointsForAIChecksApi(api_client)
     license_key = 'license_key_example' # str | License obtained from irisnet.de shop.
+file = '/path/to/file' # file | 
 detail = 1 # int | Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information. (optional) (default to 1)
-file = '/path/to/file' # file |  (optional)
 
     try:
         # Upload and check image against previously chosen configuration.
-        api_response = api_instance.check_image(license_key, detail=detail, file=file)
+        api_response = api_instance.check_image(license_key, file, detail=detail)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling EndpointsForAIChecksApi->check_image: %s\n" % e)
@@ -49,8 +49,8 @@ file = '/path/to/file' # file |  (optional)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **license_key** | **str**| License obtained from irisnet.de shop. | 
+ **file** | **file**|  | 
  **detail** | **int**| Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information. | [optional] [default to 1]
- **file** | **file**|  | [optional] 
 
 ### Return type
 
@@ -68,8 +68,8 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**402** | Not enough credits |  -  |
 **200** | successful operation |  -  |
+**402** | Not enough credits |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -133,8 +133,8 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**402** | Not enough credits |  -  |
 **200** | successful operation |  -  |
+**402** | Not enough credits |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

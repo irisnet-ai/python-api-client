@@ -34,6 +34,8 @@ class INObject(object):
     """
     openapi_types = {
         'in_class': 'str',
+        'in_group': 'str',
+        'in_id': 'str',
         'x0': 'float',
         'y0': 'float',
         'width': 'float',
@@ -43,6 +45,8 @@ class INObject(object):
 
     attribute_map = {
         'in_class': 'inClass',
+        'in_group': 'inGroup',
+        'in_id': 'inId',
         'x0': 'x0',
         'y0': 'y0',
         'width': 'width',
@@ -50,13 +54,15 @@ class INObject(object):
         'probability': 'probability'
     }
 
-    def __init__(self, in_class=None, x0=None, y0=None, width=None, height=None, probability=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, in_class=None, in_group=None, in_id=None, x0=None, y0=None, width=None, height=None, probability=None, local_vars_configuration=None):  # noqa: E501
         """INObject - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
         self._in_class = None
+        self._in_group = None
+        self._in_id = None
         self._x0 = None
         self._y0 = None
         self._width = None
@@ -66,6 +72,10 @@ class INObject(object):
 
         if in_class is not None:
             self.in_class = in_class
+        if in_group is not None:
+            self.in_group = in_group
+        if in_id is not None:
+            self.in_id = in_id
         if x0 is not None:
             self.x0 = x0
         if y0 is not None:
@@ -99,6 +109,52 @@ class INObject(object):
         """
 
         self._in_class = in_class
+
+    @property
+    def in_group(self):
+        """Gets the in_group of this INObject.  # noqa: E501
+
+        The group of the classification.  # noqa: E501
+
+        :return: The in_group of this INObject.  # noqa: E501
+        :rtype: str
+        """
+        return self._in_group
+
+    @in_group.setter
+    def in_group(self, in_group):
+        """Sets the in_group of this INObject.
+
+        The group of the classification.  # noqa: E501
+
+        :param in_group: The in_group of this INObject.  # noqa: E501
+        :type: str
+        """
+
+        self._in_group = in_group
+
+    @property
+    def in_id(self):
+        """Gets the in_id of this INObject.  # noqa: E501
+
+        The group of the classification.  # noqa: E501
+
+        :return: The in_id of this INObject.  # noqa: E501
+        :rtype: str
+        """
+        return self._in_id
+
+    @in_id.setter
+    def in_id(self, in_id):
+        """Sets the in_id of this INObject.
+
+        The group of the classification.  # noqa: E501
+
+        :param in_id: The in_id of this INObject.  # noqa: E501
+        :type: str
+        """
+
+        self._in_id = in_id
 
     @property
     def x0(self):

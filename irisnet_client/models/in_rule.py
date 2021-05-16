@@ -34,6 +34,7 @@ class INRule(object):
     """
     openapi_types = {
         'in_class': 'str',
+        'in_group': 'str',
         'found': 'int',
         'min': 'int',
         'max': 'int'
@@ -41,18 +42,20 @@ class INRule(object):
 
     attribute_map = {
         'in_class': 'inClass',
+        'in_group': 'inGroup',
         'found': 'found',
         'min': 'min',
         'max': 'max'
     }
 
-    def __init__(self, in_class=None, found=None, min=None, max=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, in_class=None, in_group=None, found=None, min=None, max=None, local_vars_configuration=None):  # noqa: E501
         """INRule - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
         self._in_class = None
+        self._in_group = None
         self._found = None
         self._min = None
         self._max = None
@@ -60,6 +63,8 @@ class INRule(object):
 
         if in_class is not None:
             self.in_class = in_class
+        if in_group is not None:
+            self.in_group = in_group
         if found is not None:
             self.found = found
         if min is not None:
@@ -89,6 +94,29 @@ class INRule(object):
         """
 
         self._in_class = in_class
+
+    @property
+    def in_group(self):
+        """Gets the in_group of this INRule.  # noqa: E501
+
+        The group of the classification.  # noqa: E501
+
+        :return: The in_group of this INRule.  # noqa: E501
+        :rtype: str
+        """
+        return self._in_group
+
+    @in_group.setter
+    def in_group(self, in_group):
+        """Sets the in_group of this INRule.
+
+        The group of the classification.  # noqa: E501
+
+        :param in_group: The in_group of this INRule.  # noqa: E501
+        :type: str
+        """
+
+        self._in_group = in_group
 
     @property
     def found(self):

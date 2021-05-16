@@ -5,6 +5,7 @@ Describes the rules applied and the count of objects found for the given classif
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **in_class** | **str** | The classification of the recognized object. | [optional] 
+**in_group** | **str** | The group of the classification. | [optional] 
 **found** | **int** | The count of how many instances of the classification object were found. | [optional] 
 **min** | **int** | The minimum allowed instances of the classification object. | [optional] 
 **max** | **int** | The maximum allowed instances of the classification object. | [optional] 

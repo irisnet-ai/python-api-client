@@ -36,18 +36,18 @@ class EndpointsForAIChecksApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def check_image(self, license_key, **kwargs):  # noqa: E501
+    def check_image(self, license_key, file, **kwargs):  # noqa: E501
         """Upload and check image against previously chosen configuration.  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.check_image(license_key, async_req=True)
+        >>> thread = api.check_image(license_key, file, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool: execute request asynchronously
         :param str license_key: License obtained from irisnet.de shop. (required)
+        :param file file: (required)
         :param int detail: Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information.
-        :param file file:
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
@@ -60,20 +60,20 @@ class EndpointsForAIChecksApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        return self.check_image_with_http_info(license_key, **kwargs)  # noqa: E501
+        return self.check_image_with_http_info(license_key, file, **kwargs)  # noqa: E501
 
-    def check_image_with_http_info(self, license_key, **kwargs):  # noqa: E501
+    def check_image_with_http_info(self, license_key, file, **kwargs):  # noqa: E501
         """Upload and check image against previously chosen configuration.  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.check_image_with_http_info(license_key, async_req=True)
+        >>> thread = api.check_image_with_http_info(license_key, file, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool: execute request asynchronously
         :param str license_key: License obtained from irisnet.de shop. (required)
+        :param file file: (required)
         :param int detail: Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information.
-        :param file file:
         :param _return_http_data_only: response data without head status code
                                        and headers
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -92,8 +92,8 @@ class EndpointsForAIChecksApi(object):
 
         all_params = [
             'license_key',
-            'detail',
-            'file'
+            'file',
+            'detail'
         ]
         all_params.extend(
             [
@@ -116,6 +116,10 @@ class EndpointsForAIChecksApi(object):
         if self.api_client.client_side_validation and ('license_key' not in local_var_params or  # noqa: E501
                                                         local_var_params['license_key'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `license_key` when calling `check_image`")  # noqa: E501
+        # verify the required parameter 'file' is set
+        if self.api_client.client_side_validation and ('file' not in local_var_params or  # noqa: E501
+                                                        local_var_params['file'] is None):  # noqa: E501
+            raise ApiValueError("Missing the required parameter `file` when calling `check_image`")  # noqa: E501
 
         collection_formats = {}
 

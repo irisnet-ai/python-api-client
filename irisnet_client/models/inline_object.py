@@ -49,8 +49,7 @@ class InlineObject(object):
         self._file = None
         self.discriminator = None
 
-        if file is not None:
-            self.file = file
+        self.file = file
 
     @property
     def file(self):
@@ -70,6 +69,8 @@ class InlineObject(object):
         :param file: The file of this InlineObject.  # noqa: E501
         :type: file
         """
+        if self.local_vars_configuration.client_side_validation and file is None:  # noqa: E501
+            raise ValueError("Invalid value for `file`, must not be `None`")  # noqa: E501
 
         self._file = file
 
