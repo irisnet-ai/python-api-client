@@ -65,8 +65,8 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**404** | Specified file was not found. |  -  |
 **200** | Returns the file AI produced file with masking or blurring, depending on given AI parameters. |  -  |
+**404** | Specified file was not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -151,7 +151,7 @@ configuration = irisnet_client.Configuration(
 with irisnet_client.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = irisnet_client.MiscellaneousOperationsApi(api_client)
-    license_key = 'license_key_example' # str | License obtained from the https://www.irisnet.de/prices shop.
+    license_key = 'license_key_example' # str | License obtained from the https://irisnet.de/subscribe shop.
 
     try:
         # Get information from given license key.
@@ -165,7 +165,7 @@ with irisnet_client.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **license_key** | **str**| License obtained from the https://www.irisnet.de/prices shop. | 
+ **license_key** | **str**| License obtained from the https://irisnet.de/subscribe shop. | 
 
 ### Return type
 
@@ -183,8 +183,8 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**404** | The entered license key was not found. |  -  |
 **200** | successful operation |  -  |
+**404** | The entered license key was not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

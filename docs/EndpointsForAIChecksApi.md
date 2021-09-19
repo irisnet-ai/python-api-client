@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **check_image**
-> IrisNet check_image(license_key, file, detail=detail)
+> IrisNet check_image(license_key, file, detail=detail, image_encode=image_encode)
 
 Upload and check image against previously chosen configuration.
 
@@ -35,10 +35,11 @@ with irisnet_client.ApiClient() as api_client:
     license_key = 'license_key_example' # str | License obtained from irisnet.de shop.
 file = '/path/to/file' # file | 
 detail = 1 # int | Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information. (optional) (default to 1)
+image_encode = False # bool | Specifies whether or not to draw an output image that can be downloaded afterwards. (optional) (default to False)
 
     try:
         # Upload and check image against previously chosen configuration.
-        api_response = api_instance.check_image(license_key, file, detail=detail)
+        api_response = api_instance.check_image(license_key, file, detail=detail, image_encode=image_encode)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling EndpointsForAIChecksApi->check_image: %s\n" % e)
@@ -51,6 +52,7 @@ Name | Type | Description  | Notes
  **license_key** | **str**| License obtained from irisnet.de shop. | 
  **file** | **file**|  | 
  **detail** | **int**| Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information. | [optional] [default to 1]
+ **image_encode** | **bool**| Specifies whether or not to draw an output image that can be downloaded afterwards. | [optional] [default to False]
 
 ### Return type
 
@@ -74,7 +76,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **check_image_url**
-> IrisNet check_image_url(url, license_key, detail=detail)
+> IrisNet check_image_url(url, license_key, detail=detail, image_encode=image_encode)
 
 Check image url against previously chosen configuration.
 
@@ -100,10 +102,11 @@ with irisnet_client.ApiClient() as api_client:
     url = 'url_example' # str | 
 license_key = 'license_key_example' # str | License obtained from irisnet.de shop.
 detail = 1 # int | Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information. (optional) (default to 1)
+image_encode = False # bool | Specifies whether or not to draw an output image that can be downloaded afterwards. (optional) (default to False)
 
     try:
         # Check image url against previously chosen configuration.
-        api_response = api_instance.check_image_url(url, license_key, detail=detail)
+        api_response = api_instance.check_image_url(url, license_key, detail=detail, image_encode=image_encode)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling EndpointsForAIChecksApi->check_image_url: %s\n" % e)
@@ -116,6 +119,7 @@ Name | Type | Description  | Notes
  **url** | **str**|  | 
  **license_key** | **str**| License obtained from irisnet.de shop. | 
  **detail** | **int**| Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information. | [optional] [default to 1]
+ **image_encode** | **bool**| Specifies whether or not to draw an output image that can be downloaded afterwards. | [optional] [default to False]
 
 ### Return type
 
