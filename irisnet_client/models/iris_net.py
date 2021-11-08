@@ -35,6 +35,7 @@ class IrisNet(object):
     openapi_types = {
         'rules_broken': 'int',
         'help_suggested': 'int',
+        'severity': 'int',
         'getn_classes': 'int',
         'getn_objects': 'int',
         'in_rule': 'list[INRule]',
@@ -44,13 +45,14 @@ class IrisNet(object):
     attribute_map = {
         'rules_broken': 'rulesBroken',
         'help_suggested': 'helpSuggested',
+        'severity': 'severity',
         'getn_classes': 'getnClasses',
         'getn_objects': 'getnObjects',
         'in_rule': 'inRule',
         'in_object': 'inObject'
     }
 
-    def __init__(self, rules_broken=None, help_suggested=None, getn_classes=None, getn_objects=None, in_rule=None, in_object=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, rules_broken=None, help_suggested=None, severity=None, getn_classes=None, getn_objects=None, in_rule=None, in_object=None, local_vars_configuration=None):  # noqa: E501
         """IrisNet - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
@@ -58,6 +60,7 @@ class IrisNet(object):
 
         self._rules_broken = None
         self._help_suggested = None
+        self._severity = None
         self._getn_classes = None
         self._getn_objects = None
         self._in_rule = None
@@ -68,6 +71,8 @@ class IrisNet(object):
             self.rules_broken = rules_broken
         if help_suggested is not None:
             self.help_suggested = help_suggested
+        if severity is not None:
+            self.severity = severity
         if getn_classes is not None:
             self.getn_classes = getn_classes
         if getn_objects is not None:
@@ -122,6 +127,29 @@ class IrisNet(object):
         """
 
         self._help_suggested = help_suggested
+
+    @property
+    def severity(self):
+        """Gets the severity of this IrisNet.  # noqa: E501
+
+        The highest severity value found amongst the broken rules.  # noqa: E501
+
+        :return: The severity of this IrisNet.  # noqa: E501
+        :rtype: int
+        """
+        return self._severity
+
+    @severity.setter
+    def severity(self, severity):
+        """Sets the severity of this IrisNet.
+
+        The highest severity value found amongst the broken rules.  # noqa: E501
+
+        :param severity: The severity of this IrisNet.  # noqa: E501
+        :type: int
+        """
+
+        self._severity = severity
 
     @property
     def getn_classes(self):

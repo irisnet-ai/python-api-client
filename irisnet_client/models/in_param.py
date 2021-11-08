@@ -36,19 +36,23 @@ class INParam(object):
         'in_class': 'str',
         'min': 'int',
         'max': 'int',
+        'severity': 'int',
         'draw_mode': 'int',
-        'grey': 'int'
+        'grey': 'int',
+        'scale': 'float'
     }
 
     attribute_map = {
         'in_class': 'inClass',
         'min': 'min',
         'max': 'max',
+        'severity': 'severity',
         'draw_mode': 'drawMode',
-        'grey': 'grey'
+        'grey': 'grey',
+        'scale': 'scale'
     }
 
-    def __init__(self, in_class=None, min=None, max=None, draw_mode=None, grey=127, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, in_class=None, min=None, max=None, severity=100, draw_mode=None, grey=127, scale=1.0, local_vars_configuration=None):  # noqa: E501
         """INParam - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
@@ -57,8 +61,10 @@ class INParam(object):
         self._in_class = None
         self._min = None
         self._max = None
+        self._severity = None
         self._draw_mode = None
         self._grey = None
+        self._scale = None
         self.discriminator = None
 
         if in_class is not None:
@@ -67,10 +73,14 @@ class INParam(object):
             self.min = min
         if max is not None:
             self.max = max
+        if severity is not None:
+            self.severity = severity
         if draw_mode is not None:
             self.draw_mode = draw_mode
         if grey is not None:
             self.grey = grey
+        if scale is not None:
+            self.scale = scale
 
     @property
     def in_class(self):
@@ -148,6 +158,35 @@ class INParam(object):
         self._max = max
 
     @property
+    def severity(self):
+        """Gets the severity of this INParam.  # noqa: E501
+
+        Set a value to define the severity of a broken rule of the given classification object.  # noqa: E501
+
+        :return: The severity of this INParam.  # noqa: E501
+        :rtype: int
+        """
+        return self._severity
+
+    @severity.setter
+    def severity(self, severity):
+        """Sets the severity of this INParam.
+
+        Set a value to define the severity of a broken rule of the given classification object.  # noqa: E501
+
+        :param severity: The severity of this INParam.  # noqa: E501
+        :type: int
+        """
+        if (self.local_vars_configuration.client_side_validation and
+                severity is not None and severity > 1000):  # noqa: E501
+            raise ValueError("Invalid value for `severity`, must be a value less than or equal to `1000`")  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                severity is not None and severity < 0):  # noqa: E501
+            raise ValueError("Invalid value for `severity`, must be a value greater than or equal to `0`")  # noqa: E501
+
+        self._severity = severity
+
+    @property
     def draw_mode(self):
         """Gets the draw_mode of this INParam.  # noqa: E501
 
@@ -204,6 +243,35 @@ class INParam(object):
             raise ValueError("Invalid value for `grey`, must be a value greater than or equal to `0`")  # noqa: E501
 
         self._grey = grey
+
+    @property
+    def scale(self):
+        """Gets the scale of this INParam.  # noqa: E501
+
+        Scale of the draw rectangle around the classification object. Specify a value to increase or decrease the size of the border.  # noqa: E501
+
+        :return: The scale of this INParam.  # noqa: E501
+        :rtype: float
+        """
+        return self._scale
+
+    @scale.setter
+    def scale(self, scale):
+        """Sets the scale of this INParam.
+
+        Scale of the draw rectangle around the classification object. Specify a value to increase or decrease the size of the border.  # noqa: E501
+
+        :param scale: The scale of this INParam.  # noqa: E501
+        :type: float
+        """
+        if (self.local_vars_configuration.client_side_validation and
+                scale is not None and scale > 2.0):  # noqa: E501
+            raise ValueError("Invalid value for `scale`, must be a value less than or equal to `2.0`")  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                scale is not None and scale < 0.5):  # noqa: E501
+            raise ValueError("Invalid value for `scale`, must be a value greater than or equal to `0.5`")  # noqa: E501
+
+        self._scale = scale
 
     def to_dict(self):
         """Returns the model properties as a dict"""

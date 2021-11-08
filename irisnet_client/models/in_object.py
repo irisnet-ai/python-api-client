@@ -228,7 +228,7 @@ class INObject(object):
     def x0(self):
         """Gets the x0 of this INObject.  # noqa: E501
 
-        The starting point of the rectangle in the vertical (x) direction.  # noqa: E501
+        The center of the rectangle in the horizontal (x) direction.  # noqa: E501
 
         :return: The x0 of this INObject.  # noqa: E501
         :rtype: float
@@ -239,7 +239,7 @@ class INObject(object):
     def x0(self, x0):
         """Sets the x0 of this INObject.
 
-        The starting point of the rectangle in the vertical (x) direction.  # noqa: E501
+        The center of the rectangle in the horizontal (x) direction.  # noqa: E501
 
         :param x0: The x0 of this INObject.  # noqa: E501
         :type: float
@@ -251,7 +251,7 @@ class INObject(object):
     def y0(self):
         """Gets the y0 of this INObject.  # noqa: E501
 
-        The starting point of the rectangle in the horizontal (y) direction.  # noqa: E501
+        The center of the rectangle in the vertical (y) direction.  # noqa: E501
 
         :return: The y0 of this INObject.  # noqa: E501
         :rtype: float
@@ -262,7 +262,7 @@ class INObject(object):
     def y0(self, y0):
         """Sets the y0 of this INObject.
 
-        The starting point of the rectangle in the horizontal (y) direction.  # noqa: E501
+        The center of the rectangle in the vertical (y) direction.  # noqa: E501
 
         :param y0: The y0 of this INObject.  # noqa: E501
         :type: float
@@ -274,7 +274,7 @@ class INObject(object):
     def width(self):
         """Gets the width of this INObject.  # noqa: E501
 
-        The distance from the starting point (y0) to end the rectangle in the horizontal direction.  # noqa: E501
+        The total width of the rectangle in the horizontal (x) direction. Use _x0 - width / 2_ and _x0 + width / 2_ to get the left and right edges of the rectangle.  # noqa: E501
 
         :return: The width of this INObject.  # noqa: E501
         :rtype: float
@@ -285,7 +285,7 @@ class INObject(object):
     def width(self, width):
         """Sets the width of this INObject.
 
-        The distance from the starting point (y0) to end the rectangle in the horizontal direction.  # noqa: E501
+        The total width of the rectangle in the horizontal (x) direction. Use _x0 - width / 2_ and _x0 + width / 2_ to get the left and right edges of the rectangle.  # noqa: E501
 
         :param width: The width of this INObject.  # noqa: E501
         :type: float
@@ -297,7 +297,7 @@ class INObject(object):
     def height(self):
         """Gets the height of this INObject.  # noqa: E501
 
-        The distance from the starting point (x0) to end the rectangle in the vertical direction.  # noqa: E501
+        The total height of the rectangle in the vertical (y) direction. Use _y0 - height / 2_ and _y0 + height / 2_ to get the top and bottom edges of the rectangle.  # noqa: E501
 
         :return: The height of this INObject.  # noqa: E501
         :rtype: float
@@ -308,7 +308,7 @@ class INObject(object):
     def height(self, height):
         """Sets the height of this INObject.
 
-        The distance from the starting point (x0) to end the rectangle in the vertical direction.  # noqa: E501
+        The total height of the rectangle in the vertical (y) direction. Use _y0 - height / 2_ and _y0 + height / 2_ to get the top and bottom edges of the rectangle.  # noqa: E501
 
         :param height: The height of this INObject.  # noqa: E501
         :type: float

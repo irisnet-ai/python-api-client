@@ -14,7 +14,7 @@
 
 from __future__ import absolute_import
 
-__version__ = "2.3.0"
+__version__ = "2.4.1"
 
 # import apis into sdk package
 from irisnet_client.api.endpoints_for_ai_checks_api import EndpointsForAIChecksApi

@@ -37,7 +37,8 @@ class INRule(object):
         'in_group': 'str',
         'found': 'int',
         'min': 'int',
-        'max': 'int'
+        'max': 'int',
+        'severity': 'int'
     }
 
     attribute_map = {
@@ -45,10 +46,11 @@ class INRule(object):
         'in_group': 'inGroup',
         'found': 'found',
         'min': 'min',
-        'max': 'max'
+        'max': 'max',
+        'severity': 'severity'
     }
 
-    def __init__(self, in_class=None, in_group=None, found=None, min=None, max=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, in_class=None, in_group=None, found=None, min=None, max=None, severity=None, local_vars_configuration=None):  # noqa: E501
         """INRule - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
@@ -59,6 +61,7 @@ class INRule(object):
         self._found = None
         self._min = None
         self._max = None
+        self._severity = None
         self.discriminator = None
 
         if in_class is not None:
@@ -71,6 +74,8 @@ class INRule(object):
             self.min = min
         if max is not None:
             self.max = max
+        if severity is not None:
+            self.severity = severity
 
     @property
     def in_class(self):
@@ -186,6 +191,29 @@ class INRule(object):
         """
 
         self._max = max
+
+    @property
+    def severity(self):
+        """Gets the severity of this INRule.  # noqa: E501
+
+        The severity of the classification object set while configuring the AI.  # noqa: E501
+
+        :return: The severity of this INRule.  # noqa: E501
+        :rtype: int
+        """
+        return self._severity
+
+    @severity.setter
+    def severity(self, severity):
+        """Sets the severity of this INRule.
+
+        The severity of the classification object set while configuring the AI.  # noqa: E501
+
+        :param severity: The severity of this INRule.  # noqa: E501
+        :type: int
+        """
+
+        self._severity = severity
 
     def to_dict(self):
         """Returns the model properties as a dict"""
