@@ -1,8 +1,3 @@
-from __future__ import absolute_import
-
-# flake8: noqa
-
-# import apis into api package
-from irisnet_client.api.endpoints_for_ai_checks_api import EndpointsForAIChecksApi
-from irisnet_client.api.endpoints_to_setup_the_ai_api import EndpointsToSetupTheAIApi
-from irisnet_client.api.miscellaneous_operations_api import MiscellaneousOperationsApi
+# do not import all apis into this module because that uses a lot of memory and stack frames
+# if you need the ability to import all apis from one package, import them with
+# from irisnet_client.apis import EndpointsForAIChecksApi

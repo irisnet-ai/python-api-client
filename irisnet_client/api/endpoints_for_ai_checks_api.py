@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Irisnet API
 
@@ -10,18 +8,21 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
+import sys  # noqa: F401
 
-# python 2 and python 3 compatibility library
-import six
-
-from irisnet_client.api_client import ApiClient
-from irisnet_client.exceptions import (  # noqa: F401
-    ApiTypeError,
-    ApiValueError
+from irisnet_client.api_client import ApiClient, Endpoint as _Endpoint
+from irisnet_client.model_utils import (  # noqa: F401
+    check_allowed_values,
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    none_type,
+    validate_and_convert_types
 )
+from irisnet_client.model.in_error import INError
+from irisnet_client.model.iris_net import IrisNet
 
 
 class EndpointsForAIChecksApi(object):
@@ -35,269 +36,280 @@ class EndpointsForAIChecksApi(object):
         if api_client is None:
             api_client = ApiClient()
         self.api_client = api_client
+        self.check_image_endpoint = _Endpoint(
+            settings={
+                'response_type': (IrisNet,),
+                'auth': [],
+                'endpoint_path': '/v1/check-image/{licenseKey}',
+                'operation_id': 'check_image',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'license_key',
+                    'file',
+                    'detail',
+                    'image_encode',
+                ],
+                'required': [
+                    'license_key',
+                    'file',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'license_key':
+                        (str,),
+                    'file':
+                        (file_type,),
+                    'detail':
+                        (int,),
+                    'image_encode':
+                        (bool,),
+                },
+                'attribute_map': {
+                    'license_key': 'licenseKey',
+                    'file': 'file',
+                    'detail': 'detail',
+                    'image_encode': 'imageEncode',
+                },
+                'location_map': {
+                    'license_key': 'path',
+                    'file': 'form',
+                    'detail': 'query',
+                    'image_encode': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/xml',
+                    'application/json'
+                ],
+                'content_type': [
+                    'multipart/form-data'
+                ]
+            },
+            api_client=api_client
+        )
+        self.check_image_url_endpoint = _Endpoint(
+            settings={
+                'response_type': (IrisNet,),
+                'auth': [],
+                'endpoint_path': '/v1/check-url/{licenseKey}',
+                'operation_id': 'check_image_url',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'url',
+                    'license_key',
+                    'detail',
+                    'image_encode',
+                ],
+                'required': [
+                    'url',
+                    'license_key',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'url':
+                        (str,),
+                    'license_key':
+                        (str,),
+                    'detail':
+                        (int,),
+                    'image_encode':
+                        (bool,),
+                },
+                'attribute_map': {
+                    'url': 'url',
+                    'license_key': 'licenseKey',
+                    'detail': 'detail',
+                    'image_encode': 'imageEncode',
+                },
+                'location_map': {
+                    'url': 'query',
+                    'license_key': 'path',
+                    'detail': 'query',
+                    'image_encode': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/xml',
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client
+        )
 
-    def check_image(self, license_key, file, **kwargs):  # noqa: E501
+    def check_image(
+        self,
+        license_key,
+        file,
+        **kwargs
+    ):
         """Upload and check image against previously chosen configuration.  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.check_image(license_key, file, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param str license_key: License obtained from irisnet.de shop. (required)
-        :param file file: (required)
-        :param int detail: Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information.
-        :param bool image_encode: Specifies whether or not to draw an output image that can be downloaded afterwards.
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: IrisNet
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            license_key (str): License obtained from irisnet.de shop.
+            file (file_type):
+
+        Keyword Args:
+            detail (int): Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information.. [optional] if omitted the server will use the default value of 1
+            image_encode (bool): Specifies whether or not to draw an output image that can be downloaded afterwards.. [optional] if omitted the server will use the default value of False
+            _return_http_data_only (bool): response data without head status
+                code and headers. Default is True.
+            _preload_content (bool): if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            _request_timeout (int/float/tuple): timeout setting for this request. If
+                one number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            _check_input_type (bool): specifies if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            _check_return_type (bool): specifies if type checking
+                should be done one the data received from the server.
+                Default is True.
+            _host_index (int/None): specifies the index of the server
+                that we want to use.
+                Default is read from the configuration.
+            async_req (bool): execute request asynchronously
+
+        Returns:
+            IrisNet
+                If the method is called asynchronously, returns the request
+                thread.
         """
-        kwargs['_return_http_data_only'] = True
-        return self.check_image_with_http_info(license_key, file, **kwargs)  # noqa: E501
-
-    def check_image_with_http_info(self, license_key, file, **kwargs):  # noqa: E501
-        """Upload and check image against previously chosen configuration.  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.check_image_with_http_info(license_key, file, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str license_key: License obtained from irisnet.de shop. (required)
-        :param file file: (required)
-        :param int detail: Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information.
-        :param bool image_encode: Specifies whether or not to draw an output image that can be downloaded afterwards.
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(IrisNet, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'license_key',
-            'file',
-            'detail',
-            'image_encode'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        kwargs['async_req'] = kwargs.get(
+            'async_req', False
         )
+        kwargs['_return_http_data_only'] = kwargs.get(
+            '_return_http_data_only', True
+        )
+        kwargs['_preload_content'] = kwargs.get(
+            '_preload_content', True
+        )
+        kwargs['_request_timeout'] = kwargs.get(
+            '_request_timeout', None
+        )
+        kwargs['_check_input_type'] = kwargs.get(
+            '_check_input_type', True
+        )
+        kwargs['_check_return_type'] = kwargs.get(
+            '_check_return_type', True
+        )
+        kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['license_key'] = \
+            license_key
+        kwargs['file'] = \
+            file
+        return self.check_image_endpoint.call_with_http_info(**kwargs)
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method check_image" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'license_key' is set
-        if self.api_client.client_side_validation and ('license_key' not in local_var_params or  # noqa: E501
-                                                        local_var_params['license_key'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `license_key` when calling `check_image`")  # noqa: E501
-        # verify the required parameter 'file' is set
-        if self.api_client.client_side_validation and ('file' not in local_var_params or  # noqa: E501
-                                                        local_var_params['file'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `file` when calling `check_image`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-        if 'license_key' in local_var_params:
-            path_params['licenseKey'] = local_var_params['license_key']  # noqa: E501
-
-        query_params = []
-        if 'detail' in local_var_params and local_var_params['detail'] is not None:  # noqa: E501
-            query_params.append(('detail', local_var_params['detail']))  # noqa: E501
-        if 'image_encode' in local_var_params and local_var_params['image_encode'] is not None:  # noqa: E501
-            query_params.append(('imageEncode', local_var_params['image_encode']))  # noqa: E501
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-        if 'file' in local_var_params:
-            local_var_files['file'] = local_var_params['file']  # noqa: E501
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/xml', 'application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['multipart/form-data'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/v1/check-image/{licenseKey}', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='IrisNet',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def check_image_url(self, url, license_key, **kwargs):  # noqa: E501
+    def check_image_url(
+        self,
+        url,
+        license_key,
+        **kwargs
+    ):
         """Check image url against previously chosen configuration.  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.check_image_url(url, license_key, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param str url: (required)
-        :param str license_key: License obtained from irisnet.de shop. (required)
-        :param int detail: Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information.
-        :param bool image_encode: Specifies whether or not to draw an output image that can be downloaded afterwards.
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: IrisNet
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            url (str):
+            license_key (str): License obtained from irisnet.de shop.
+
+        Keyword Args:
+            detail (int): Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information.. [optional] if omitted the server will use the default value of 1
+            image_encode (bool): Specifies whether or not to draw an output image that can be downloaded afterwards.. [optional] if omitted the server will use the default value of False
+            _return_http_data_only (bool): response data without head status
+                code and headers. Default is True.
+            _preload_content (bool): if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            _request_timeout (int/float/tuple): timeout setting for this request. If
+                one number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            _check_input_type (bool): specifies if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            _check_return_type (bool): specifies if type checking
+                should be done one the data received from the server.
+                Default is True.
+            _host_index (int/None): specifies the index of the server
+                that we want to use.
+                Default is read from the configuration.
+            async_req (bool): execute request asynchronously
+
+        Returns:
+            IrisNet
+                If the method is called asynchronously, returns the request
+                thread.
         """
-        kwargs['_return_http_data_only'] = True
-        return self.check_image_url_with_http_info(url, license_key, **kwargs)  # noqa: E501
-
-    def check_image_url_with_http_info(self, url, license_key, **kwargs):  # noqa: E501
-        """Check image url against previously chosen configuration.  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.check_image_url_with_http_info(url, license_key, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str url: (required)
-        :param str license_key: License obtained from irisnet.de shop. (required)
-        :param int detail: Sets the response details.  * _1_ - The response body informs you if the image is ok or not ok (better API performance) * _2_ - In addition the response body lists all broken rules. * _3_ - In addition to the first two options, this will show all objects with positional information.
-        :param bool image_encode: Specifies whether or not to draw an output image that can be downloaded afterwards.
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(IrisNet, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'url',
-            'license_key',
-            'detail',
-            'image_encode'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        kwargs['async_req'] = kwargs.get(
+            'async_req', False
         )
+        kwargs['_return_http_data_only'] = kwargs.get(
+            '_return_http_data_only', True
+        )
+        kwargs['_preload_content'] = kwargs.get(
+            '_preload_content', True
+        )
+        kwargs['_request_timeout'] = kwargs.get(
+            '_request_timeout', None
+        )
+        kwargs['_check_input_type'] = kwargs.get(
+            '_check_input_type', True
+        )
+        kwargs['_check_return_type'] = kwargs.get(
+            '_check_return_type', True
+        )
+        kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['url'] = \
+            url
+        kwargs['license_key'] = \
+            license_key
+        return self.check_image_url_endpoint.call_with_http_info(**kwargs)
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method check_image_url" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'url' is set
-        if self.api_client.client_side_validation and ('url' not in local_var_params or  # noqa: E501
-                                                        local_var_params['url'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `url` when calling `check_image_url`")  # noqa: E501
-        # verify the required parameter 'license_key' is set
-        if self.api_client.client_side_validation and ('license_key' not in local_var_params or  # noqa: E501
-                                                        local_var_params['license_key'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `license_key` when calling `check_image_url`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-        if 'license_key' in local_var_params:
-            path_params['licenseKey'] = local_var_params['license_key']  # noqa: E501
-
-        query_params = []
-        if 'url' in local_var_params and local_var_params['url'] is not None:  # noqa: E501
-            query_params.append(('url', local_var_params['url']))  # noqa: E501
-        if 'detail' in local_var_params and local_var_params['detail'] is not None:  # noqa: E501
-            query_params.append(('detail', local_var_params['detail']))  # noqa: E501
-        if 'image_encode' in local_var_params and local_var_params['image_encode'] is not None:  # noqa: E501
-            query_params.append(('imageEncode', local_var_params['image_encode']))  # noqa: E501
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/xml', 'application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/v1/check-url/{licenseKey}', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='IrisNet',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)

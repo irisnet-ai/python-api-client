@@ -10,17 +10,18 @@ Method | HTTP request | Description
 
 
 # **download_processed**
-> file download_processed(filename)
+> file_type download_processed(filename)
 
 Get the resulting media file.
 
 ### Example
 
+
 ```python
-from __future__ import print_function
 import time
 import irisnet_client
-from irisnet_client.rest import ApiException
+from irisnet_client.api import miscellaneous_operations_api
+from irisnet_client.model.in_error import INError
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.irisnet.de
 # See configuration.py for a list of all supported configuration parameters.
@@ -32,26 +33,28 @@ configuration = irisnet_client.Configuration(
 # Enter a context with an instance of the API client
 with irisnet_client.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = irisnet_client.MiscellaneousOperationsApi(api_client)
-    filename = 'filename_example' # str | 
+    api_instance = miscellaneous_operations_api.MiscellaneousOperationsApi(api_client)
+    filename = "filename_example" # str | 
 
+    # example passing only required values which don't have defaults set
     try:
         # Get the resulting media file.
         api_response = api_instance.download_processed(filename)
         pprint(api_response)
-    except ApiException as e:
+    except irisnet_client.ApiException as e:
         print("Exception when calling MiscellaneousOperationsApi->download_processed: %s\n" % e)
 ```
+
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **filename** | **str**|  | 
+ **filename** | **str**|  |
 
 ### Return type
 
-**file**
+**file_type**
 
 ### Authorization
 
@@ -62,7 +65,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/octet-stream
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Returns the file AI produced file with masking or blurring, depending on given AI parameters. |  -  |
@@ -77,11 +82,12 @@ Get the cost per image check of the previously set parameters. The cost of the c
 
 ### Example
 
+
 ```python
-from __future__ import print_function
 import time
 import irisnet_client
-from irisnet_client.rest import ApiException
+from irisnet_client.api import miscellaneous_operations_api
+from irisnet_client.model.in_error import INError
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.irisnet.de
 # See configuration.py for a list of all supported configuration parameters.
@@ -93,15 +99,17 @@ configuration = irisnet_client.Configuration(
 # Enter a context with an instance of the API client
 with irisnet_client.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = irisnet_client.MiscellaneousOperationsApi(api_client)
-    
+    api_instance = miscellaneous_operations_api.MiscellaneousOperationsApi(api_client)
+
+    # example, this endpoint has no required or optional parameters
     try:
         # Get the cost per image check of the previously set parameters. The cost of the configuration is subtracted from the license key during each check.
         api_response = api_instance.get_ai_cost()
         pprint(api_response)
-    except ApiException as e:
+    except irisnet_client.ApiException as e:
         print("Exception when calling MiscellaneousOperationsApi->get_ai_cost: %s\n" % e)
 ```
+
 
 ### Parameters
 This endpoint does not need any parameter.
@@ -119,7 +127,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **429** | The ai could not handle the request because it is either overloaded or currently down for maintenance. This is a temporary state. A &#39;Retry-After&#39; Header is included in the response to signal the client to retry after a certain amount of seconds. |  -  |
@@ -134,11 +144,13 @@ Get information from given license key.
 
 ### Example
 
+
 ```python
-from __future__ import print_function
 import time
 import irisnet_client
-from irisnet_client.rest import ApiException
+from irisnet_client.api import miscellaneous_operations_api
+from irisnet_client.model.license_info import LicenseInfo
+from irisnet_client.model.in_error import INError
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.irisnet.de
 # See configuration.py for a list of all supported configuration parameters.
@@ -150,22 +162,24 @@ configuration = irisnet_client.Configuration(
 # Enter a context with an instance of the API client
 with irisnet_client.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = irisnet_client.MiscellaneousOperationsApi(api_client)
-    license_key = 'license_key_example' # str | License obtained from the https://irisnet.de/subscribe shop.
+    api_instance = miscellaneous_operations_api.MiscellaneousOperationsApi(api_client)
+    license_key = "licenseKey_example" # str | License obtained from the https://irisnet.de/subscribe shop.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get information from given license key.
         api_response = api_instance.get_license_info(license_key)
         pprint(api_response)
-    except ApiException as e:
+    except irisnet_client.ApiException as e:
         print("Exception when calling MiscellaneousOperationsApi->get_license_info: %s\n" % e)
 ```
+
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **license_key** | **str**| License obtained from the https://irisnet.de/subscribe shop. | 
+ **license_key** | **str**| License obtained from the https://irisnet.de/subscribe shop. |
 
 ### Return type
 
@@ -180,7 +194,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |

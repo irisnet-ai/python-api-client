@@ -17,11 +17,12 @@ Each available prototype groups together a pre-defined set of parameters that wi
 
 ### Example
 
+
 ```python
-from __future__ import print_function
 import time
 import irisnet_client
-from irisnet_client.rest import ApiException
+from irisnet_client.api import endpoints_to_setup_the_ai_api
+from irisnet_client.model.in_define_ai import INDefineAI
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.irisnet.de
 # See configuration.py for a list of all supported configuration parameters.
@@ -33,28 +34,29 @@ configuration = irisnet_client.Configuration(
 # Enter a context with an instance of the API client
 with irisnet_client.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = irisnet_client.EndpointsToSetupTheAIApi(api_client)
-    in_define_ai = <?xml version="1.0" encoding="UTF-8"?>
-<inDefineAI>
-	<inImage proto="nudityCheck"/>
-	<inImage proto="ageEstimation"/>
-	<inImage proto="illegalSymbols"/>
-	<inImage proto="attributesCheck"/>
-	<inImage proto="textRecognition"/>
-</inDefineAI> # INDefineAI | 
+    api_instance = endpoints_to_setup_the_ai_api.EndpointsToSetupTheAIApi(api_client)
+    in_define_ai = INDefineAI(
+        in_image=[
+            INImage(
+                proto="nudityCheck",
+            ),
+        ],
+    ) # INDefineAI | 
 
+    # example passing only required values which don't have defaults set
     try:
         # Set definitions via pre-defined prototypes.
         api_instance.set_in_define(in_define_ai)
-    except ApiException as e:
+    except irisnet_client.ApiException as e:
         print("Exception when calling EndpointsToSetupTheAIApi->set_in_define: %s\n" % e)
 ```
+
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **in_define_ai** | [**INDefineAI**](INDefineAI.md)|  | 
+ **in_define_ai** | [**INDefineAI**](INDefineAI.md)|  |
 
 ### Return type
 
@@ -69,7 +71,9 @@ No authorization required
  - **Content-Type**: application/xml, application/json
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Bad request. Check for badly formatted request body. |  -  |
@@ -86,11 +90,12 @@ Overwrites or extends the default configuration of the AI. By setting precise be
 
 ### Example
 
+
 ```python
-from __future__ import print_function
 import time
 import irisnet_client
-from irisnet_client.rest import ApiException
+from irisnet_client.api import endpoints_to_setup_the_ai_api
+from irisnet_client.model.in_params import INParams
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.irisnet.de
 # See configuration.py for a list of all supported configuration parameters.
@@ -102,35 +107,39 @@ configuration = irisnet_client.Configuration(
 # Enter a context with an instance of the API client
 with irisnet_client.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = irisnet_client.EndpointsToSetupTheAIApi(api_client)
-    in_params = <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<inParams>
-	<inDefault thresh="0.5" grey="127"/>
-	<inParam inClass="face" min="1" max="3" drawMode="0" grey="127" scale="1.0" severity="100"/>
-	<inParam inClass="hand" min="-1" max="-1" drawMode="0" grey="127" scale="1.0" severity="100"/>
-	<inParam inClass="breast" min="0" max="0" drawMode="2" grey="127" scale="1.0" severity="100"/>
-	<inParam inClass="vulva" min="0" max="0" drawMode="2" grey="127" scale="1.0" severity="100"/>
-	<inParam inClass="penis" min="0" max="0" drawMode="2" grey="127" scale="1.0" severity="100"/>
-	<inParam inClass="vagina" min="0" max="0" drawMode="2" grey="127" scale="1.0" severity="100"/>
-	<inParam inClass="buttocks" min="0" max="0" drawMode="2" grey="127" scale="1.0" severity="100"/>
-	<inParam inClass="anus" min="0" max="0" drawMode="2" grey="127" scale="1.0" severity="100"/>
-	<inParam inClass="toy" min="0" max="0" drawMode="2" grey="127" scale="1.0" severity="100"/>
-	<inParam inClass="oral" min="0" max="0" drawMode="2" grey="127" scale="1.0" severity="100"/>
-	<inParam inClass="penetration" min="0" max="0" drawMode="2" grey="127" scale="1.0" severity="100"/>
-</inParams> # INParams | 
+    api_instance = endpoints_to_setup_the_ai_api.EndpointsToSetupTheAIApi(api_client)
+    in_params = INParams(
+        in_default=INDefault(
+            thresh=0.5,
+            grey=127,
+        ),
+        in_param=[
+            INParam(
+                in_class="face",
+                min=1,
+                max=1,
+                severity=100,
+                draw_mode=0,
+                grey=127,
+                scale=1.0,
+            ),
+        ],
+    ) # INParams | 
 
+    # example passing only required values which don't have defaults set
     try:
         # Set the behaviour parameters for one object class.
         api_instance.set_in_params(in_params)
-    except ApiException as e:
+    except irisnet_client.ApiException as e:
         print("Exception when calling EndpointsToSetupTheAIApi->set_in_params: %s\n" % e)
 ```
+
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **in_params** | [**INParams**](INParams.md)|  | 
+ **in_params** | [**INParams**](INParams.md)|  |
 
 ### Return type
 
@@ -145,7 +154,9 @@ No authorization required
  - **Content-Type**: application/xml, application/json
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Bad request. Check for badly formatted request body. |  -  |

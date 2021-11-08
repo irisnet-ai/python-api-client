@@ -1,5 +1,3 @@
-# coding: utf-8
-
 # flake8: noqa
 
 """
@@ -12,33 +10,18 @@
 """
 
 
-from __future__ import absolute_import
-
 __version__ = "2.4.1"
-
-# import apis into sdk package
-from irisnet_client.api.endpoints_for_ai_checks_api import EndpointsForAIChecksApi
-from irisnet_client.api.endpoints_to_setup_the_ai_api import EndpointsToSetupTheAIApi
-from irisnet_client.api.miscellaneous_operations_api import MiscellaneousOperationsApi
 
 # import ApiClient
 from irisnet_client.api_client import ApiClient
+
+# import Configuration
 from irisnet_client.configuration import Configuration
+
+# import exceptions
 from irisnet_client.exceptions import OpenApiException
+from irisnet_client.exceptions import ApiAttributeError
 from irisnet_client.exceptions import ApiTypeError
 from irisnet_client.exceptions import ApiValueError
 from irisnet_client.exceptions import ApiKeyError
 from irisnet_client.exceptions import ApiException
-# import models into sdk package
-from irisnet_client.models.in_default import INDefault
-from irisnet_client.models.in_define_ai import INDefineAI
-from irisnet_client.models.in_error import INError
-from irisnet_client.models.in_image import INImage
-from irisnet_client.models.in_object import INObject
-from irisnet_client.models.in_param import INParam
-from irisnet_client.models.in_params import INParams
-from irisnet_client.models.in_rule import INRule
-from irisnet_client.models.inline_object import InlineObject
-from irisnet_client.models.iris_net import IrisNet
-from irisnet_client.models.license_info import LicenseInfo
-
