@@ -86,7 +86,7 @@ No authorization required
 
 Set the behaviour parameters for one object class.
 
-Overwrites or extends the default configuration of the AI. By setting precise behaviour parameters, the AI can be fine tuned for specific use cases. To reset the parameters to their default values, make a post request to 'set-definition'.
+Overwrites or extends the default configuration of the AI. By setting precise behaviour parameters, the AI can be fine tuned for specific use cases. See inParam schema to learn more about the classification objects. To reset the parameters to their default values, make a post request to 'set-definition'.
 
 ### Example
 

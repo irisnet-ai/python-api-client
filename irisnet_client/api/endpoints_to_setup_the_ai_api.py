@@ -168,6 +168,9 @@ class EndpointsToSetupTheAIApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -196,6 +199,8 @@ class EndpointsToSetupTheAIApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         kwargs['in_define_ai'] = \
             in_define_ai
@@ -208,7 +213,7 @@ class EndpointsToSetupTheAIApi(object):
     ):
         """Set the behaviour parameters for one object class.  # noqa: E501
 
-        Overwrites or extends the default configuration of the AI. By setting precise behaviour parameters, the AI can be fine tuned for specific use cases. To reset the parameters to their default values, make a post request to 'set-definition'.  # noqa: E501
+        Overwrites or extends the default configuration of the AI. By setting precise behaviour parameters, the AI can be fine tuned for specific use cases. See inParam schema to learn more about the classification objects. To reset the parameters to their default values, make a post request to 'set-definition'.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -234,6 +239,9 @@ class EndpointsToSetupTheAIApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -262,6 +270,8 @@ class EndpointsToSetupTheAIApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         kwargs['in_params'] = \
             in_params
