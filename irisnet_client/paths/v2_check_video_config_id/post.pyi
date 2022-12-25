@@ -126,6 +126,25 @@ request_body_callback = api_client.RequestBody(
     },
     required=True,
 )
+SchemaFor402ResponseBodyApplicationJson = ApiNotice
+
+
+@dataclass
+class ApiResponseFor402(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor402ResponseBodyApplicationJson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_402 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor402,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor402ResponseBodyApplicationJson),
+    },
+)
 
 
 @dataclass
@@ -155,25 +174,6 @@ _response_for_404 = api_client.OpenApiResponse(
     content={
         'application/json': api_client.MediaType(
             schema=SchemaFor404ResponseBodyApplicationJson),
-    },
-)
-SchemaFor402ResponseBodyApplicationJson = ApiNotice
-
-
-@dataclass
-class ApiResponseFor402(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        SchemaFor402ResponseBodyApplicationJson,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_402 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor402,
-    content={
-        'application/json': api_client.MediaType(
-            schema=SchemaFor402ResponseBodyApplicationJson),
     },
 )
 _all_accept_content_types = (

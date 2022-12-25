@@ -59,25 +59,6 @@ request_path_config_id = api_client.PathParameter(
 _auth = [
     'LICENSE-KEY',
 ]
-SchemaFor200ResponseBodyApplicationJson = ParamSet
-
-
-@dataclass
-class ApiResponseFor200(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        SchemaFor200ResponseBodyApplicationJson,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_200 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor200,
-    content={
-        'application/json': api_client.MediaType(
-            schema=SchemaFor200ResponseBodyApplicationJson),
-    },
-)
 SchemaFor404ResponseBodyApplicationJson = ApiNotice
 
 
@@ -97,9 +78,28 @@ _response_for_404 = api_client.OpenApiResponse(
             schema=SchemaFor404ResponseBodyApplicationJson),
     },
 )
+SchemaFor200ResponseBodyApplicationJson = ParamSet
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor200ResponseBodyApplicationJson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationJson),
+    },
+)
 _status_code_to_response = {
-    '200': _response_for_200,
     '404': _response_for_404,
+    '200': _response_for_200,
 }
 _all_accept_content_types = (
     'application/json',

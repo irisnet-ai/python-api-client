@@ -115,23 +115,23 @@ request_path_config_id = api_client.PathParameter(
     schema=ConfigIdSchema,
     required=True,
 )
-SchemaFor404ResponseBodyApplicationXNdjson = ApiNotice
+SchemaFor402ResponseBodyApplicationXNdjson = ApiNotice
 
 
 @dataclass
-class ApiResponseFor404(api_client.ApiResponse):
+class ApiResponseFor402(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        SchemaFor404ResponseBodyApplicationXNdjson,
+        SchemaFor402ResponseBodyApplicationXNdjson,
     ]
     headers: schemas.Unset = schemas.unset
 
 
-_response_for_404 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor404,
+_response_for_402 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor402,
     content={
         'application/x-ndjson': api_client.MediaType(
-            schema=SchemaFor404ResponseBodyApplicationXNdjson),
+            schema=SchemaFor402ResponseBodyApplicationXNdjson),
     },
 )
 
@@ -178,23 +178,23 @@ _response_for_200 = api_client.OpenApiResponse(
             schema=SchemaFor200ResponseBodyApplicationXNdjson),
     },
 )
-SchemaFor402ResponseBodyApplicationXNdjson = ApiNotice
+SchemaFor404ResponseBodyApplicationXNdjson = ApiNotice
 
 
 @dataclass
-class ApiResponseFor402(api_client.ApiResponse):
+class ApiResponseFor404(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        SchemaFor402ResponseBodyApplicationXNdjson,
+        SchemaFor404ResponseBodyApplicationXNdjson,
     ]
     headers: schemas.Unset = schemas.unset
 
 
-_response_for_402 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor402,
+_response_for_404 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor404,
     content={
         'application/x-ndjson': api_client.MediaType(
-            schema=SchemaFor402ResponseBodyApplicationXNdjson),
+            schema=SchemaFor404ResponseBodyApplicationXNdjson),
     },
 )
 _all_accept_content_types = (

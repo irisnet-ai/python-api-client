@@ -144,18 +144,18 @@ str, uuid.UUID,  | str,  |  | value must be a uuid
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-404 | [ApiResponseFor404](#check_image.ApiResponseFor404) | configId not found.
-200 | [ApiResponseFor200](#check_image.ApiResponseFor200) | successful operation.
 402 | [ApiResponseFor402](#check_image.ApiResponseFor402) | Not enough credits.
+200 | [ApiResponseFor200](#check_image.ApiResponseFor200) | successful operation.
+404 | [ApiResponseFor404](#check_image.ApiResponseFor404) | configId not found.
 
-#### check_image.ApiResponseFor404
+#### check_image.ApiResponseFor402
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor404ResponseBodyApplicationJson, ] |  |
+body | typing.Union[SchemaFor402ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-# SchemaFor404ResponseBodyApplicationJson
+# SchemaFor402ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiNotice**](../../models/ApiNotice.md) |  | 
@@ -174,14 +174,14 @@ Type | Description  | Notes
 [**CheckResult**](../../models/CheckResult.md) |  | 
 
 
-#### check_image.ApiResponseFor402
+#### check_image.ApiResponseFor404
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor402ResponseBodyApplicationJson, ] |  |
+body | typing.Union[SchemaFor404ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-# SchemaFor402ResponseBodyApplicationJson
+# SchemaFor404ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiNotice**](../../models/ApiNotice.md) |  | 
@@ -337,18 +337,18 @@ str, uuid.UUID,  | str,  |  | value must be a uuid
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-404 | [ApiResponseFor404](#check_stream.ApiResponseFor404) | configId not found.
-200 | [ApiResponseFor200](#check_stream.ApiResponseFor200) | successful operation.
 402 | [ApiResponseFor402](#check_stream.ApiResponseFor402) | Not enough credits.
+200 | [ApiResponseFor200](#check_stream.ApiResponseFor200) | successful operation.
+404 | [ApiResponseFor404](#check_stream.ApiResponseFor404) | configId not found.
 
-#### check_stream.ApiResponseFor404
+#### check_stream.ApiResponseFor402
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor404ResponseBodyApplicationXNdjson, ] |  |
+body | typing.Union[SchemaFor402ResponseBodyApplicationXNdjson, ] |  |
 headers | Unset | headers were not defined |
 
-# SchemaFor404ResponseBodyApplicationXNdjson
+# SchemaFor402ResponseBodyApplicationXNdjson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiNotice**](../../models/ApiNotice.md) |  | 
@@ -373,14 +373,14 @@ Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 [**CheckResult**]({{complexTypePrefix}}CheckResult.md) | [**CheckResult**]({{complexTypePrefix}}CheckResult.md) | [**CheckResult**]({{complexTypePrefix}}CheckResult.md) |  | 
 
-#### check_stream.ApiResponseFor402
+#### check_stream.ApiResponseFor404
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor402ResponseBodyApplicationXNdjson, ] |  |
+body | typing.Union[SchemaFor404ResponseBodyApplicationXNdjson, ] |  |
 headers | Unset | headers were not defined |
 
-# SchemaFor402ResponseBodyApplicationXNdjson
+# SchemaFor404ResponseBodyApplicationXNdjson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiNotice**](../../models/ApiNotice.md) |  | 
@@ -558,9 +558,22 @@ str, uuid.UUID,  | str,  |  | value must be a uuid
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+402 | [ApiResponseFor402](#check_video.ApiResponseFor402) | Not enough credits.
 202 | [ApiResponseFor202](#check_video.ApiResponseFor202) | operation accepted: wait for callback.
 404 | [ApiResponseFor404](#check_video.ApiResponseFor404) | configId not found.
-402 | [ApiResponseFor402](#check_video.ApiResponseFor402) | Not enough credits.
+
+#### check_video.ApiResponseFor402
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor402ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+# SchemaFor402ResponseBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**ApiNotice**](../../models/ApiNotice.md) |  | 
+
 
 #### check_video.ApiResponseFor202
 Name | Type | Description  | Notes
@@ -577,19 +590,6 @@ body | typing.Union[SchemaFor404ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
 # SchemaFor404ResponseBodyApplicationJson
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**ApiNotice**](../../models/ApiNotice.md) |  | 
-
-
-#### check_video.ApiResponseFor402
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor402ResponseBodyApplicationJson, ] |  |
-headers | Unset | headers were not defined |
-
-# SchemaFor402ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiNotice**](../../models/ApiNotice.md) |  | 

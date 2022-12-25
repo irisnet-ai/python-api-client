@@ -70,25 +70,6 @@ request_body_param_set = api_client.RequestBody(
 _auth = [
     'LICENSE-KEY',
 ]
-SchemaFor400ResponseBodyApplicationJson = ApiNotice
-
-
-@dataclass
-class ApiResponseFor400(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        SchemaFor400ResponseBodyApplicationJson,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_400 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor400,
-    content={
-        'application/json': api_client.MediaType(
-            schema=SchemaFor400ResponseBodyApplicationJson),
-    },
-)
 
 
 @dataclass
@@ -100,25 +81,6 @@ class ApiResponseFor204(api_client.ApiResponse):
 
 _response_for_204 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor204,
-)
-SchemaFor404ResponseBodyApplicationJson = ApiNotice
-
-
-@dataclass
-class ApiResponseFor404(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        SchemaFor404ResponseBodyApplicationJson,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_404 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor404,
-    content={
-        'application/json': api_client.MediaType(
-            schema=SchemaFor404ResponseBodyApplicationJson),
-    },
 )
 SchemaFor200ResponseBodyApplicationJson = ParamSet
 
@@ -139,11 +101,49 @@ _response_for_200 = api_client.OpenApiResponse(
             schema=SchemaFor200ResponseBodyApplicationJson),
     },
 )
+SchemaFor404ResponseBodyApplicationJson = ApiNotice
+
+
+@dataclass
+class ApiResponseFor404(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor404ResponseBodyApplicationJson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_404 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor404,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor404ResponseBodyApplicationJson),
+    },
+)
+SchemaFor400ResponseBodyApplicationJson = ApiNotice
+
+
+@dataclass
+class ApiResponseFor400(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor400ResponseBodyApplicationJson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_400 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor400,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor400ResponseBodyApplicationJson),
+    },
+)
 _status_code_to_response = {
-    '400': _response_for_400,
     '204': _response_for_204,
-    '404': _response_for_404,
     '200': _response_for_200,
+    '404': _response_for_404,
+    '400': _response_for_400,
 }
 _all_accept_content_types = (
     'application/json',

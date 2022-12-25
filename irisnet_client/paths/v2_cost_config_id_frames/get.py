@@ -67,25 +67,6 @@ request_path_frames = api_client.PathParameter(
 _auth = [
     'LICENSE-KEY',
 ]
-SchemaFor429ResponseBodyApplicationJson = ApiNotice
-
-
-@dataclass
-class ApiResponseFor429(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        SchemaFor429ResponseBodyApplicationJson,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_429 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor429,
-    content={
-        'application/json': api_client.MediaType(
-            schema=SchemaFor429ResponseBodyApplicationJson),
-    },
-)
 SchemaFor200ResponseBodyApplicationJson = Pricing
 
 
@@ -103,6 +84,25 @@ _response_for_200 = api_client.OpenApiResponse(
     content={
         'application/json': api_client.MediaType(
             schema=SchemaFor200ResponseBodyApplicationJson),
+    },
+)
+SchemaFor429ResponseBodyApplicationJson = ApiNotice
+
+
+@dataclass
+class ApiResponseFor429(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor429ResponseBodyApplicationJson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_429 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor429,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor429ResponseBodyApplicationJson),
     },
 )
 SchemaFor404ResponseBodyApplicationJson = ApiNotice
@@ -125,8 +125,8 @@ _response_for_404 = api_client.OpenApiResponse(
     },
 )
 _status_code_to_response = {
-    '429': _response_for_429,
     '200': _response_for_200,
+    '429': _response_for_429,
     '404': _response_for_404,
 }
 _all_accept_content_types = (

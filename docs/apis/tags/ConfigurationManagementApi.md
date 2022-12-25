@@ -261,21 +261,8 @@ str, uuid.UUID,  | str,  |  | value must be a uuid
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-404 | [ApiResponseFor404](#get_config.ApiResponseFor404) | configId not found.
 200 | [ApiResponseFor200](#get_config.ApiResponseFor200) | successful operation.
-
-#### get_config.ApiResponseFor404
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor404ResponseBodyApplicationJson, ] |  |
-headers | Unset | headers were not defined |
-
-# SchemaFor404ResponseBodyApplicationJson
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**ApiNotice**](../../models/ApiNotice.md) |  | 
-
+404 | [ApiResponseFor404](#get_config.ApiResponseFor404) | configId not found.
 
 #### get_config.ApiResponseFor200
 Name | Type | Description  | Notes
@@ -288,6 +275,19 @@ headers | Unset | headers were not defined |
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**Config**](../../models/Config.md) |  | 
+
+
+#### get_config.ApiResponseFor404
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor404ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+# SchemaFor404ResponseBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**ApiNotice**](../../models/ApiNotice.md) |  | 
 
 
 ### Authorization
@@ -374,22 +374,9 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | [ApiResponseFor400](#set_config.ApiResponseFor400) | Bad request. Check for badly formatted request body.
 403 | [ApiResponseFor403](#set_config.ApiResponseFor403) | Maximum number of stored AI configurations reached.
 200 | [ApiResponseFor200](#set_config.ApiResponseFor200) | successful operation.
-
-#### set_config.ApiResponseFor400
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor400ResponseBodyApplicationJson, ] |  |
-headers | Unset | headers were not defined |
-
-# SchemaFor400ResponseBodyApplicationJson
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**ApiNotice**](../../models/ApiNotice.md) |  | 
-
+400 | [ApiResponseFor400](#set_config.ApiResponseFor400) | Bad request. Check for badly formatted request body.
 
 #### set_config.ApiResponseFor403
 Name | Type | Description  | Notes
@@ -415,6 +402,19 @@ headers | Unset | headers were not defined |
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**Config**](../../models/Config.md) |  | 
+
+
+#### set_config.ApiResponseFor400
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor400ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+# SchemaFor400ResponseBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**ApiNotice**](../../models/ApiNotice.md) |  | 
 
 
 ### Authorization

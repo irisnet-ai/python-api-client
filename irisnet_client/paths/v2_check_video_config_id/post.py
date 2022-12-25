@@ -140,6 +140,25 @@ request_body_callback = api_client.RequestBody(
 _auth = [
     'LICENSE-KEY',
 ]
+SchemaFor402ResponseBodyApplicationJson = ApiNotice
+
+
+@dataclass
+class ApiResponseFor402(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor402ResponseBodyApplicationJson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_402 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor402,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor402ResponseBodyApplicationJson),
+    },
+)
 
 
 @dataclass
@@ -171,29 +190,10 @@ _response_for_404 = api_client.OpenApiResponse(
             schema=SchemaFor404ResponseBodyApplicationJson),
     },
 )
-SchemaFor402ResponseBodyApplicationJson = ApiNotice
-
-
-@dataclass
-class ApiResponseFor402(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        SchemaFor402ResponseBodyApplicationJson,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_402 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor402,
-    content={
-        'application/json': api_client.MediaType(
-            schema=SchemaFor402ResponseBodyApplicationJson),
-    },
-)
 _status_code_to_response = {
+    '402': _response_for_402,
     '202': _response_for_202,
     '404': _response_for_404,
-    '402': _response_for_402,
 }
 _all_accept_content_types = (
     'application/json',
