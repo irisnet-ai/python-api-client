@@ -32,7 +32,7 @@ class TestV2Config(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    response_status = 403
+    response_status = 400
 
 
 

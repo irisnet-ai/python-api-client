@@ -24,6 +24,7 @@ Deletes the AI configuration with the given id.
 ```python
 import irisnet_client
 from irisnet_client.apis.tags import configuration_management_api
+from irisnet_client.model.api_notice import ApiNotice
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.irisnet.de
 # See configuration.py for a list of all supported configuration parameters.
@@ -63,6 +64,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 path_params | RequestPathParams | |
+accept_content_types | typing.Tuple[str] | default is ('*/*', ) | Tells the server the content type(s) that are accepted by the client
 stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
 timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
 skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
@@ -87,6 +89,7 @@ Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 204 | [ApiResponseFor204](#delete_config.ApiResponseFor204) | successful operation.
+404 | [ApiResponseFor404](#delete_config.ApiResponseFor404) | configId not found.
 
 #### delete_config.ApiResponseFor204
 Name | Type | Description  | Notes
@@ -94,6 +97,19 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
+
+#### delete_config.ApiResponseFor404
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor404ResponseBody, ] |  |
+headers | Unset | headers were not defined |
+
+# SchemaFor404ResponseBody
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**ApiNotice**](../../models/ApiNotice.md) |  | 
+
 
 ### Authorization
 
@@ -374,9 +390,22 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+400 | [ApiResponseFor400](#set_config.ApiResponseFor400) | Bad request. Check for badly formatted request body.
 403 | [ApiResponseFor403](#set_config.ApiResponseFor403) | Maximum number of stored AI configurations reached.
 200 | [ApiResponseFor200](#set_config.ApiResponseFor200) | successful operation.
-400 | [ApiResponseFor400](#set_config.ApiResponseFor400) | Bad request. Check for badly formatted request body.
+
+#### set_config.ApiResponseFor400
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor400ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+# SchemaFor400ResponseBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**ApiNotice**](../../models/ApiNotice.md) |  | 
+
 
 #### set_config.ApiResponseFor403
 Name | Type | Description  | Notes
@@ -402,19 +431,6 @@ headers | Unset | headers were not defined |
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**Config**](../../models/Config.md) |  | 
-
-
-#### set_config.ApiResponseFor400
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor400ResponseBodyApplicationJson, ] |  |
-headers | Unset | headers were not defined |
-
-# SchemaFor400ResponseBodyApplicationJson
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**ApiNotice**](../../models/ApiNotice.md) |  | 
 
 
 ### Authorization

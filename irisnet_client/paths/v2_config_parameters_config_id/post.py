@@ -70,35 +70,23 @@ request_body_param_set = api_client.RequestBody(
 _auth = [
     'LICENSE-KEY',
 ]
+SchemaFor400ResponseBodyApplicationJson = ApiNotice
 
 
 @dataclass
-class ApiResponseFor204(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: schemas.Unset = schemas.unset
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_204 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor204,
-)
-SchemaFor200ResponseBodyApplicationJson = ParamSet
-
-
-@dataclass
-class ApiResponseFor200(api_client.ApiResponse):
+class ApiResponseFor400(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        SchemaFor200ResponseBodyApplicationJson,
+        SchemaFor400ResponseBodyApplicationJson,
     ]
     headers: schemas.Unset = schemas.unset
 
 
-_response_for_200 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor200,
+_response_for_400 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor400,
     content={
         'application/json': api_client.MediaType(
-            schema=SchemaFor200ResponseBodyApplicationJson),
+            schema=SchemaFor400ResponseBodyApplicationJson),
     },
 )
 SchemaFor404ResponseBodyApplicationJson = ApiNotice
@@ -120,30 +108,42 @@ _response_for_404 = api_client.OpenApiResponse(
             schema=SchemaFor404ResponseBodyApplicationJson),
     },
 )
-SchemaFor400ResponseBodyApplicationJson = ApiNotice
+SchemaFor200ResponseBodyApplicationJson = ParamSet
 
 
 @dataclass
-class ApiResponseFor400(api_client.ApiResponse):
+class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        SchemaFor400ResponseBodyApplicationJson,
+        SchemaFor200ResponseBodyApplicationJson,
     ]
     headers: schemas.Unset = schemas.unset
 
 
-_response_for_400 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor400,
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
     content={
         'application/json': api_client.MediaType(
-            schema=SchemaFor400ResponseBodyApplicationJson),
+            schema=SchemaFor200ResponseBodyApplicationJson),
     },
 )
+
+
+@dataclass
+class ApiResponseFor204(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_204 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor204,
+)
 _status_code_to_response = {
-    '204': _response_for_204,
-    '200': _response_for_200,
-    '404': _response_for_404,
     '400': _response_for_400,
+    '404': _response_for_404,
+    '200': _response_for_200,
+    '204': _response_for_204,
 }
 _all_accept_content_types = (
     'application/json',
@@ -162,8 +162,8 @@ class BaseApi(api_client.Api):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
-        ApiResponseFor204,
         ApiResponseFor200,
+        ApiResponseFor204,
     ]: ...
 
     @typing.overload
@@ -177,8 +177,8 @@ class BaseApi(api_client.Api):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
-        ApiResponseFor204,
         ApiResponseFor200,
+        ApiResponseFor204,
     ]: ...
 
 
@@ -205,8 +205,8 @@ class BaseApi(api_client.Api):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
     ) -> typing.Union[
-        ApiResponseFor204,
         ApiResponseFor200,
+        ApiResponseFor204,
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
@@ -299,8 +299,8 @@ class SetParameters(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
-        ApiResponseFor204,
         ApiResponseFor200,
+        ApiResponseFor204,
     ]: ...
 
     @typing.overload
@@ -314,8 +314,8 @@ class SetParameters(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
-        ApiResponseFor204,
         ApiResponseFor200,
+        ApiResponseFor204,
     ]: ...
 
 
@@ -342,8 +342,8 @@ class SetParameters(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
     ) -> typing.Union[
-        ApiResponseFor204,
         ApiResponseFor200,
+        ApiResponseFor204,
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
@@ -382,8 +382,8 @@ class ApiForpost(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
-        ApiResponseFor204,
         ApiResponseFor200,
+        ApiResponseFor204,
     ]: ...
 
     @typing.overload
@@ -397,8 +397,8 @@ class ApiForpost(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
-        ApiResponseFor204,
         ApiResponseFor200,
+        ApiResponseFor204,
     ]: ...
 
 
@@ -425,8 +425,8 @@ class ApiForpost(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
     ) -> typing.Union[
-        ApiResponseFor204,
         ApiResponseFor200,
+        ApiResponseFor204,
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 

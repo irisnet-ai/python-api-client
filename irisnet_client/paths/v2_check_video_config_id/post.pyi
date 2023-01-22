@@ -126,6 +126,18 @@ request_body_callback = api_client.RequestBody(
     },
     required=True,
 )
+
+
+@dataclass
+class ApiResponseFor202(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_202 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor202,
+)
 SchemaFor402ResponseBodyApplicationJson = ApiNotice
 
 
@@ -144,18 +156,6 @@ _response_for_402 = api_client.OpenApiResponse(
         'application/json': api_client.MediaType(
             schema=SchemaFor402ResponseBodyApplicationJson),
     },
-)
-
-
-@dataclass
-class ApiResponseFor202(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: schemas.Unset = schemas.unset
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_202 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor202,
 )
 SchemaFor404ResponseBodyApplicationJson = ApiNotice
 

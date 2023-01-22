@@ -32,9 +32,8 @@ class TestV2CheckVideoConfigId(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    response_status = 402
-
-
+    response_status = 202
+    response_body = ''
 
 
 

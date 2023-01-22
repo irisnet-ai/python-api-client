@@ -128,25 +128,6 @@ request_path_config_id = api_client.PathParameter(
 _auth = [
     'LICENSE-KEY',
 ]
-SchemaFor402ResponseBodyApplicationXNdjson = ApiNotice
-
-
-@dataclass
-class ApiResponseFor402(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        SchemaFor402ResponseBodyApplicationXNdjson,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_402 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor402,
-    content={
-        'application/x-ndjson': api_client.MediaType(
-            schema=SchemaFor402ResponseBodyApplicationXNdjson),
-    },
-)
 
 
 class SchemaFor200ResponseBodyApplicationXNdjson(
@@ -191,6 +172,25 @@ _response_for_200 = api_client.OpenApiResponse(
             schema=SchemaFor200ResponseBodyApplicationXNdjson),
     },
 )
+SchemaFor402ResponseBodyApplicationXNdjson = ApiNotice
+
+
+@dataclass
+class ApiResponseFor402(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor402ResponseBodyApplicationXNdjson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_402 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor402,
+    content={
+        'application/x-ndjson': api_client.MediaType(
+            schema=SchemaFor402ResponseBodyApplicationXNdjson),
+    },
+)
 SchemaFor404ResponseBodyApplicationXNdjson = ApiNotice
 
 
@@ -211,8 +211,8 @@ _response_for_404 = api_client.OpenApiResponse(
     },
 )
 _status_code_to_response = {
-    '402': _response_for_402,
     '200': _response_for_200,
+    '402': _response_for_402,
     '404': _response_for_404,
 }
 _all_accept_content_types = (

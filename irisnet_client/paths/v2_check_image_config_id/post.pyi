@@ -102,25 +102,6 @@ request_path_config_id = api_client.PathParameter(
     schema=ConfigIdSchema,
     required=True,
 )
-SchemaFor402ResponseBodyApplicationJson = ApiNotice
-
-
-@dataclass
-class ApiResponseFor402(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        SchemaFor402ResponseBodyApplicationJson,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_402 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor402,
-    content={
-        'application/json': api_client.MediaType(
-            schema=SchemaFor402ResponseBodyApplicationJson),
-    },
-)
 SchemaFor200ResponseBodyApplicationJson = CheckResult
 
 
@@ -138,6 +119,25 @@ _response_for_200 = api_client.OpenApiResponse(
     content={
         'application/json': api_client.MediaType(
             schema=SchemaFor200ResponseBodyApplicationJson),
+    },
+)
+SchemaFor402ResponseBodyApplicationJson = ApiNotice
+
+
+@dataclass
+class ApiResponseFor402(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor402ResponseBodyApplicationJson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_402 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor402,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor402ResponseBodyApplicationJson),
     },
 )
 SchemaFor404ResponseBodyApplicationJson = ApiNotice
