@@ -80,17 +80,29 @@ class Config(
                             return cls("attributesCheck")
                         
                         @schemas.classproperty
+                        def BODY_ATTRIBUTES(cls):
+                            return cls("bodyAttributes")
+                        
+                        @schemas.classproperty
                         def NIPPLE_CHECK(cls):
                             return cls("nippleCheck")
+                        
+                        @schemas.classproperty
+                        def UNWANTED_SUBSTANCES(cls):
+                            return cls("unwantedSubstances")
+                        
+                        @schemas.classproperty
+                        def VIOLENCE_CHECK(cls):
+                            return cls("violenceCheck")
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'prototypes':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -130,7 +142,7 @@ class Config(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         id: typing.Union[MetaOapg.properties.id, str, uuid.UUID, schemas.Unset] = schemas.unset,
         prototypes: typing.Union[MetaOapg.properties.prototypes, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
@@ -138,7 +150,7 @@ class Config(
     ) -> 'Config':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             id=id,
             prototypes=prototypes,
             _configuration=_configuration,

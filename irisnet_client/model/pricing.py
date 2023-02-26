@@ -67,14 +67,14 @@ class Pricing(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         cost: typing.Union[MetaOapg.properties.cost, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'Pricing':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             cost=cost,
             _configuration=_configuration,
             **kwargs,

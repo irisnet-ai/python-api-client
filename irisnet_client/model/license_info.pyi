@@ -62,13 +62,13 @@ class LicenseInfo(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[dict, frozendict.frozendict, ],
+                    *_args: typing.Union[dict, frozendict.frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                     **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
                 ) -> 'privileges':
                     return super().__new__(
                         cls,
-                        *args,
+                        *_args,
                         _configuration=_configuration,
                         **kwargs,
                     )
@@ -127,7 +127,7 @@ class LicenseInfo(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         creditsUsed: typing.Union[MetaOapg.properties.creditsUsed, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         creditsRemaining: typing.Union[MetaOapg.properties.creditsRemaining, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         totalCredits: typing.Union[MetaOapg.properties.totalCredits, decimal.Decimal, int, schemas.Unset] = schemas.unset,
@@ -138,7 +138,7 @@ class LicenseInfo(
     ) -> 'LicenseInfo':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             creditsUsed=creditsUsed,
             creditsRemaining=creditsRemaining,
             totalCredits=totalCredits,

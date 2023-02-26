@@ -62,13 +62,13 @@ class Callback(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[dict, frozendict.frozendict, ],
+                    *_args: typing.Union[dict, frozendict.frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                     **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
                 ) -> 'headers':
                     return super().__new__(
                         cls,
-                        *args,
+                        *_args,
                         _configuration=_configuration,
                         **kwargs,
                     )
@@ -108,7 +108,7 @@ class Callback(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         callbackUrl: typing.Union[MetaOapg.properties.callbackUrl, str, ],
         headers: typing.Union[MetaOapg.properties.headers, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
@@ -116,7 +116,7 @@ class Callback(
     ) -> 'Callback':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             callbackUrl=callbackUrl,
             headers=headers,
             _configuration=_configuration,

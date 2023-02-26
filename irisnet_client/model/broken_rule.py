@@ -115,7 +115,7 @@ class BrokenRule(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         classification: typing.Union[MetaOapg.properties.classification, str, schemas.Unset] = schemas.unset,
         group: typing.Union[MetaOapg.properties.group, str, schemas.Unset] = schemas.unset,
         found: typing.Union[MetaOapg.properties.found, decimal.Decimal, int, schemas.Unset] = schemas.unset,
@@ -128,7 +128,7 @@ class BrokenRule(
     ) -> 'BrokenRule':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             classification=classification,
             group=group,
             found=found,

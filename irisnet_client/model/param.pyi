@@ -162,12 +162,104 @@ class Param(
                     return cls("mask")
                 
                 @schemas.classproperty
+                def SLIM_SIZED(cls):
+                    return cls("slimSized")
+                
+                @schemas.classproperty
+                def REAL_SIZED(cls):
+                    return cls("realSized")
+                
+                @schemas.classproperty
+                def PLUS_SIZED(cls):
+                    return cls("plusSized")
+                
+                @schemas.classproperty
                 def NO_NIPPLE(cls):
                     return cls("noNipple")
                 
                 @schemas.classproperty
                 def HAS_NIPPLE(cls):
                     return cls("hasNipple")
+                
+                @schemas.classproperty
+                def BEER(cls):
+                    return cls("beer")
+                
+                @schemas.classproperty
+                def BEER_BOTTLE(cls):
+                    return cls("beerBottle")
+                
+                @schemas.classproperty
+                def BEER_CAN(cls):
+                    return cls("beerCan")
+                
+                @schemas.classproperty
+                def WINE(cls):
+                    return cls("wine")
+                
+                @schemas.classproperty
+                def WINE_BOTTLE(cls):
+                    return cls("wineBottle")
+                
+                @schemas.classproperty
+                def COCKTAIL(cls):
+                    return cls("cocktail")
+                
+                @schemas.classproperty
+                def ALCOHOL(cls):
+                    return cls("alcohol")
+                
+                @schemas.classproperty
+                def CANNABIS(cls):
+                    return cls("cannabis")
+                
+                @schemas.classproperty
+                def CIGARETTE(cls):
+                    return cls("cigarette")
+                
+                @schemas.classproperty
+                def COCAINE(cls):
+                    return cls("cocaine")
+                
+                @schemas.classproperty
+                def HEROINE(cls):
+                    return cls("heroine")
+                
+                @schemas.classproperty
+                def COFFEE(cls):
+                    return cls("coffee")
+                
+                @schemas.classproperty
+                def CAMOUFLAGE(cls):
+                    return cls("camouflage")
+                
+                @schemas.classproperty
+                def CLUB(cls):
+                    return cls("club")
+                
+                @schemas.classproperty
+                def KNIFE(cls):
+                    return cls("knife")
+                
+                @schemas.classproperty
+                def SWORD(cls):
+                    return cls("sword")
+                
+                @schemas.classproperty
+                def PISTOL(cls):
+                    return cls("pistol")
+                
+                @schemas.classproperty
+                def RIFLE(cls):
+                    return cls("rifle")
+                
+                @schemas.classproperty
+                def CANNON(cls):
+                    return cls("cannon")
+                
+                @schemas.classproperty
+                def FIRE(cls):
+                    return cls("fire")
                 
                 @schemas.classproperty
                 def NUDITY_CHECK(cls):
@@ -194,8 +286,20 @@ class Param(
                     return cls("attributesCheck")
                 
                 @schemas.classproperty
+                def BODY_ATTRIBUTES(cls):
+                    return cls("bodyAttributes")
+                
+                @schemas.classproperty
                 def NIPPLE_CHECK(cls):
                     return cls("nippleCheck")
+                
+                @schemas.classproperty
+                def UNWANTED_SUBSTANCES(cls):
+                    return cls("unwantedSubstances")
+                
+                @schemas.classproperty
+                def VIOLENCE_CHECK(cls):
+                    return cls("violenceCheck")
             
             
             class min(
@@ -311,7 +415,7 @@ class Param(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         classification: typing.Union[MetaOapg.properties.classification, str, ],
         min: typing.Union[MetaOapg.properties.min, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         max: typing.Union[MetaOapg.properties.max, decimal.Decimal, int, schemas.Unset] = schemas.unset,
@@ -325,7 +429,7 @@ class Param(
     ) -> 'Param':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             classification=classification,
             min=min,
             max=max,

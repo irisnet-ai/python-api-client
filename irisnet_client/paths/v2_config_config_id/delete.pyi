@@ -53,18 +53,6 @@ request_path_config_id = api_client.PathParameter(
     schema=ConfigIdSchema,
     required=True,
 )
-
-
-@dataclass
-class ApiResponseFor204(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: schemas.Unset = schemas.unset
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_204 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor204,
-)
 SchemaFor404ResponseBody = ApiNotice
 
 
@@ -83,6 +71,18 @@ _response_for_404 = api_client.OpenApiResponse(
         '*/*': api_client.MediaType(
             schema=SchemaFor404ResponseBody),
     },
+)
+
+
+@dataclass
+class ApiResponseFor204(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_204 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor204,
 )
 _all_accept_content_types = (
     '*/*',
@@ -180,7 +180,11 @@ class BaseApi(api_client.Api):
                 api_response = api_client.ApiResponseWithoutDeserialization(response=response)
 
         if not 200 <= response.status <= 299:
-            raise exceptions.ApiException(api_response=api_response)
+            raise exceptions.ApiException(
+                status=response.status,
+                reason=response.reason,
+                api_response=api_response
+            )
 
         return api_response
 

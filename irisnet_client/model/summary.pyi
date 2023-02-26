@@ -56,12 +56,12 @@ class Summary(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'tags':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -79,12 +79,12 @@ class Summary(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'rejectTags':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -102,12 +102,12 @@ class Summary(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'rejectReasons':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -189,7 +189,7 @@ class Summary(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,
         brokenRulesCount: typing.Union[MetaOapg.properties.brokenRulesCount, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         helpSuggested: typing.Union[MetaOapg.properties.helpSuggested, decimal.Decimal, int, schemas.Unset] = schemas.unset,
@@ -203,7 +203,7 @@ class Summary(
     ) -> 'Summary':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             status=status,
             brokenRulesCount=brokenRulesCount,
             helpSuggested=helpSuggested,

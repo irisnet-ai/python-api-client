@@ -63,12 +63,12 @@ class FaceDetection(
                     
                         def __new__(
                             cls,
-                            arg: typing.Union[typing.Tuple['BaseAttribute'], typing.List['BaseAttribute']],
+                            _arg: typing.Union[typing.Tuple['BaseAttribute'], typing.List['BaseAttribute']],
                             _configuration: typing.Optional[schemas.Configuration] = None,
                         ) -> 'attributes':
                             return super().__new__(
                                 cls,
-                                arg,
+                                _arg,
                                 _configuration=_configuration,
                             )
                     
@@ -89,12 +89,12 @@ class FaceDetection(
                     
                         def __new__(
                             cls,
-                            arg: typing.Union[typing.Tuple['BaseDetection'], typing.List['BaseDetection']],
+                            _arg: typing.Union[typing.Tuple['BaseDetection'], typing.List['BaseDetection']],
                             _configuration: typing.Optional[schemas.Configuration] = None,
                         ) -> 'subDetections':
                             return super().__new__(
                                 cls,
-                                arg,
+                                _arg,
                                 _configuration=_configuration,
                             )
                     
@@ -134,7 +134,7 @@ class FaceDetection(
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict.frozendict, ],
+                *_args: typing.Union[dict, frozendict.frozendict, ],
                 attributes: typing.Union[MetaOapg.properties.attributes, list, tuple, schemas.Unset] = schemas.unset,
                 subDetections: typing.Union[MetaOapg.properties.subDetections, list, tuple, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
@@ -142,7 +142,7 @@ class FaceDetection(
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
-                    *args,
+                    *_args,
                     attributes=attributes,
                     subDetections=subDetections,
                     _configuration=_configuration,
@@ -167,13 +167,13 @@ class FaceDetection(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'FaceDetection':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             _configuration=_configuration,
             **kwargs,
         )

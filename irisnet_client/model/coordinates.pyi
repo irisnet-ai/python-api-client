@@ -54,12 +54,12 @@ class Coordinates(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple['Rectangle'], typing.List['Rectangle']],
+                    _arg: typing.Union[typing.Tuple['Rectangle'], typing.List['Rectangle']],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'rectangles':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -92,14 +92,14 @@ class Coordinates(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         rectangles: typing.Union[MetaOapg.properties.rectangles, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'Coordinates':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             rectangles=rectangles,
             _configuration=_configuration,
             **kwargs,

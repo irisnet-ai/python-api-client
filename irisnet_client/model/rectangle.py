@@ -91,7 +91,7 @@ class Rectangle(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         x0: typing.Union[MetaOapg.properties.x0, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         y0: typing.Union[MetaOapg.properties.y0, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         width: typing.Union[MetaOapg.properties.width, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
@@ -101,7 +101,7 @@ class Rectangle(
     ) -> 'Rectangle':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             x0=x0,
             y0=y0,
             width=width,

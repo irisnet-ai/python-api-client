@@ -83,7 +83,7 @@ class BaseAttribute(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         classification: typing.Union[MetaOapg.properties.classification, str, schemas.Unset] = schemas.unset,
         probability: typing.Union[MetaOapg.properties.probability, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         type: typing.Union[MetaOapg.properties.type, str, schemas.Unset] = schemas.unset,
@@ -92,7 +92,7 @@ class BaseAttribute(
     ) -> 'BaseAttribute':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             classification=classification,
             probability=probability,
             type=type,

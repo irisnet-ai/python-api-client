@@ -32,7 +32,7 @@ class TestV2CostConfigIdFpsDuration(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    response_status = 429
+    response_status = 404
 
 
 

@@ -44,25 +44,6 @@ request_body_config = api_client.RequestBody(
 _auth = [
     'LICENSE-KEY',
 ]
-SchemaFor400ResponseBodyApplicationJson = ApiNotice
-
-
-@dataclass
-class ApiResponseFor400(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        SchemaFor400ResponseBodyApplicationJson,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_400 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor400,
-    content={
-        'application/json': api_client.MediaType(
-            schema=SchemaFor400ResponseBodyApplicationJson),
-    },
-)
 SchemaFor403ResponseBodyApplicationJson = ApiNotice
 
 
@@ -80,6 +61,25 @@ _response_for_403 = api_client.OpenApiResponse(
     content={
         'application/json': api_client.MediaType(
             schema=SchemaFor403ResponseBodyApplicationJson),
+    },
+)
+SchemaFor400ResponseBodyApplicationJson = ApiNotice
+
+
+@dataclass
+class ApiResponseFor400(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor400ResponseBodyApplicationJson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_400 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor400,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor400ResponseBodyApplicationJson),
     },
 )
 SchemaFor200ResponseBodyApplicationJson = Config
@@ -102,8 +102,8 @@ _response_for_200 = api_client.OpenApiResponse(
     },
 )
 _status_code_to_response = {
-    '400': _response_for_400,
     '403': _response_for_403,
+    '400': _response_for_400,
     '200': _response_for_200,
 }
 _all_accept_content_types = (
@@ -219,7 +219,11 @@ class BaseApi(api_client.Api):
                 api_response = api_client.ApiResponseWithoutDeserialization(response=response)
 
         if not 200 <= response.status <= 299:
-            raise exceptions.ApiException(api_response=api_response)
+            raise exceptions.ApiException(
+                status=response.status,
+                reason=response.reason,
+                api_response=api_response
+            )
 
         return api_response
 

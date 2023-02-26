@@ -97,12 +97,12 @@ class ParamSet(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple['Param'], typing.List['Param']],
+                    _arg: typing.Union[typing.Tuple['Param'], typing.List['Param']],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'params':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -163,7 +163,7 @@ class ParamSet(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         thresh: typing.Union[MetaOapg.properties.thresh, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         grey: typing.Union[MetaOapg.properties.grey, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         minDuration: typing.Union[MetaOapg.properties.minDuration, decimal.Decimal, int, schemas.Unset] = schemas.unset,
@@ -174,7 +174,7 @@ class ParamSet(
     ) -> 'ParamSet':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             thresh=thresh,
             grey=grey,
             minDuration=minDuration,

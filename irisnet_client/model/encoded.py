@@ -83,7 +83,7 @@ class Encoded(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         name: typing.Union[MetaOapg.properties.name, str, schemas.Unset] = schemas.unset,
         data: typing.Union[MetaOapg.properties.data, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
         downloadUrl: typing.Union[MetaOapg.properties.downloadUrl, str, schemas.Unset] = schemas.unset,
@@ -92,7 +92,7 @@ class Encoded(
     ) -> 'Encoded':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             name=name,
             data=data,
             downloadUrl=downloadUrl,

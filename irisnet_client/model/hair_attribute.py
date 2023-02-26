@@ -143,7 +143,7 @@ class HairAttribute(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         type: typing.Union[MetaOapg.properties.type, str, schemas.Unset] = schemas.unset,
         color: typing.Union[MetaOapg.properties.color, str, schemas.Unset] = schemas.unset,
         style: typing.Union[MetaOapg.properties.style, str, schemas.Unset] = schemas.unset,
@@ -152,7 +152,7 @@ class HairAttribute(
     ) -> 'HairAttribute':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             type=type,
             color=color,
             style=style,

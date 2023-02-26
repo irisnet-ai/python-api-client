@@ -115,48 +115,23 @@ request_path_config_id = api_client.PathParameter(
     schema=ConfigIdSchema,
     required=True,
 )
-
-
-class SchemaFor200ResponseBodyApplicationXNdjson(
-    schemas.ListSchema
-):
-
-
-    class MetaOapg:
-        
-        @staticmethod
-        def items() -> typing.Type['CheckResult']:
-            return CheckResult
-
-    def __new__(
-        cls,
-        arg: typing.Union[typing.Tuple['CheckResult'], typing.List['CheckResult']],
-        _configuration: typing.Optional[schemas.Configuration] = None,
-    ) -> 'SchemaFor200ResponseBodyApplicationXNdjson':
-        return super().__new__(
-            cls,
-            arg,
-            _configuration=_configuration,
-        )
-
-    def __getitem__(self, i: int) -> 'CheckResult':
-        return super().__getitem__(i)
+SchemaFor404ResponseBodyApplicationXNdjson = ApiNotice
 
 
 @dataclass
-class ApiResponseFor200(api_client.ApiResponse):
+class ApiResponseFor404(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        SchemaFor200ResponseBodyApplicationXNdjson,
+        SchemaFor404ResponseBodyApplicationXNdjson,
     ]
     headers: schemas.Unset = schemas.unset
 
 
-_response_for_200 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor200,
+_response_for_404 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor404,
     content={
         'application/x-ndjson': api_client.MediaType(
-            schema=SchemaFor200ResponseBodyApplicationXNdjson),
+            schema=SchemaFor404ResponseBodyApplicationXNdjson),
     },
 )
 SchemaFor402ResponseBodyApplicationXNdjson = ApiNotice
@@ -178,23 +153,48 @@ _response_for_402 = api_client.OpenApiResponse(
             schema=SchemaFor402ResponseBodyApplicationXNdjson),
     },
 )
-SchemaFor404ResponseBodyApplicationXNdjson = ApiNotice
+
+
+class SchemaFor200ResponseBodyApplicationXNdjson(
+    schemas.ListSchema
+):
+
+
+    class MetaOapg:
+        
+        @staticmethod
+        def items() -> typing.Type['CheckResult']:
+            return CheckResult
+
+    def __new__(
+        cls,
+        _arg: typing.Union[typing.Tuple['CheckResult'], typing.List['CheckResult']],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'SchemaFor200ResponseBodyApplicationXNdjson':
+        return super().__new__(
+            cls,
+            _arg,
+            _configuration=_configuration,
+        )
+
+    def __getitem__(self, i: int) -> 'CheckResult':
+        return super().__getitem__(i)
 
 
 @dataclass
-class ApiResponseFor404(api_client.ApiResponse):
+class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        SchemaFor404ResponseBodyApplicationXNdjson,
+        SchemaFor200ResponseBodyApplicationXNdjson,
     ]
     headers: schemas.Unset = schemas.unset
 
 
-_response_for_404 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor404,
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
     content={
         'application/x-ndjson': api_client.MediaType(
-            schema=SchemaFor404ResponseBodyApplicationXNdjson),
+            schema=SchemaFor200ResponseBodyApplicationXNdjson),
     },
 )
 _all_accept_content_types = (
@@ -314,7 +314,11 @@ class BaseApi(api_client.Api):
                 api_response = api_client.ApiResponseWithoutDeserialization(response=response)
 
         if not 200 <= response.status <= 299:
-            raise exceptions.ApiException(api_response=api_response)
+            raise exceptions.ApiException(
+                status=response.status,
+                reason=response.reason,
+                api_response=api_response
+            )
 
         return api_response
 

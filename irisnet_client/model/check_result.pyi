@@ -58,12 +58,12 @@ class CheckResult(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple['Encoded'], typing.List['Encoded']],
+                    _arg: typing.Union[typing.Tuple['Encoded'], typing.List['Encoded']],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'encodings':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -84,12 +84,12 @@ class CheckResult(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple['BrokenRule'], typing.List['BrokenRule']],
+                    _arg: typing.Union[typing.Tuple['BrokenRule'], typing.List['BrokenRule']],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'brokenRules':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -132,25 +132,25 @@ class CheckResult(
                     
                         def __new__(
                             cls,
-                            *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+                            *_args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
                             **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
                         ) -> 'items':
                             return super().__new__(
                                 cls,
-                                *args,
+                                *_args,
                                 _configuration=_configuration,
                                 **kwargs,
                             )
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ]], typing.List[typing.Union[MetaOapg.items, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ]]],
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ]], typing.List[typing.Union[MetaOapg.items, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'detections':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -171,12 +171,12 @@ class CheckResult(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple['Event'], typing.List['Event']],
+                    _arg: typing.Union[typing.Tuple['Event'], typing.List['Event']],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'events':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -197,12 +197,12 @@ class CheckResult(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple['ApiNotice'], typing.List['ApiNotice']],
+                    _arg: typing.Union[typing.Tuple['ApiNotice'], typing.List['ApiNotice']],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'notifications':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -270,7 +270,7 @@ class CheckResult(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         summary: typing.Union['Summary', schemas.Unset] = schemas.unset,
         encodings: typing.Union[MetaOapg.properties.encodings, list, tuple, schemas.Unset] = schemas.unset,
         brokenRules: typing.Union[MetaOapg.properties.brokenRules, list, tuple, schemas.Unset] = schemas.unset,
@@ -282,7 +282,7 @@ class CheckResult(
     ) -> 'CheckResult':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             summary=summary,
             encodings=encodings,
             brokenRules=brokenRules,

@@ -99,7 +99,7 @@ class Event(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         classification: typing.Union[MetaOapg.properties.classification, str, schemas.Unset] = schemas.unset,
         group: typing.Union[MetaOapg.properties.group, str, schemas.Unset] = schemas.unset,
         start: typing.Union[MetaOapg.properties.start, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
@@ -110,7 +110,7 @@ class Event(
     ) -> 'Event':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             classification=classification,
             group=group,
             start=start,
