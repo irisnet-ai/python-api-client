@@ -91,8 +91,8 @@ Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 404 | [ApiResponseFor404](#get_cost.ApiResponseFor404) | configId not found.
-200 | [ApiResponseFor200](#get_cost.ApiResponseFor200) | The cost of the given configuration.
 429 | [ApiResponseFor429](#get_cost.ApiResponseFor429) | The ai could not handle the request because it is either overloaded or currently down for maintenance. This is a temporary state. A &#x27;Retry-After&#x27; Header is included in the response to signal the client to retry after a certain amount of seconds.
+200 | [ApiResponseFor200](#get_cost.ApiResponseFor200) | The cost of the given configuration.
 
 #### get_cost.ApiResponseFor404
 Name | Type | Description  | Notes
@@ -102,6 +102,19 @@ body | typing.Union[SchemaFor404ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
 # SchemaFor404ResponseBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**ApiNotice**](../../models/ApiNotice.md) |  | 
+
+
+#### get_cost.ApiResponseFor429
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor429ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+# SchemaFor429ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiNotice**](../../models/ApiNotice.md) |  | 
@@ -118,19 +131,6 @@ headers | Unset | headers were not defined |
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**Pricing**](../../models/Pricing.md) |  | 
-
-
-#### get_cost.ApiResponseFor429
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor429ResponseBodyApplicationJson, ] |  |
-headers | Unset | headers were not defined |
-
-# SchemaFor429ResponseBodyApplicationJson
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**ApiNotice**](../../models/ApiNotice.md) |  | 
 
 
 ### Authorization
@@ -318,8 +318,8 @@ Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 404 | [ApiResponseFor404](#get_video_cost.ApiResponseFor404) | configId not found.
-200 | [ApiResponseFor200](#get_video_cost.ApiResponseFor200) | The cost of the given configuration
 429 | [ApiResponseFor429](#get_video_cost.ApiResponseFor429) | The ai could not handle the request because it is either overloaded or currently down for maintenance. This is a temporary state. A &#x27;Retry-After&#x27; Header is included in the response to signal the client to retry after a certain amount of seconds.
+200 | [ApiResponseFor200](#get_video_cost.ApiResponseFor200) | The cost of the given configuration
 
 #### get_video_cost.ApiResponseFor404
 Name | Type | Description  | Notes
@@ -329,6 +329,19 @@ body | typing.Union[SchemaFor404ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
 # SchemaFor404ResponseBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**ApiNotice**](../../models/ApiNotice.md) |  | 
+
+
+#### get_video_cost.ApiResponseFor429
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor429ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+# SchemaFor429ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiNotice**](../../models/ApiNotice.md) |  | 
@@ -345,19 +358,6 @@ headers | Unset | headers were not defined |
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**Pricing**](../../models/Pricing.md) |  | 
-
-
-#### get_video_cost.ApiResponseFor429
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor429ResponseBodyApplicationJson, ] |  |
-headers | Unset | headers were not defined |
-
-# SchemaFor429ResponseBodyApplicationJson
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**ApiNotice**](../../models/ApiNotice.md) |  | 
 
 
 ### Authorization
@@ -465,8 +465,8 @@ Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 404 | [ApiResponseFor404](#get_video_cost1.ApiResponseFor404) | configId not found.
-200 | [ApiResponseFor200](#get_video_cost1.ApiResponseFor200) | The cost of the given configuration.
 429 | [ApiResponseFor429](#get_video_cost1.ApiResponseFor429) | The ai could not handle the request because it is either overloaded or currently down for maintenance. This is a temporary state. A &#x27;Retry-After&#x27; Header is included in the response to signal the client to retry after a certain amount of seconds.
+200 | [ApiResponseFor200](#get_video_cost1.ApiResponseFor200) | The cost of the given configuration.
 
 #### get_video_cost1.ApiResponseFor404
 Name | Type | Description  | Notes
@@ -476,6 +476,19 @@ body | typing.Union[SchemaFor404ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
 # SchemaFor404ResponseBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**ApiNotice**](../../models/ApiNotice.md) |  | 
+
+
+#### get_video_cost1.ApiResponseFor429
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor429ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+# SchemaFor429ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiNotice**](../../models/ApiNotice.md) |  | 
@@ -492,19 +505,6 @@ headers | Unset | headers were not defined |
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**Pricing**](../../models/Pricing.md) |  | 
-
-
-#### get_video_cost1.ApiResponseFor429
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor429ResponseBodyApplicationJson, ] |  |
-headers | Unset | headers were not defined |
-
-# SchemaFor429ResponseBodyApplicationJson
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**ApiNotice**](../../models/ApiNotice.md) |  | 
 
 
 ### Authorization

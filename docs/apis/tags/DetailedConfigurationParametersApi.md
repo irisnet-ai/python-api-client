@@ -341,8 +341,8 @@ Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 404 | [ApiResponseFor404](#set_parameters.ApiResponseFor404) | configId not found.
-400 | [ApiResponseFor400](#set_parameters.ApiResponseFor400) | Bad request. Check for badly formatted request body.
 204 | [ApiResponseFor204](#set_parameters.ApiResponseFor204) | successful operation. No previously configured parameters exist.
+400 | [ApiResponseFor400](#set_parameters.ApiResponseFor400) | Bad request. Check for badly formatted request body.
 200 | [ApiResponseFor200](#set_parameters.ApiResponseFor200) | successful operation. Previous user configured parameters are returned.
 
 #### set_parameters.ApiResponseFor404
@@ -358,6 +358,13 @@ Type | Description  | Notes
 [**ApiNotice**](../../models/ApiNotice.md) |  | 
 
 
+#### set_parameters.ApiResponseFor204
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
 #### set_parameters.ApiResponseFor400
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -370,13 +377,6 @@ Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiNotice**](../../models/ApiNotice.md) |  | 
 
-
-#### set_parameters.ApiResponseFor204
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | Unset | body was not defined |
-headers | Unset | headers were not defined |
 
 #### set_parameters.ApiResponseFor200
 Name | Type | Description  | Notes

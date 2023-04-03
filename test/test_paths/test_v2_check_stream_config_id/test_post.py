@@ -32,7 +32,7 @@ class TestV2CheckStreamConfigId(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    response_status = 404
+    response_status = 402
 
 
 

@@ -80,6 +80,9 @@ class Param(
                         "glasses": "GLASSES",
                         "sunglasses": "SUNGLASSES",
                         "mask": "MASK",
+                        "slimSizedFace": "SLIM_SIZED_FACE",
+                        "realSizedFace": "REAL_SIZED_FACE",
+                        "plusSizedFace": "PLUS_SIZED_FACE",
                         "slimSized": "SLIM_SIZED",
                         "realSized": "REAL_SIZED",
                         "plusSized": "PLUS_SIZED",
@@ -228,6 +231,18 @@ class Param(
                 @schemas.classproperty
                 def MASK(cls):
                     return cls("mask")
+                
+                @schemas.classproperty
+                def SLIM_SIZED_FACE(cls):
+                    return cls("slimSizedFace")
+                
+                @schemas.classproperty
+                def REAL_SIZED_FACE(cls):
+                    return cls("realSizedFace")
+                
+                @schemas.classproperty
+                def PLUS_SIZED_FACE(cls):
+                    return cls("plusSizedFace")
                 
                 @schemas.classproperty
                 def SLIM_SIZED(cls):

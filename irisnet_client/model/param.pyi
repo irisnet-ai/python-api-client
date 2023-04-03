@@ -162,6 +162,18 @@ class Param(
                     return cls("mask")
                 
                 @schemas.classproperty
+                def SLIM_SIZED_FACE(cls):
+                    return cls("slimSizedFace")
+                
+                @schemas.classproperty
+                def REAL_SIZED_FACE(cls):
+                    return cls("realSizedFace")
+                
+                @schemas.classproperty
+                def PLUS_SIZED_FACE(cls):
+                    return cls("plusSizedFace")
+                
+                @schemas.classproperty
                 def SLIM_SIZED(cls):
                     return cls("slimSized")
                 
