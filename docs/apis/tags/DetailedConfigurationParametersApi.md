@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # irisnet_client.apis.tags.detailed_configuration_parameters_api.DetailedConfigurationParametersApi
 
 All URIs are relative to *https://api.irisnet.de*
@@ -10,7 +10,7 @@ Method | HTTP request | Description
 [**set_parameters**](#set_parameters) | **post** /v2/config/parameters/{configId} | Set parameters to the given AI configuration.
 
 # **clear_parameters**
-<a name="clear_parameters"></a>
+<a id="clear_parameters"></a>
 > clear_parameters(config_id)
 
 Delete the parameters of the AI configuration.
@@ -87,8 +87,15 @@ str, uuid.UUID,  | str,  |  | value must be a uuid
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-404 | [ApiResponseFor404](#clear_parameters.ApiResponseFor404) | configId not found.
 204 | [ApiResponseFor204](#clear_parameters.ApiResponseFor204) | successful operation.
+404 | [ApiResponseFor404](#clear_parameters.ApiResponseFor404) | configId not found.
+
+#### clear_parameters.ApiResponseFor204
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
 
 #### clear_parameters.ApiResponseFor404
 Name | Type | Description  | Notes
@@ -103,13 +110,6 @@ Type | Description  | Notes
 [**ApiNotice**](../../models/ApiNotice.md) |  | 
 
 
-#### clear_parameters.ApiResponseFor204
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | Unset | body was not defined |
-headers | Unset | headers were not defined |
-
 ### Authorization
 
 [LICENSE-KEY](../../../README.md#LICENSE-KEY)
@@ -117,7 +117,7 @@ headers | Unset | headers were not defined |
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **get_parameters**
-<a name="get_parameters"></a>
+<a id="get_parameters"></a>
 > ParamSet get_parameters(config_id)
 
 Get the parameters of the AI configuration.
@@ -196,21 +196,8 @@ str, uuid.UUID,  | str,  |  | value must be a uuid
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-404 | [ApiResponseFor404](#get_parameters.ApiResponseFor404) | configuration with given id not found or parameters for configuration not found.
 200 | [ApiResponseFor200](#get_parameters.ApiResponseFor200) | successful operation.
-
-#### get_parameters.ApiResponseFor404
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor404ResponseBodyApplicationJson, ] |  |
-headers | Unset | headers were not defined |
-
-# SchemaFor404ResponseBodyApplicationJson
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**ApiNotice**](../../models/ApiNotice.md) |  | 
-
+404 | [ApiResponseFor404](#get_parameters.ApiResponseFor404) | configuration with given id not found or parameters for configuration not found.
 
 #### get_parameters.ApiResponseFor200
 Name | Type | Description  | Notes
@@ -225,6 +212,19 @@ Type | Description  | Notes
 [**ParamSet**](../../models/ParamSet.md) |  | 
 
 
+#### get_parameters.ApiResponseFor404
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor404ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+# SchemaFor404ResponseBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**ApiNotice**](../../models/ApiNotice.md) |  | 
+
+
 ### Authorization
 
 [LICENSE-KEY](../../../README.md#LICENSE-KEY)
@@ -232,7 +232,7 @@ Type | Description  | Notes
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **set_parameters**
-<a name="set_parameters"></a>
+<a id="set_parameters"></a>
 > ParamSet set_parameters(config_idparam_set)
 
 Set parameters to the given AI configuration.
@@ -340,10 +340,23 @@ str, uuid.UUID,  | str,  |  | value must be a uuid
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+400 | [ApiResponseFor400](#set_parameters.ApiResponseFor400) | Bad request. Check for badly formatted request body.
 404 | [ApiResponseFor404](#set_parameters.ApiResponseFor404) | configId not found.
 204 | [ApiResponseFor204](#set_parameters.ApiResponseFor204) | successful operation. No previously configured parameters exist.
-400 | [ApiResponseFor400](#set_parameters.ApiResponseFor400) | Bad request. Check for badly formatted request body.
 200 | [ApiResponseFor200](#set_parameters.ApiResponseFor200) | successful operation. Previous user configured parameters are returned.
+
+#### set_parameters.ApiResponseFor400
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor400ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+# SchemaFor400ResponseBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**ApiNotice**](../../models/ApiNotice.md) |  | 
+
 
 #### set_parameters.ApiResponseFor404
 Name | Type | Description  | Notes
@@ -364,19 +377,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-#### set_parameters.ApiResponseFor400
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor400ResponseBodyApplicationJson, ] |  |
-headers | Unset | headers were not defined |
-
-# SchemaFor400ResponseBodyApplicationJson
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**ApiNotice**](../../models/ApiNotice.md) |  | 
-
 
 #### set_parameters.ApiResponseFor200
 Name | Type | Description  | Notes

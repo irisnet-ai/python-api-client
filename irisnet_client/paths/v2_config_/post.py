@@ -63,25 +63,6 @@ _response_for_400 = api_client.OpenApiResponse(
             schema=SchemaFor400ResponseBodyApplicationJson),
     },
 )
-SchemaFor200ResponseBodyApplicationJson = Config
-
-
-@dataclass
-class ApiResponseFor200(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        SchemaFor200ResponseBodyApplicationJson,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_200 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor200,
-    content={
-        'application/json': api_client.MediaType(
-            schema=SchemaFor200ResponseBodyApplicationJson),
-    },
-)
 SchemaFor403ResponseBodyApplicationJson = ApiNotice
 
 
@@ -101,10 +82,29 @@ _response_for_403 = api_client.OpenApiResponse(
             schema=SchemaFor403ResponseBodyApplicationJson),
     },
 )
+SchemaFor200ResponseBodyApplicationJson = Config
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor200ResponseBodyApplicationJson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationJson),
+    },
+)
 _status_code_to_response = {
     '400': _response_for_400,
-    '200': _response_for_200,
     '403': _response_for_403,
+    '200': _response_for_200,
 }
 _all_accept_content_types = (
     'application/json',

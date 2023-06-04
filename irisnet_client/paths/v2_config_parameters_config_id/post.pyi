@@ -65,6 +65,25 @@ request_body_param_set = api_client.RequestBody(
     },
     required=True,
 )
+SchemaFor400ResponseBodyApplicationJson = ApiNotice
+
+
+@dataclass
+class ApiResponseFor400(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor400ResponseBodyApplicationJson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_400 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor400,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor400ResponseBodyApplicationJson),
+    },
+)
 SchemaFor404ResponseBodyApplicationJson = ApiNotice
 
 
@@ -95,25 +114,6 @@ class ApiResponseFor204(api_client.ApiResponse):
 
 _response_for_204 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor204,
-)
-SchemaFor400ResponseBodyApplicationJson = ApiNotice
-
-
-@dataclass
-class ApiResponseFor400(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        SchemaFor400ResponseBodyApplicationJson,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_400 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor400,
-    content={
-        'application/json': api_client.MediaType(
-            schema=SchemaFor400ResponseBodyApplicationJson),
-    },
 )
 SchemaFor200ResponseBodyApplicationJson = ParamSet
 

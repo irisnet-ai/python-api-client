@@ -32,9 +32,8 @@ class TestV2ConfigParametersConfigId(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    response_status = 404
-
-
+    response_status = 204
+    response_body = ''
 
 
 if __name__ == '__main__':

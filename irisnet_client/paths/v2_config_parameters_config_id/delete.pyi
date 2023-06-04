@@ -53,6 +53,18 @@ request_path_config_id = api_client.PathParameter(
     schema=ConfigIdSchema,
     required=True,
 )
+
+
+@dataclass
+class ApiResponseFor204(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_204 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor204,
+)
 SchemaFor404ResponseBodyApplicationJson = ApiNotice
 
 
@@ -71,18 +83,6 @@ _response_for_404 = api_client.OpenApiResponse(
         'application/json': api_client.MediaType(
             schema=SchemaFor404ResponseBodyApplicationJson),
     },
-)
-
-
-@dataclass
-class ApiResponseFor204(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: schemas.Unset = schemas.unset
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_204 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor204,
 )
 _all_accept_content_types = (
     'application/json',

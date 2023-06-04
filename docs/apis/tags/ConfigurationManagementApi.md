@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # irisnet_client.apis.tags.configuration_management_api.ConfigurationManagementApi
 
 All URIs are relative to *https://api.irisnet.de*
@@ -11,7 +11,7 @@ Method | HTTP request | Description
 [**set_config**](#set_config) | **post** /v2/config/ | Create a new AI configuration.
 
 # **delete_config**
-<a name="delete_config"></a>
+<a id="delete_config"></a>
 > delete_config(config_id)
 
 Delete an AI configuration.
@@ -88,8 +88,15 @@ str, uuid.UUID,  | str,  |  | value must be a uuid
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-404 | [ApiResponseFor404](#delete_config.ApiResponseFor404) | configId not found.
 204 | [ApiResponseFor204](#delete_config.ApiResponseFor204) | successful operation.
+404 | [ApiResponseFor404](#delete_config.ApiResponseFor404) | configId not found.
+
+#### delete_config.ApiResponseFor204
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
 
 #### delete_config.ApiResponseFor404
 Name | Type | Description  | Notes
@@ -104,13 +111,6 @@ Type | Description  | Notes
 [**ApiNotice**](../../models/ApiNotice.md) |  | 
 
 
-#### delete_config.ApiResponseFor204
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | Unset | body was not defined |
-headers | Unset | headers were not defined |
-
 ### Authorization
 
 [LICENSE-KEY](../../../README.md#LICENSE-KEY)
@@ -118,7 +118,7 @@ headers | Unset | headers were not defined |
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **get_all_configs**
-<a name="get_all_configs"></a>
+<a id="get_all_configs"></a>
 > [Config] get_all_configs()
 
 List all saved AI configurations.
@@ -198,7 +198,7 @@ Class Name | Input Type | Accessed Type | Description | Notes
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **get_config**
-<a name="get_config"></a>
+<a id="get_config"></a>
 > Config get_config(config_id)
 
 Get a specific AI configuration.
@@ -313,7 +313,7 @@ Type | Description  | Notes
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **set_config**
-<a name="set_config"></a>
+<a id="set_config"></a>
 > Config set_config(config)
 
 Create a new AI configuration.
@@ -391,8 +391,8 @@ Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 400 | [ApiResponseFor400](#set_config.ApiResponseFor400) | Bad request. Check for badly formatted request body.
-200 | [ApiResponseFor200](#set_config.ApiResponseFor200) | successful operation.
 403 | [ApiResponseFor403](#set_config.ApiResponseFor403) | Maximum number of stored AI configurations reached.
+200 | [ApiResponseFor200](#set_config.ApiResponseFor200) | successful operation.
 
 #### set_config.ApiResponseFor400
 Name | Type | Description  | Notes
@@ -402,6 +402,19 @@ body | typing.Union[SchemaFor400ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
 # SchemaFor400ResponseBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**ApiNotice**](../../models/ApiNotice.md) |  | 
+
+
+#### set_config.ApiResponseFor403
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor403ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+# SchemaFor403ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiNotice**](../../models/ApiNotice.md) |  | 
@@ -418,19 +431,6 @@ headers | Unset | headers were not defined |
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**Config**](../../models/Config.md) |  | 
-
-
-#### set_config.ApiResponseFor403
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor403ResponseBodyApplicationJson, ] |  |
-headers | Unset | headers were not defined |
-
-# SchemaFor403ResponseBodyApplicationJson
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**ApiNotice**](../../models/ApiNotice.md) |  | 
 
 
 ### Authorization

@@ -140,6 +140,18 @@ request_body_callback = api_client.RequestBody(
 _auth = [
     'LICENSE-KEY',
 ]
+
+
+@dataclass
+class ApiResponseFor202(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_202 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor202,
+)
 SchemaFor402ResponseBodyApplicationJson = ApiNotice
 
 
@@ -178,22 +190,10 @@ _response_for_404 = api_client.OpenApiResponse(
             schema=SchemaFor404ResponseBodyApplicationJson),
     },
 )
-
-
-@dataclass
-class ApiResponseFor202(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: schemas.Unset = schemas.unset
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_202 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor202,
-)
 _status_code_to_response = {
+    '202': _response_for_202,
     '402': _response_for_402,
     '404': _response_for_404,
-    '202': _response_for_202,
 }
 _all_accept_content_types = (
     'application/json',

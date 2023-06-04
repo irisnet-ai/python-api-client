@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # irisnet_client.apis.tags.ai_check_operations_api.AICheckOperationsApi
 
 All URIs are relative to *https://api.irisnet.de*
@@ -10,7 +10,7 @@ Method | HTTP request | Description
 [**check_video**](#check_video) | **post** /v2/check-video/{configId} | Check a video with the AI.
 
 # **check_image**
-<a name="check_image"></a>
+<a id="check_image"></a>
 > CheckResult check_image(config_idurl)
 
 Check an image with the AI.
@@ -194,7 +194,7 @@ Type | Description  | Notes
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **check_stream**
-<a name="check_stream"></a>
+<a id="check_stream"></a>
 > [CheckResult] check_stream(config_idin_url)
 
 Check a stream with the AI.
@@ -393,7 +393,7 @@ Class Name | Input Type | Accessed Type | Description | Notes
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **check_video**
-<a name="check_video"></a>
+<a id="check_video"></a>
 > check_video(config_idurlcallback)
 
 Check a video with the AI.
@@ -558,9 +558,16 @@ str, uuid.UUID,  | str,  |  | value must be a uuid
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+202 | [ApiResponseFor202](#check_video.ApiResponseFor202) | operation accepted: wait for callback.
 402 | [ApiResponseFor402](#check_video.ApiResponseFor402) | Not enough credits.
 404 | [ApiResponseFor404](#check_video.ApiResponseFor404) | configId not found.
-202 | [ApiResponseFor202](#check_video.ApiResponseFor202) | operation accepted: wait for callback.
+
+#### check_video.ApiResponseFor202
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
 
 #### check_video.ApiResponseFor402
 Name | Type | Description  | Notes
@@ -587,13 +594,6 @@ Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiNotice**](../../models/ApiNotice.md) |  | 
 
-
-#### check_video.ApiResponseFor202
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | Unset | body was not defined |
-headers | Unset | headers were not defined |
 
 ### Authorization
 
