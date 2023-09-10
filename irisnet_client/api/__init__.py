@@ -1,3 +1,8 @@
-# do not import all apis into this module because that uses a lot of memory and stack frames
-# if you need the ability to import all apis from one package, import them with
-# from irisnet_client.apis import EndpointsForAIChecksApi
+# flake8: noqa
+
+# import apis into api package
+from irisnet_client.api.ai_check_operations_api import AICheckOperationsApi
+from irisnet_client.api.balance_endpoints_api import BalanceEndpointsApi
+from irisnet_client.api.configuration_management_api import ConfigurationManagementApi
+from irisnet_client.api.detailed_configuration_parameters_api import DetailedConfigurationParametersApi
+
