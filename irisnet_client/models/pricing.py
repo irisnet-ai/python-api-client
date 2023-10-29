@@ -24,7 +24,7 @@ from pydantic import BaseModel, StrictInt
 
 class Pricing(BaseModel):
     """
-    Contains information about the credit cost of a check operation.
+    Contains information about the credit cost of a check operation.  # noqa: E501
     """
     cost: Optional[StrictInt] = None
     __properties = ["cost"]

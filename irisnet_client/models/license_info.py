@@ -24,7 +24,7 @@ from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 class LicenseInfo(BaseModel):
     """
-    Describes the current balance of the given license key. A key has a certain amount of credits that can be used for any kind of AI recognition. The license key is invalid, when all of the credits have been used, the license was disabled or expired.
+    Describes the current balance of the given license key. A key has a certain amount of credits that can be used for any kind of AI recognition. The license key is invalid, when all of the credits have been used, the license was disabled or expired.  # noqa: E501
     """
     credits_used: Optional[StrictInt] = Field(None, alias="creditsUsed", description="Credits used for the license key.")
     credits_remaining: Optional[StrictInt] = Field(None, alias="creditsRemaining", description="Credits remaining for the license key.")

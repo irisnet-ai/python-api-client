@@ -24,7 +24,7 @@ from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
 
 class BrokenRule(BaseModel):
     """
-    Describes what and why a rule was broken according the the applied during the configuration.
+    Describes what and why a rule was broken according the the applied during the configuration.  # noqa: E501
     """
     classification: Optional[StrictStr] = Field(None, description="The classification of the recognized object.")
     group: Optional[StrictStr] = Field(None, description="The group of the classification.")

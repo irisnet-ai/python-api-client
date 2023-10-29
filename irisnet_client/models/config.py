@@ -24,7 +24,7 @@ from pydantic import BaseModel, Field, StrictStr, conlist, validator
 
 class Config(BaseModel):
     """
-    Can be used to set a multitude of pre-defined commonly used rules without the need of specifying each parameter set.
+    Can be used to set a multitude of pre-defined commonly used rules without the need of specifying each parameter set.  # noqa: E501
     """
     id: Optional[StrictStr] = Field(None, description="The unique identifier for the AI configuration. Use this for any check operation to tell the AI how to behave.")
     prototypes: Optional[conlist(StrictStr, unique_items=True)] = Field(None, description="Configures your detection. As there are literally hundreds of parameters, prototypes can be used to get useful behaviour. This includes a default setting for parameters and rules that should be applied to the check operations. You can use multiple prototypes for a single check operation.")
@@ -37,8 +37,8 @@ class Config(BaseModel):
             return value
 
         for i in value:
-            if i not in ('nudityCheck', 'ageVerification', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck'):
-                raise ValueError("each list item must be one of ('nudityCheck', 'ageVerification', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck')")
+            if i not in ('nudityCheck', 'ageVerification', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck', 'selfieCheck'):
+                raise ValueError("each list item must be one of ('nudityCheck', 'ageVerification', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck', 'selfieCheck')")
         return value
 
     class Config:

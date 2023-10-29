@@ -30,7 +30,7 @@ from irisnet_client.models.summary import Summary
 
 class CheckResult(BaseModel):
     """
-    The root object returned after a check operation.
+    The root object returned after a check operation.  # noqa: E501
     """
     summary: Optional[Summary] = None
     encodings: Optional[conlist(Encoded)] = None

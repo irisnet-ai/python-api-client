@@ -27,7 +27,7 @@ from irisnet_client.models.coordinates import Coordinates
 
 class FaceDetection(BaseDetection):
     """
-    Contains further characteristics particular to _face_ detection.
+    Contains further characteristics particular to _face_ detection.  # noqa: E501
     """
     attributes: Optional[conlist(BaseAttribute)] = Field(None, description="Attributes characterizing the _face_ detection. Mainly contains attributes that were activated with the _ageEstimation_ prototype.")
     sub_detections: Optional[conlist(BaseDetection)] = Field(None, alias="subDetections", description="A set of sub-detection that are particular to the _face_ detection. Mainly contains detections that were activated with the _attributesCheck_ prototype.")

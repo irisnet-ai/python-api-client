@@ -27,7 +27,7 @@ from irisnet_client.models.hair_attribute import HairAttribute
 
 class HairDetection(BaseDetection):
     """
-    Contains further characteristics particular to _hair_ detection.
+    Contains further characteristics particular to _hair_ detection.  # noqa: E501
     """
     attributes: Optional[conlist(HairAttribute)] = Field(None, description="Contains attributes for the _hair_ classification.")
     __properties = ["classification", "group", "id", "probability", "coordinates", "type", "attributes"]

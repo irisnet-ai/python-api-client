@@ -24,7 +24,7 @@ from pydantic import BaseModel, Field, StrictFloat, StrictInt
 
 class Rectangle(BaseModel):
     """
-    Describes the bounds of a rectangle starting from the center.
+    Describes the bounds of a rectangle starting from the center.  # noqa: E501
     """
     x0: Optional[Union[StrictFloat, StrictInt]] = Field(None, description="The center of the rectangle in the horizontal (x) direction.")
     y0: Optional[Union[StrictFloat, StrictInt]] = Field(None, description="The center of the rectangle in the vertical (y) direction.")

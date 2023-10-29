@@ -32,7 +32,7 @@ from irisnet_client import rest
 from irisnet_client.exceptions import ApiValueError, ApiException
 
 
-class ApiClient(object):
+class ApiClient:
     """Generic API client for OpenAPI client library builds.
 
     OpenAPI generic API client. This client handles the client-
@@ -64,7 +64,7 @@ class ApiClient(object):
     _pool = None
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
-                 cookie=None, pool_threads=1):
+                 cookie=None, pool_threads=1) -> None:
         # use default configuration if none is provided
         if configuration is None:
             configuration = Configuration.get_default()
@@ -77,7 +77,7 @@ class ApiClient(object):
             self.default_headers[header_name] = header_value
         self.cookie = cookie
         # Set default User-Agent.
-        self.user_agent = 'OpenAPI-Generator/3.3.0/python'
+        self.user_agent = 'OpenAPI-Generator/3.4.1/python'
         self.client_side_validation = configuration.client_side_validation
 
     def __enter__(self):
@@ -227,6 +227,9 @@ class ApiClient(object):
         # data needs deserialization or returns HTTP data (deserialized) only
         if _preload_content or _return_http_data_only:
           response_type = response_types_map.get(str(response_data.status), None)
+          if not response_type and isinstance(response_data.status, int) and 100 <= response_data.status <= 599:
+              # if not found, look for '1XX', '2XX', etc.
+              response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
 
           if response_type == "bytearray":
               response_data.data = response_data.data
@@ -327,7 +330,7 @@ class ApiClient(object):
         if data is None:
             return None
 
-        if type(klass) == str:
+        if isinstance(klass, str):
             if klass.startswith('List['):
                 sub_kls = re.match(r'List\[(.*)]', klass).group(1)
                 return [self.__deserialize(sub_data, sub_kls)

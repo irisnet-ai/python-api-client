@@ -278,7 +278,7 @@ configuration.api_key['LICENSE-KEY'] = os.environ["API_KEY"]
 with irisnet_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = irisnet_client.ConfigurationManagementApi(api_client)
-    config = {"prototypes":["nudityCheck","ageEstimation","illegalSymbols","attributesCheck","nippleCheck","textRecognition","bodyAttributes","unwantedSubstances","violenceCheck"]} # Config | Define the prototypes to use for an AI check operation. View the _Config_ schema to see the available prototypes.
+    config = {"prototypes":["nudityCheck","ageEstimation","illegalSymbols","attributesCheck","nippleCheck","textRecognition","bodyAttributes","unwantedSubstances","violenceCheck","selfieCheck"]} # Config | Define the prototypes to use for an AI check operation. View the _Config_ schema to see the available prototypes.
 
     try:
         # Create a new AI configuration.
@@ -313,9 +313,9 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+**403** | Maximum number of stored AI configurations reached. |  -  |
 **400** | Bad request. Check for badly formatted request body. |  -  |
 **200** | successful operation. |  -  |
-**403** | Maximum number of stored AI configurations reached. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -24,7 +24,7 @@ from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
 
 class Event(BaseModel):
     """
-    Describes an event that lead to a broken rule.
+    Describes an event that lead to a broken rule.  # noqa: E501
     """
     classification: Optional[StrictStr] = Field(None, description="The classification of the recognized object.")
     group: Optional[StrictStr] = Field(None, description="The group of the classification.")

@@ -27,7 +27,7 @@ from irisnet_client.models.coordinates import Coordinates
 
 class BreastDetection(BaseDetection):
     """
-    Contains further characteristics particular to _breast_ detection.
+    Contains further characteristics particular to _breast_ detection.  # noqa: E501
     """
     attributes: Optional[conlist(BaseAttribute)] = Field(None, description="Attributes characterizing the _breast_ detection. Mainly contains attributes that were activated with the _nippleCheck_ prototype.")
     __properties = ["classification", "group", "id", "probability", "coordinates", "type", "attributes"]

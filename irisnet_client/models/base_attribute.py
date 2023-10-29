@@ -24,7 +24,7 @@ from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 class BaseAttribute(BaseModel):
     """
-    An attribute describes a quality or characteristic that a detection object has.
+    An attribute describes a quality or characteristic that a detection object has.  # noqa: E501
     """
     classification: Optional[StrictStr] = Field(None, description="The classification of the recognized attribute.")
     probability: Optional[StrictInt] = Field(None, description="The probability that the attribute found matches the classification.")

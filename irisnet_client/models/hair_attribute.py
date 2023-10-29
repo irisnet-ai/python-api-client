@@ -24,7 +24,7 @@ from pydantic import BaseModel, Field, StrictStr, validator
 
 class HairAttribute(BaseModel):
     """
-    Attributes qualifying the _hair_ classification.
+    Attributes qualifying the _hair_ classification.  # noqa: E501
     """
     type: Optional[StrictStr] = Field(None, description="Used as a type discriminator for json to object conversion.")
     color: Optional[StrictStr] = Field(None, description="The color of the hair.")

@@ -25,7 +25,7 @@ from irisnet_client.models.coordinates import Coordinates
 
 class BaseDetection(BaseModel):
     """
-    A detection describes the object found with all its details.
+    A detection describes the object found with all its details.  # noqa: E501
     """
     classification: Optional[StrictStr] = Field(None, description="The classification of the recognized object.")
     group: Optional[StrictStr] = Field(None, description="The group of the classification.")

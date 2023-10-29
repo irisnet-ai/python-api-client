@@ -25,7 +25,7 @@ from irisnet_client.models.param import Param
 
 class ParamSet(BaseModel):
     """
-    A set of parameters/rules that describe how the AI should behave.
+    A set of parameters/rules that describe how the AI should behave.  # noqa: E501
     """
     thresh: Optional[Union[confloat(le=1.0, ge=0.0, strict=True), conint(le=1, ge=0, strict=True)]] = Field(0.5, description="Threshold when an object can be recognized. Lowering the value will increase the probability of recognizing objects. A threshold of 0.5 would mean, that 50% of an object like a face must be visible, to be detected.Setting the value too low however, can cause false positives.")
     grey: Optional[conint(strict=True, le=255, ge=0)] = Field(127, description="A grey scale color to use for frame or masking. '0' will represent black, while the maximum '255' will be white.")

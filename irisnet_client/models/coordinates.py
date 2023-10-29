@@ -25,7 +25,7 @@ from irisnet_client.models.rectangle import Rectangle
 
 class Coordinates(BaseModel):
     """
-    Describes the position and bounds of the classification object.
+    Describes the position and bounds of the classification object.  # noqa: E501
     """
     rectangles: Optional[conlist(Rectangle)] = None
     __properties = ["rectangles"]

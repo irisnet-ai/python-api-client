@@ -24,7 +24,7 @@ from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist
 
 class Summary(BaseModel):
     """
-    Summarizing the result of the AI.
+    Summarizing the result of the AI.  # noqa: E501
     """
     status: Optional[StrictStr] = Field(None, description="A simple status string that can be either _accept_ or _reject_.")
     broken_rules_count: Optional[StrictInt] = Field(None, alias="brokenRulesCount", description="The amount of broken rules that are contained in the source media.")

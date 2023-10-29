@@ -24,7 +24,7 @@ from pydantic import BaseModel, Field, StrictBytes, StrictStr
 
 class Encoded(BaseModel):
     """
-    Contains the resulting media as base64 encoded string or an URL to download that media.
+    Contains the resulting media as base64 encoded string or an URL to download that media.  # noqa: E501
     """
     name: Optional[StrictStr] = Field(None, description="<s>The original filename of the image or video.</s> Contains a randomly generated filename. <b>This property will be removed in future releases.</b>")
     data: Optional[Union[StrictBytes, StrictStr]] = Field(None, description="The encoded image in base64 format.")

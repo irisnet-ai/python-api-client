@@ -54,7 +54,7 @@ class CheckResultDetectionsInner(BaseModel):
     discriminator_value_class_map = {
     }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         if args:
             if len(args) > 1:
                 raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
