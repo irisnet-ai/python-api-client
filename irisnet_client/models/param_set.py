@@ -19,45 +19,63 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional, Union
-from pydantic import BaseModel, Field, confloat, conint, conlist
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel
+from pydantic import Field
+from typing_extensions import Annotated
 from irisnet_client.models.param import Param
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class ParamSet(BaseModel):
     """
-    A set of parameters/rules that describe how the AI should behave.  # noqa: E501
-    """
-    thresh: Optional[Union[confloat(le=1.0, ge=0.0, strict=True), conint(le=1, ge=0, strict=True)]] = Field(0.5, description="Threshold when an object can be recognized. Lowering the value will increase the probability of recognizing objects. A threshold of 0.5 would mean, that 50% of an object like a face must be visible, to be detected.Setting the value too low however, can cause false positives.")
-    grey: Optional[conint(strict=True, le=255, ge=0)] = Field(127, description="A grey scale color to use for frame or masking. '0' will represent black, while the maximum '255' will be white.")
-    min_duration: Optional[conint(strict=True, le=250, ge=50)] = Field(100, alias="minDuration", description="Set the overall minimum duration in milliseconds for a rule to be broken in moving images.")
-    abort_on_severity: Optional[conint(strict=True, ge=-1)] = Field(-1, alias="abortOnSeverity", description="Set a severity on which to automatically stop the check operation. Works with moving images.Use '-1' to ignore this option.")
-    params: Optional[conlist(Param)] = Field(None, description="A list of parameter sets that describe the rules of the objects.")
-    __properties = ["thresh", "grey", "minDuration", "abortOnSeverity", "params"]
+    A set of parameters/rules that describe how the AI should behave.
+    """ # noqa: E501
+    thresh: Optional[Union[Annotated[float, Field(le=1.0, strict=True, ge=0.0)], Annotated[int, Field(le=1, strict=True, ge=0)]]] = Field(default=0.5, description="Threshold when an object can be recognized. Lowering the value will increase the probability of recognizing objects. A threshold of 0.5 would mean, that 50% of an object like a face must be visible, to be detected.Setting the value too low however, can cause false positives.")
+    grey: Optional[Annotated[int, Field(le=255, strict=True, ge=0)]] = Field(default=127, description="A grey scale color to use for frame or masking. '0' will represent black, while the maximum '255' will be white.")
+    min_duration: Optional[Annotated[int, Field(le=250, strict=True, ge=50)]] = Field(default=100, description="Set the overall minimum duration in milliseconds for a rule to be broken in moving images.", alias="minDuration")
+    abort_on_severity: Optional[Annotated[int, Field(strict=True, ge=-1)]] = Field(default=-1, description="Set a severity on which to automatically stop the check operation. Works with moving images.Use '-1' to ignore this option.", alias="abortOnSeverity")
+    params: Optional[List[Param]] = Field(default=None, description="A list of parameter sets that describe the rules of the objects.")
+    __properties: ClassVar[List[str]] = ["thresh", "grey", "minDuration", "abortOnSeverity", "params"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ParamSet:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of ParamSet from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+            },
+            exclude_none=True,
+        )
         # override the default output from pydantic by calling `to_dict()` of each item in params (list)
         _items = []
         if self.params:
@@ -68,19 +86,19 @@ class ParamSet(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ParamSet:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of ParamSet from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ParamSet.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = ParamSet.parse_obj({
+        _obj = cls.model_validate({
             "thresh": obj.get("thresh") if obj.get("thresh") is not None else 0.5,
             "grey": obj.get("grey") if obj.get("grey") is not None else 127,
-            "min_duration": obj.get("minDuration") if obj.get("minDuration") is not None else 100,
-            "abort_on_severity": obj.get("abortOnSeverity") if obj.get("abortOnSeverity") is not None else -1,
+            "minDuration": obj.get("minDuration") if obj.get("minDuration") is not None else 100,
+            "abortOnSeverity": obj.get("abortOnSeverity") if obj.get("abortOnSeverity") is not None else -1,
             "params": [Param.from_dict(_item) for _item in obj.get("params")] if obj.get("params") is not None else None
         })
         return _obj

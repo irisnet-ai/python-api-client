@@ -13,14 +13,20 @@
 """  # noqa: E501
 
 
-import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_arguments, ValidationError
+from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
+from typing import Dict, List, Optional, Tuple, Union, Any
 
+try:
+    from typing import Annotated
+except ImportError:
+    from typing_extensions import Annotated
+
+from pydantic import Field
 from typing_extensions import Annotated
-from pydantic import Field, StrictBool, StrictStr, conint
+from pydantic import StrictBool, StrictStr
 
 from typing import List, Optional
 
@@ -29,10 +35,7 @@ from irisnet_client.models.config import Config
 
 from irisnet_client.api_client import ApiClient
 from irisnet_client.api_response import ApiResponse
-from irisnet_client.exceptions import (  # noqa: F401
-    ApiTypeError,
-    ApiValueError
-)
+from irisnet_client.rest import RESTResponseType
 
 
 class AICheckOperationsApi:
@@ -47,16 +50,31 @@ class AICheckOperationsApi:
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
-    @validate_arguments
-    def check_image(self, config_id : Annotated[StrictStr, Field(..., description="The configuration id from the Basic Configuration operations.")], url : Annotated[Optional[StrictStr], Field(description="<s>The url to the image that needs to be checked.</s> Deprecated: Use 'data' parameter instead. <b>This parameter will be removed in future releases.</b>")] = None, data : Annotated[Optional[StrictStr], Field(description="The http(s) url or base64 encoded data uri of the image that needs to be checked.")] = None, detail : Annotated[Optional[conint(strict=True, le=3, ge=0)], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object.")] = None, image_encode : Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.")] = None, **kwargs) -> CheckResult:  # noqa: E501
-        """Check an image with the AI.  # noqa: E501
 
-        The response (_CheckResult_ schema) is returned immediately after the request.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
+    @validate_call
+    def check_image(
+        self,
+        config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
+        url: Annotated[Optional[StrictStr], Field(description="<s>The url to the image that needs to be checked.</s> Deprecated: Use 'data' parameter instead. <b>This parameter will be removed in future releases.</b>")] = None,
+        data: Annotated[Optional[StrictStr], Field(description="The http(s) url or base64 encoded data uri of the image that needs to be checked.")] = None,
+        detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object.")] = None,
+        image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> CheckResult:
+        """Check an image with the AI.
 
-        >>> thread = api.check_image(config_id, url, data, detail, image_encode, async_req=True)
-        >>> result = thread.get()
+        The response (_CheckResult_ schema) is returned immediately after the request.
 
         :param config_id: The configuration id from the Basic Configuration operations. (required)
         :type config_id: str
@@ -68,33 +86,81 @@ class AICheckOperationsApi:
         :type detail: int
         :param image_encode: Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.
         :type image_encode: bool
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: CheckResult
-        """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the check_image_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
-        return self.check_image_with_http_info(config_id, url, data, detail, image_encode, **kwargs)  # noqa: E501
+        """ # noqa: E501
 
-    @validate_arguments
-    def check_image_with_http_info(self, config_id : Annotated[StrictStr, Field(..., description="The configuration id from the Basic Configuration operations.")], url : Annotated[Optional[StrictStr], Field(description="<s>The url to the image that needs to be checked.</s> Deprecated: Use 'data' parameter instead. <b>This parameter will be removed in future releases.</b>")] = None, data : Annotated[Optional[StrictStr], Field(description="The http(s) url or base64 encoded data uri of the image that needs to be checked.")] = None, detail : Annotated[Optional[conint(strict=True, le=3, ge=0)], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object.")] = None, image_encode : Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """Check an image with the AI.  # noqa: E501
+        _param = self._check_image_serialize(
+            config_id=config_id,
+            url=url,
+            data=data,
+            detail=detail,
+            image_encode=image_encode,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
 
-        The response (_CheckResult_ schema) is returned immediately after the request.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
+        _response_types_map: Dict[str, Optional[str]] = {
+            '402': "ApiNotice",
+            '404': "ApiNotice",
+            '200': "CheckResult"
+            
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        >>> thread = api.check_image_with_http_info(config_id, url, data, detail, image_encode, async_req=True)
-        >>> result = thread.get()
+
+    @validate_call
+    def check_image_with_http_info(
+        self,
+        config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
+        url: Annotated[Optional[StrictStr], Field(description="<s>The url to the image that needs to be checked.</s> Deprecated: Use 'data' parameter instead. <b>This parameter will be removed in future releases.</b>")] = None,
+        data: Annotated[Optional[StrictStr], Field(description="The http(s) url or base64 encoded data uri of the image that needs to be checked.")] = None,
+        detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object.")] = None,
+        image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[CheckResult]:
+        """Check an image with the AI.
+
+        The response (_CheckResult_ schema) is returned immediately after the request.
 
         :param config_id: The configuration id from the Basic Configuration operations. (required)
         :type config_id: str
@@ -106,131 +172,245 @@ class AICheckOperationsApi:
         :type detail: int
         :param image_encode: Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.
         :type image_encode: bool
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: tuple(CheckResult, status_code(int), headers(HTTPHeaderDict))
-        """
+        """ # noqa: E501
 
-        _params = locals()
+        _param = self._check_image_serialize(
+            config_id=config_id,
+            url=url,
+            data=data,
+            detail=detail,
+            image_encode=image_encode,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
 
-        _all_params = [
-            'config_id',
-            'url',
-            'data',
-            'detail',
-            'image_encode'
-        ]
-        _all_params.extend(
+        _response_types_map: Dict[str, Optional[str]] = {
+            '402': "ApiNotice",
+            '404': "ApiNotice",
+            '200': "CheckResult"
+            
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def check_image_without_preload_content(
+        self,
+        config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
+        url: Annotated[Optional[StrictStr], Field(description="<s>The url to the image that needs to be checked.</s> Deprecated: Use 'data' parameter instead. <b>This parameter will be removed in future releases.</b>")] = None,
+        data: Annotated[Optional[StrictStr], Field(description="The http(s) url or base64 encoded data uri of the image that needs to be checked.")] = None,
+        detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object.")] = None,
+        image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Check an image with the AI.
+
+        The response (_CheckResult_ schema) is returned immediately after the request.
+
+        :param config_id: The configuration id from the Basic Configuration operations. (required)
+        :type config_id: str
+        :param url: <s>The url to the image that needs to be checked.</s> Deprecated: Use 'data' parameter instead. <b>This parameter will be removed in future releases.</b>
+        :type url: str
+        :param data: The http(s) url or base64 encoded data uri of the image that needs to be checked.
+        :type data: str
+        :param detail: Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object.
+        :type detail: int
+        :param image_encode: Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.
+        :type image_encode: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._check_image_serialize(
+            config_id=config_id,
+            url=url,
+            data=data,
+            detail=detail,
+            image_encode=image_encode,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '402': "ApiNotice",
+            '404': "ApiNotice",
+            '200': "CheckResult"
+            
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _check_image_serialize(
+        self,
+        config_id,
+        url,
+        data,
+        detail,
+        image_encode,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if config_id is not None:
+            _path_params['configId'] = config_id
+        # process the query parameters
+        if url is not None:
+            
+            _query_params.append(('url', url))
+            
+        if data is not None:
+            
+            _query_params.append(('data', data))
+            
+        if detail is not None:
+            
+            _query_params.append(('detail', detail))
+            
+        if image_encode is not None:
+            
+            _query_params.append(('imageEncode', image_encode))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
+                'application/json'
             ]
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method check_image" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
-
-        _collection_formats = {}
-
-        # process the path parameters
-        _path_params = {}
-        if _params['config_id']:
-            _path_params['configId'] = _params['config_id']
-
-
-        # process the query parameters
-        _query_params = []
-        if _params.get('url') is not None:  # noqa: E501
-            _query_params.append(('url', _params['url']))
-
-        if _params.get('data') is not None:  # noqa: E501
-            _query_params.append(('data', _params['data']))
-
-        if _params.get('detail') is not None:  # noqa: E501
-            _query_params.append(('detail', _params['detail']))
-
-        if _params.get('image_encode') is not None:  # noqa: E501
-            _query_params.append(('imageEncode', _params['image_encode']))
-
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
-        _form_params = []
-        _files = {}
-        # process the body parameter
-        _body_params = None
-        # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = ['LICENSE-KEY']  # noqa: E501
+        _auth_settings: List[str] = [
+            'LICENSE-KEY'
+        ]
 
-        _response_types_map = {
-            '404': "ApiNotice",
-            '200': "CheckResult",
-            '402': "ApiNotice",
-        }
-
-        return self.api_client.call_api(
-            '/v2/check-image/{configId}', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v2/check-image/{configId}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            _host=_host,
+            _request_auth=_request_auth
+        )
 
-    @validate_arguments
-    def check_stream(self, config_id : Annotated[StrictStr, Field(..., description="The configuration id from the Basic Configuration operations.")], in_url : Annotated[StrictStr, Field(..., description="The URL of the video stream that the AI should check.")], out_url : Annotated[Optional[StrictStr], Field(description="The URL of where the AI should send the encoded stream.")] = None, cycle_length : Annotated[Optional[conint(strict=True, ge=100)], Field(description="Determine how often (value in milliseconds) the the AI should give a feedback.")] = None, check_rate : Annotated[Optional[conint(strict=True, ge=0)], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None, **kwargs) -> List[CheckResult]:  # noqa: E501
-        """Check a stream with the AI.  # noqa: E501
 
-        The body is continuously send per JSON stream until completion of the video stream. Only then the full _CheckResult_ schema will be shown (past _Events_ omitted).  <b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>  <b>WARNING: Please do not use the 'Try it out' for this operation. The browser is not able to refresh the response preview until the completion of the video stream.<b>  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.check_stream(config_id, in_url, out_url, cycle_length, check_rate, async_req=True)
-        >>> result = thread.get()
+
+    @validate_call
+    def check_stream(
+        self,
+        config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
+        in_url: Annotated[StrictStr, Field(description="The URL of the video stream that the AI should check.")],
+        out_url: Annotated[Optional[StrictStr], Field(description="The URL of where the AI should send the encoded stream.")] = None,
+        cycle_length: Annotated[Optional[Annotated[int, Field(strict=True, ge=100)]], Field(description="Determine how often (value in milliseconds) the the AI should give a feedback.")] = None,
+        check_rate: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[CheckResult]:
+        """Check a stream with the AI.
+
+        The body is continuously send per JSON stream until completion of the video stream. Only then the full _CheckResult_ schema will be shown (past _Events_ omitted).  <b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>  <b>WARNING: Please do not use the 'Try it out' for this operation. The browser is not able to refresh the response preview until the completion of the video stream.<b>
 
         :param config_id: The configuration id from the Basic Configuration operations. (required)
         :type config_id: str
@@ -242,33 +422,81 @@ class AICheckOperationsApi:
         :type cycle_length: int
         :param check_rate: The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.
         :type check_rate: int
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: List[CheckResult]
-        """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the check_stream_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
-        return self.check_stream_with_http_info(config_id, in_url, out_url, cycle_length, check_rate, **kwargs)  # noqa: E501
+        """ # noqa: E501
 
-    @validate_arguments
-    def check_stream_with_http_info(self, config_id : Annotated[StrictStr, Field(..., description="The configuration id from the Basic Configuration operations.")], in_url : Annotated[StrictStr, Field(..., description="The URL of the video stream that the AI should check.")], out_url : Annotated[Optional[StrictStr], Field(description="The URL of where the AI should send the encoded stream.")] = None, cycle_length : Annotated[Optional[conint(strict=True, ge=100)], Field(description="Determine how often (value in milliseconds) the the AI should give a feedback.")] = None, check_rate : Annotated[Optional[conint(strict=True, ge=0)], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """Check a stream with the AI.  # noqa: E501
+        _param = self._check_stream_serialize(
+            config_id=config_id,
+            in_url=in_url,
+            out_url=out_url,
+            cycle_length=cycle_length,
+            check_rate=check_rate,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
 
-        The body is continuously send per JSON stream until completion of the video stream. Only then the full _CheckResult_ schema will be shown (past _Events_ omitted).  <b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>  <b>WARNING: Please do not use the 'Try it out' for this operation. The browser is not able to refresh the response preview until the completion of the video stream.<b>  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
+        _response_types_map: Dict[str, Optional[str]] = {
+            '402': "ApiNotice",
+            '404': "ApiNotice",
+            '200': "List[CheckResult]"
+            
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        >>> thread = api.check_stream_with_http_info(config_id, in_url, out_url, cycle_length, check_rate, async_req=True)
-        >>> result = thread.get()
+
+    @validate_call
+    def check_stream_with_http_info(
+        self,
+        config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
+        in_url: Annotated[StrictStr, Field(description="The URL of the video stream that the AI should check.")],
+        out_url: Annotated[Optional[StrictStr], Field(description="The URL of where the AI should send the encoded stream.")] = None,
+        cycle_length: Annotated[Optional[Annotated[int, Field(strict=True, ge=100)]], Field(description="Determine how often (value in milliseconds) the the AI should give a feedback.")] = None,
+        check_rate: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[CheckResult]]:
+        """Check a stream with the AI.
+
+        The body is continuously send per JSON stream until completion of the video stream. Only then the full _CheckResult_ schema will be shown (past _Events_ omitted).  <b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>  <b>WARNING: Please do not use the 'Try it out' for this operation. The browser is not able to refresh the response preview until the completion of the video stream.<b>
 
         :param config_id: The configuration id from the Basic Configuration operations. (required)
         :type config_id: str
@@ -280,131 +508,246 @@ class AICheckOperationsApi:
         :type cycle_length: int
         :param check_rate: The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.
         :type check_rate: int
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: tuple(List[CheckResult], status_code(int), headers(HTTPHeaderDict))
-        """
+        """ # noqa: E501
 
-        _params = locals()
+        _param = self._check_stream_serialize(
+            config_id=config_id,
+            in_url=in_url,
+            out_url=out_url,
+            cycle_length=cycle_length,
+            check_rate=check_rate,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
 
-        _all_params = [
-            'config_id',
-            'in_url',
-            'out_url',
-            'cycle_length',
-            'check_rate'
-        ]
-        _all_params.extend(
+        _response_types_map: Dict[str, Optional[str]] = {
+            '402': "ApiNotice",
+            '404': "ApiNotice",
+            '200': "List[CheckResult]"
+            
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def check_stream_without_preload_content(
+        self,
+        config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
+        in_url: Annotated[StrictStr, Field(description="The URL of the video stream that the AI should check.")],
+        out_url: Annotated[Optional[StrictStr], Field(description="The URL of where the AI should send the encoded stream.")] = None,
+        cycle_length: Annotated[Optional[Annotated[int, Field(strict=True, ge=100)]], Field(description="Determine how often (value in milliseconds) the the AI should give a feedback.")] = None,
+        check_rate: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Check a stream with the AI.
+
+        The body is continuously send per JSON stream until completion of the video stream. Only then the full _CheckResult_ schema will be shown (past _Events_ omitted).  <b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>  <b>WARNING: Please do not use the 'Try it out' for this operation. The browser is not able to refresh the response preview until the completion of the video stream.<b>
+
+        :param config_id: The configuration id from the Basic Configuration operations. (required)
+        :type config_id: str
+        :param in_url: The URL of the video stream that the AI should check. (required)
+        :type in_url: str
+        :param out_url: The URL of where the AI should send the encoded stream.
+        :type out_url: str
+        :param cycle_length: Determine how often (value in milliseconds) the the AI should give a feedback.
+        :type cycle_length: int
+        :param check_rate: The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.
+        :type check_rate: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._check_stream_serialize(
+            config_id=config_id,
+            in_url=in_url,
+            out_url=out_url,
+            cycle_length=cycle_length,
+            check_rate=check_rate,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '402': "ApiNotice",
+            '404': "ApiNotice",
+            '200': "List[CheckResult]"
+            
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _check_stream_serialize(
+        self,
+        config_id,
+        in_url,
+        out_url,
+        cycle_length,
+        check_rate,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if config_id is not None:
+            _path_params['configId'] = config_id
+        # process the query parameters
+        if in_url is not None:
+            
+            _query_params.append(('inUrl', in_url))
+            
+        if out_url is not None:
+            
+            _query_params.append(('outUrl', out_url))
+            
+        if cycle_length is not None:
+            
+            _query_params.append(('cycleLength', cycle_length))
+            
+        if check_rate is not None:
+            
+            _query_params.append(('checkRate', check_rate))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
+                'application/x-ndjson'
             ]
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method check_stream" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
-
-        _collection_formats = {}
-
-        # process the path parameters
-        _path_params = {}
-        if _params['config_id']:
-            _path_params['configId'] = _params['config_id']
-
-
-        # process the query parameters
-        _query_params = []
-        if _params.get('in_url') is not None:  # noqa: E501
-            _query_params.append(('inUrl', _params['in_url']))
-
-        if _params.get('out_url') is not None:  # noqa: E501
-            _query_params.append(('outUrl', _params['out_url']))
-
-        if _params.get('cycle_length') is not None:  # noqa: E501
-            _query_params.append(('cycleLength', _params['cycle_length']))
-
-        if _params.get('check_rate') is not None:  # noqa: E501
-            _query_params.append(('checkRate', _params['check_rate']))
-
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
-        _form_params = []
-        _files = {}
-        # process the body parameter
-        _body_params = None
-        # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/x-ndjson'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = ['LICENSE-KEY']  # noqa: E501
+        _auth_settings: List[str] = [
+            'LICENSE-KEY'
+        ]
 
-        _response_types_map = {
-            '404': "ApiNotice",
-            '200': "List[CheckResult]",
-            '402': "ApiNotice",
-        }
-
-        return self.api_client.call_api(
-            '/v2/check-stream/{configId}', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v2/check-stream/{configId}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            _host=_host,
+            _request_auth=_request_auth
+        )
 
-    @validate_arguments
-    def check_video(self, config_id : Annotated[StrictStr, Field(..., description="The configuration id from the Basic Configuration operations.")], url : Annotated[StrictStr, Field(..., description="The url to the video that needs to be checked.")], config : Config, detail : Annotated[Optional[conint(strict=True, le=3, ge=0)], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.")] = None, image_encode : Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.")] = None, check_rate : Annotated[Optional[conint(strict=True, ge=0)], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None, **kwargs) -> None:  # noqa: E501
-        """Check a video with the AI.  # noqa: E501
 
-        An empty response is returned immediately. The actual body (_CheckResult_ schema) is send to the _callbackUrl_ after the AI has finished processing.  <b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.check_video(config_id, url, config, detail, image_encode, check_rate, async_req=True)
-        >>> result = thread.get()
+
+    @validate_call
+    def check_video(
+        self,
+        config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
+        url: Annotated[StrictStr, Field(description="The url to the video that needs to be checked.")],
+        config: Config,
+        detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.")] = None,
+        image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.")] = None,
+        check_rate: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Check a video with the AI.
+
+        An empty response is returned immediately. The actual body (_CheckResult_ schema) is send to the _callbackUrl_ after the AI has finished processing.  <b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>
 
         :param config_id: The configuration id from the Basic Configuration operations. (required)
         :type config_id: str
@@ -418,33 +761,80 @@ class AICheckOperationsApi:
         :type image_encode: bool
         :param check_rate: The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.
         :type check_rate: int
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: None
-        """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the check_video_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
-        return self.check_video_with_http_info(config_id, url, config, detail, image_encode, check_rate, **kwargs)  # noqa: E501
+        """ # noqa: E501
 
-    @validate_arguments
-    def check_video_with_http_info(self, config_id : Annotated[StrictStr, Field(..., description="The configuration id from the Basic Configuration operations.")], url : Annotated[StrictStr, Field(..., description="The url to the video that needs to be checked.")], config : Config, detail : Annotated[Optional[conint(strict=True, le=3, ge=0)], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.")] = None, image_encode : Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.")] = None, check_rate : Annotated[Optional[conint(strict=True, ge=0)], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """Check a video with the AI.  # noqa: E501
+        _param = self._check_video_serialize(
+            config_id=config_id,
+            url=url,
+            config=config,
+            detail=detail,
+            image_encode=image_encode,
+            check_rate=check_rate,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
 
-        An empty response is returned immediately. The actual body (_CheckResult_ schema) is send to the _callbackUrl_ after the AI has finished processing.  <b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
-        >>> thread = api.check_video_with_http_info(config_id, url, config, detail, image_encode, check_rate, async_req=True)
-        >>> result = thread.get()
+
+    @validate_call
+    def check_video_with_http_info(
+        self,
+        config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
+        url: Annotated[StrictStr, Field(description="The url to the video that needs to be checked.")],
+        config: Config,
+        detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.")] = None,
+        image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.")] = None,
+        check_rate: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Check a video with the AI.
+
+        An empty response is returned immediately. The actual body (_CheckResult_ schema) is send to the _callbackUrl_ after the AI has finished processing.  <b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>
 
         :param config_id: The configuration id from the Basic Configuration operations. (required)
         :type config_id: str
@@ -458,124 +848,231 @@ class AICheckOperationsApi:
         :type image_encode: bool
         :param check_rate: The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.
         :type check_rate: int
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
         :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
         :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
         :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: None
-        """
+        """ # noqa: E501
 
-        _params = locals()
-
-        _all_params = [
-            'config_id',
-            'url',
-            'config',
-            'detail',
-            'image_encode',
-            'check_rate'
-        ]
-        _all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
+        _param = self._check_video_serialize(
+            config_id=config_id,
+            url=url,
+            config=config,
+            detail=detail,
+            image_encode=image_encode,
+            check_rate=check_rate,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
 
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method check_video" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
 
-        _collection_formats = {}
+
+    @validate_call
+    def check_video_without_preload_content(
+        self,
+        config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
+        url: Annotated[StrictStr, Field(description="The url to the video that needs to be checked.")],
+        config: Config,
+        detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.")] = None,
+        image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.")] = None,
+        check_rate: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Check a video with the AI.
+
+        An empty response is returned immediately. The actual body (_CheckResult_ schema) is send to the _callbackUrl_ after the AI has finished processing.  <b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>
+
+        :param config_id: The configuration id from the Basic Configuration operations. (required)
+        :type config_id: str
+        :param url: The url to the video that needs to be checked. (required)
+        :type url: str
+        :param config: (required)
+        :type config: Config
+        :param detail: Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.
+        :type detail: int
+        :param image_encode: Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.
+        :type image_encode: bool
+        :param check_rate: The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.
+        :type check_rate: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._check_video_serialize(
+            config_id=config_id,
+            url=url,
+            config=config,
+            detail=detail,
+            image_encode=image_encode,
+            check_rate=check_rate,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _check_video_serialize(
+        self,
+        config_id,
+        url,
+        config,
+        detail,
+        image_encode,
+        check_rate,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+            
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
 
         # process the path parameters
-        _path_params = {}
-        if _params['config_id']:
-            _path_params['configId'] = _params['config_id']
-
-
+        if config_id is not None:
+            _path_params['configId'] = config_id
         # process the query parameters
-        _query_params = []
-        if _params.get('url') is not None:  # noqa: E501
-            _query_params.append(('url', _params['url']))
-
-        if _params.get('detail') is not None:  # noqa: E501
-            _query_params.append(('detail', _params['detail']))
-
-        if _params.get('image_encode') is not None:  # noqa: E501
-            _query_params.append(('imageEncode', _params['image_encode']))
-
-        if _params.get('check_rate') is not None:  # noqa: E501
-            _query_params.append(('checkRate', _params['check_rate']))
-
+        if url is not None:
+            
+            _query_params.append(('url', url))
+            
+        if detail is not None:
+            
+            _query_params.append(('detail', detail))
+            
+        if image_encode is not None:
+            
+            _query_params.append(('imageEncode', image_encode))
+            
+        if check_rate is not None:
+            
+            _query_params.append(('checkRate', check_rate))
+            
         # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
-        _form_params = []
-        _files = {}
         # process the body parameter
-        _body_params = None
-        if _params['config'] is not None:
-            _body_params = _params['config']
+        if config is not None:
+            _body_params = config
+
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+            [
+                'application/json'
+            ]
+        )
 
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['application/json']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings = ['LICENSE-KEY']  # noqa: E501
+        _auth_settings: List[str] = [
+            'LICENSE-KEY'
+        ]
 
-        _response_types_map = {}
-
-        return self.api_client.call_api(
-            '/v2/check-video/{configId}', 'POST',
-            _path_params,
-            _query_params,
-            _header_params,
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v2/check-video/{configId}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
             body=_body_params,
             post_params=_form_params,
             files=_files,
-            response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
-            _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+

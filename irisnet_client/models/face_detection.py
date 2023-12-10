@@ -19,44 +19,61 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
-from pydantic import Field, conlist
+from typing import Any, ClassVar, Dict, List, Optional
+
+from pydantic import Field
 from irisnet_client.models.base_attribute import BaseAttribute
 from irisnet_client.models.base_detection import BaseDetection
 from irisnet_client.models.coordinates import Coordinates
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class FaceDetection(BaseDetection):
     """
-    Contains further characteristics particular to _face_ detection.  # noqa: E501
-    """
-    attributes: Optional[conlist(BaseAttribute)] = Field(None, description="Attributes characterizing the _face_ detection. Mainly contains attributes that were activated with the _ageEstimation_ prototype.")
-    sub_detections: Optional[conlist(BaseDetection)] = Field(None, alias="subDetections", description="A set of sub-detection that are particular to the _face_ detection. Mainly contains detections that were activated with the _attributesCheck_ prototype.")
-    __properties = ["classification", "group", "id", "probability", "coordinates", "type", "attributes", "subDetections"]
+    Contains further characteristics particular to _face_ detection.
+    """ # noqa: E501
+    attributes: Optional[List[BaseAttribute]] = Field(default=None, description="Attributes characterizing the _face_ detection. Mainly contains attributes that were activated with the _ageEstimation_ prototype.")
+    sub_detections: Optional[List[BaseDetection]] = Field(default=None, description="A set of sub-detection that are particular to the _face_ detection. Mainly contains detections that were activated with the _attributesCheck_ prototype.", alias="subDetections")
+    __properties: ClassVar[List[str]] = ["classification", "group", "id", "probability", "coordinates", "type", "attributes", "subDetections"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> FaceDetection:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of FaceDetection from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+            },
+            exclude_none=True,
+        )
         # override the default output from pydantic by calling `to_dict()` of coordinates
         if self.coordinates:
             _dict['coordinates'] = self.coordinates.to_dict()
@@ -77,15 +94,15 @@ class FaceDetection(BaseDetection):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> FaceDetection:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of FaceDetection from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return FaceDetection.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = FaceDetection.parse_obj({
+        _obj = cls.model_validate({
             "classification": obj.get("classification"),
             "group": obj.get("group"),
             "id": obj.get("id"),
@@ -93,7 +110,7 @@ class FaceDetection(BaseDetection):
             "coordinates": Coordinates.from_dict(obj.get("coordinates")) if obj.get("coordinates") is not None else None,
             "type": obj.get("type"),
             "attributes": [BaseAttribute.from_dict(_item) for _item in obj.get("attributes")] if obj.get("attributes") is not None else None,
-            "sub_detections": [BaseDetection.from_dict(_item) for _item in obj.get("subDetections")] if obj.get("subDetections") is not None else None
+            "subDetections": [BaseDetection.from_dict(_item) for _item in obj.get("subDetections")] if obj.get("subDetections") is not None else None
         })
         return _obj
 

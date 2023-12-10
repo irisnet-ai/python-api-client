@@ -19,39 +19,43 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import Field
 from irisnet_client.models.coordinates import Coordinates
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class BaseDetection(BaseModel):
     """
-    A detection describes the object found with all its details.  # noqa: E501
-    """
-    classification: Optional[StrictStr] = Field(None, description="The classification of the recognized object.")
-    group: Optional[StrictStr] = Field(None, description="The group of the classification.")
-    id: Optional[StrictInt] = Field(None, description="The id of the detection object.")
-    probability: Optional[StrictInt] = Field(None, description="The probability that the object found matches the classification.")
+    A detection describes the object found with all its details.
+    """ # noqa: E501
+    classification: Optional[StrictStr] = Field(default=None, description="The classification of the recognized object.")
+    group: Optional[StrictStr] = Field(default=None, description="The group of the classification.")
+    id: Optional[StrictInt] = Field(default=None, description="The id of the detection object.")
+    probability: Optional[StrictInt] = Field(default=None, description="The probability that the object found matches the classification.")
     coordinates: Optional[Coordinates] = None
-    type: Optional[StrictStr] = Field(None, description="Used as a type discriminator for json to object conversion.")
-    __properties = ["classification", "group", "id", "probability", "coordinates", "type"]
+    type: Optional[StrictStr] = Field(default=None, description="Used as a type discriminator for json to object conversion.")
+    __properties: ClassVar[List[str]] = ["classification", "group", "id", "probability", "coordinates", "type"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     # JSON field name that stores the object type
-    __discriminator_property_name = 'type'
+    __discriminator_property_name: ClassVar[List[str]] = 'type'
 
     # discriminator mappings
-    __discriminator_value_class_map = {
-        'BreastDetection': 'BreastDetection',
-        'FaceDetection': 'FaceDetection',
-        'HairDetection': 'HairDetection'
+    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
+        'BreastDetection': 'BreastDetection','FaceDetection': 'FaceDetection','HairDetection': 'HairDetection'
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: dict) -> str:
+    def get_discriminator_value(cls, obj: Dict) -> str:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -61,30 +65,41 @@ class BaseDetection(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Union(BreastDetection, FaceDetection, HairDetection):
+    def from_json(cls, json_str: str) -> Union[Self, Self, Self]:
         """Create an instance of BaseDetection from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+            },
+            exclude_none=True,
+        )
         # override the default output from pydantic by calling `to_dict()` of coordinates
         if self.coordinates:
             _dict['coordinates'] = self.coordinates.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Union(BreastDetection, FaceDetection, HairDetection):
+    def from_dict(cls, obj: Dict) -> Union[Self, Self, Self]:
         """Create an instance of BaseDetection from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
@@ -99,5 +114,6 @@ class BaseDetection(BaseModel):
 from irisnet_client.models.breast_detection import BreastDetection
 from irisnet_client.models.face_detection import FaceDetection
 from irisnet_client.models.hair_detection import HairDetection
-BaseDetection.update_forward_refs()
+# TODO: Rewrite to not use raise_errors
+BaseDetection.model_rebuild(raise_errors=False)
 

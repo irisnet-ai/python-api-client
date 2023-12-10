@@ -19,71 +19,89 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictStr, confloat, conint, validator
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, StrictBool, StrictStr, field_validator
+from pydantic import Field
+from typing_extensions import Annotated
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Param(BaseModel):
     """
-    A single parameter set for one classification, for example face, describing the behaviour of the AI. Each classification has default parameters that are set if these are empty.  # noqa: E501
-    """
-    classification: StrictStr = Field(..., description="The classification of the object, that the element refers to. The following is a tree representation of the prototypes and their containing classifications. Default parameter values are defined per classification object. The default values of 'min', 'max' and 'drawMode' are witten after the name of the classification object in that order. Use the prototype names to set parameters to all of the containing classifications. ##### nudityCheck > _A prototype containing classifications for basic human attributes and sexual contents. This prototype and the containing classifications are activated by default_ * _face_ _(1, 3, 0)_ * _hand_ _(0, -1, 0)_ * _foot_ _(0, -1, 0)_ * _footwear_ _(0, -1, 0)_ * _chest_ _(0, -1, 0)_ * _breast_ _(0, 0, 2)_ * _vulva_ _(0, 0, 2)_ * _penis_ _(0, 0, 2)_ * _vagina_ _(0, 0, 2)_ * _buttocks_ _(0, 0, 2)_ * _anus_ _(0, 0, 2)_ * _toy_ _(0, -1, 0)_ * _oral_ _(0, 0, 2)_ * _penetration_ _(0, 0, 2)_ * _bondage_ _(0, -1, 0)_ * _gag_ _(0, -1, 0)_ ##### ageEstimation > _Contains classification objects for estimating the age of a human face. This prototype activates nudityCheck_ * _child (*)_ _(0, 0, 6)_ * _adult (*)_ _(0, -1, 0)_ * _senior (*)_ _(0, -1, 0)_ * _pose_ _(0, 0, 0)_ - The age can not be estimated, due to a pose that hides facial features. ##### attributesCheck > _Contains classification objects for various attributes of the human face. This prototype activates nudityCheck_ * _female (*)_ _(0, -1, 0)_ * _male (*)_ _(0, -1, 0)_ * _hair_ _(0, -1, 0)_ * _hairless_ _(0, -1, 0)_ * _beard_ _(0, -1, 0)_ * _moustache_ _(0, -1, 0)_ * _headpiece_ _(0, -1, 0)_ * _glasses_ _(0, -1, 0)_ * _sunglasses_ _(0, -1, 0)_ * _mask_ _(0, -1, 0)_ * _slimSizedFace (*)_ _(0, -1, 0)_ * _realSizedFace (*)_ _(0, -1, 0)_ * _plusSizedFace (*)_ _(0, -1, 0)_ ##### nippleCheck > _Contains classifications for determining if the object recognized as breast has a nipple. This prototype activates nudityCheck_ * _noNipple_ _(0, -1, 0)_ * _hasNipple_ _(0, 0, 0)_ ##### bodyAttributes > _Contains classification objects for determining the body size._ * _slimSized_ _(0, -1, 0)_ * _realSized_ _(0, -1, 0)_ * _plusSized_ _(0, -1, 0)_ ##### illegalSymbols > _Contains various classification objects of symbols that are prohibited in Germany (e.g. Hakenkreuz, SS, etc). These are grouped under a single name_ * _illegalSymbols_ _(0, 0, 1)_ ##### unwantedSubstances > _Contains classification objects for different substances._ * _beer_ _(0, -1, 0)_ * _beerBottle_ _(0, -1, 0)_ * _beerCan_ _(0, -1, 0)_ * _wine_ _(0, -1, 0)_ * _wineBottle_ _(0, -1, 0)_ * _cocktail_ _(0, -1, 0)_ * _alcohol_ _(0, -1, 0)_ * _cannabis_ _(0, 0, 0)_ * _cigarette_ _(0, 0, 0)_ * _cocaine_ _(0, 0, 0)_ * _heroine_ _(0, 0, 0)_ * _coffee_ _(0, -1, 0)_ ##### violenceCheck > _Contains classification objects for violent items or acts._ * _camouflage_ _(0, -1, 0)_ * _club_ _(0, -1, 0)_ * _knife_ _(0, 0, 0)_ * _sword_ _(0, 0, 0)_ * _pistol_ _(0, 0, 0)_ * _rifle_ _(0, 0, 0)_ * _cannon_ _(0, 0, 0)_ * _fire_ _(0, -1, 0)_ ##### selfieCheck > _Classification objects representing various pre-defined poses for the selfie task._ * _hand2mouth_ _(0, 1, 0)_ * _point2nose_ _(0, 1, 0)_ * _relaxed_ _(0, 1, 0)_ * _point2chin_ _(0, 1, 0)_ * _hand2cheek_ _(0, 1, 0)_ * _excellent_ _(0, 1, 0)_ * _nice_ _(0, 1, 0)_ * _thinking_ _(0, 1, 0)_ * _thumbUp_ _(0, 1, 0)_ * _victory_ _(0, 1, 0)_ * _lookout_ _(0, 1, 0)_ * _fingerUp_ _(0, 1, 0)_ * _middleFinger_ _(0, 0, 0)_ ##### textRecognition > _Contains letters, numbers and some symbols (e.g. @, #, etc) as classification objects. These are grouped under a single name_ * _textRecognition_ _(0, 6, 6)_  _Classification objects that are marked with (*) are sub-classifications of face. Both face and the marked classification are affected by the given parameter values._  _Please be aware that the default values can be subject to change. This is due to the difficulty of recognizing certain objects e.g. objects that are classified as toy._")
-    min: Optional[conint(strict=True, ge=-1)] = Field(None, description="The minimum amount of objects allowed on the image. Setting the value to -1 will cause the AI to ignore this rule. For moving images this value is applied to a single frame.")
-    max: Optional[conint(strict=True, ge=-1)] = Field(None, description="The maximum amount of objects allowed on the image. Setting the value to -1 will cause the AI to ignore this rule. For moving images this value is applied to a single frame.")
-    severity: Optional[conint(strict=True, le=999, ge=0)] = Field(100, description="Set a value to define the severity of a broken rule of the given classification object.")
-    draw_mode: Optional[conint(strict=True, le=7, ge=0)] = Field(None, alias="drawMode", description="Set if and how a classification object should be drawn over.  * _0_ - will draw nothing, * _1_ - will draw a frame with class name surrounding the object, * _2_ - will draw a filled rectangle that will mask the object, * _3_ - is a combination between _1_ and _2_ (frame/name + mask), * _6_ - will blur the object and * _7_ - is a combination between _1_ and _6_ (frame/name + blur).")
-    grey: Optional[conint(strict=True, le=255, ge=0)] = Field(127, description="A grey scale color used in combination of _drawMode_ '2' or '3'. '0' will represent black, while the maximum '255' will be white.")
-    scale: Optional[Union[confloat(le=4.0, ge=0.5, strict=True), conint(le=4, ge=1, strict=True)]] = Field(1.0, description="Scale of the bounds around the classification object. Specify a value to increase or decrease the size of the bounds. This is applied to the resulting media as well as the JSON coordinates.")
-    ignore: Optional[StrictBool] = Field(False, description="A shorthand to ignore the classification object. This is equal to setting _min=0_, _max=-1_ and _drawMode=0_.")
-    __properties = ["classification", "min", "max", "severity", "drawMode", "grey", "scale", "ignore"]
+    A single parameter set for one classification, for example face, describing the behaviour of the AI. Each classification has default parameters that are set if these are empty.
+    """ # noqa: E501
+    classification: StrictStr = Field(description="The classification of the object, that the element refers to. The following is a tree representation of the prototypes and their containing classifications. Default parameter values are defined per classification object. The default values of 'min', 'max' and 'drawMode' are witten after the name of the classification object in that order. Use the prototype names to set parameters to all of the containing classifications. ##### nudityCheck > _A prototype containing classifications for basic human attributes and sexual contents. This prototype and the containing classifications are activated by default_ * _face_ _(1, 3, 0)_ * _hand_ _(0, -1, 0)_ * _foot_ _(0, -1, 0)_ * _footwear_ _(0, -1, 0)_ * _chest_ _(0, -1, 0)_ * _breast_ _(0, 0, 2)_ * _vulva_ _(0, 0, 2)_ * _penis_ _(0, 0, 2)_ * _vagina_ _(0, 0, 2)_ * _buttocks_ _(0, 0, 2)_ * _anus_ _(0, 0, 2)_ * _toy_ _(0, -1, 0)_ * _oral_ _(0, 0, 2)_ * _penetration_ _(0, 0, 2)_ * _bondage_ _(0, -1, 0)_ * _gag_ _(0, -1, 0)_ ##### ageEstimation > _Contains classification objects for estimating the age of a human face. This prototype activates nudityCheck_ * _child (*)_ _(0, 0, 6)_ * _adult (*)_ _(0, -1, 0)_ * _senior (*)_ _(0, -1, 0)_ * _pose_ _(0, 0, 0)_ - The age can not be estimated, due to a pose that hides facial features. ##### attributesCheck > _Contains classification objects for various attributes of the human face. This prototype activates nudityCheck_ * _female (*)_ _(0, -1, 0)_ * _male (*)_ _(0, -1, 0)_ * _hair_ _(0, -1, 0)_ * _hairless_ _(0, -1, 0)_ * _beard_ _(0, -1, 0)_ * _moustache_ _(0, -1, 0)_ * _headpiece_ _(0, -1, 0)_ * _glasses_ _(0, -1, 0)_ * _sunglasses_ _(0, -1, 0)_ * _mask_ _(0, -1, 0)_ * _slimSizedFace (*)_ _(0, -1, 0)_ * _realSizedFace (*)_ _(0, -1, 0)_ * _plusSizedFace (*)_ _(0, -1, 0)_ ##### nippleCheck > _Contains classifications for determining if the object recognized as breast has a nipple. This prototype activates nudityCheck_ * _noNipple_ _(0, -1, 0)_ * _hasNipple_ _(0, 0, 0)_ ##### bodyAttributes > _Contains classification objects for determining the body size._ * _slimSized_ _(0, -1, 0)_ * _realSized_ _(0, -1, 0)_ * _plusSized_ _(0, -1, 0)_ ##### illegalSymbols > _Contains various classification objects of symbols that are prohibited in Germany (e.g. Hakenkreuz, SS, etc). These are grouped under a single name_ * _illegalSymbols_ _(0, 0, 1)_ ##### unwantedSubstances > _Contains classification objects for different substances._ * _beer_ _(0, -1, 0)_ * _beerBottle_ _(0, -1, 0)_ * _beerCan_ _(0, -1, 0)_ * _wine_ _(0, -1, 0)_ * _wineBottle_ _(0, -1, 0)_ * _cocktail_ _(0, -1, 0)_ * _alcohol_ _(0, -1, 0)_ * _cannabis_ _(0, 0, 0)_ * _cigarette_ _(0, 0, 0)_ * _cocaine_ _(0, 0, 0)_ * _heroine_ _(0, 0, 0)_ * _coffee_ _(0, -1, 0)_ ##### violenceCheck > _Contains classification objects for violent items or acts._ * _camouflage_ _(0, -1, 0)_ * _club_ _(0, -1, 0)_ * _knife_ _(0, 0, 0)_ * _sword_ _(0, 0, 0)_ * _pistol_ _(0, 0, 0)_ * _rifle_ _(0, 0, 0)_ * _cannon_ _(0, 0, 0)_ * _fire_ _(0, -1, 0)_ ##### selfieCheck > _Classification objects representing various pre-defined poses for the selfie task._ * _hand2mouth_ _(0, 1, 0)_ * _point2nose_ _(0, 1, 0)_ * _relaxed_ _(0, 1, 0)_ * _point2chin_ _(0, 1, 0)_ * _hand2cheek_ _(0, 1, 0)_ * _excellent_ _(0, 1, 0)_ * _nice_ _(0, 1, 0)_ * _thinking_ _(0, 1, 0)_ * _thumbUp_ _(0, 1, 0)_ * _victory_ _(0, 1, 0)_ * _lookout_ _(0, 1, 0)_ * _fingerUp_ _(0, 1, 0)_ * _middleFinger_ _(0, 0, 0)_ ##### textRecognition > _Contains letters, numbers and some symbols (e.g. @, #, etc) as classification objects. These are grouped under a single name_ * _textRecognition_ _(0, 6, 6)_  _Classification objects that are marked with (*) are sub-classifications of face. Both face and the marked classification are affected by the given parameter values._  _Please be aware that the default values can be subject to change. This is due to the difficulty of recognizing certain objects e.g. objects that are classified as toy._")
+    min: Optional[Annotated[int, Field(strict=True, ge=-1)]] = Field(default=None, description="The minimum amount of objects allowed on the image. Setting the value to -1 will cause the AI to ignore this rule. For moving images this value is applied to a single frame.")
+    max: Optional[Annotated[int, Field(strict=True, ge=-1)]] = Field(default=None, description="The maximum amount of objects allowed on the image. Setting the value to -1 will cause the AI to ignore this rule. For moving images this value is applied to a single frame.")
+    severity: Optional[Annotated[int, Field(le=999, strict=True, ge=0)]] = Field(default=100, description="Set a value to define the severity of a broken rule of the given classification object.")
+    draw_mode: Optional[Annotated[int, Field(le=7, strict=True, ge=0)]] = Field(default=None, description="Set if and how a classification object should be drawn over.  * _0_ - will draw nothing, * _1_ - will draw a frame with class name surrounding the object, * _2_ - will draw a filled rectangle that will mask the object, * _3_ - is a combination between _1_ and _2_ (frame/name + mask), * _6_ - will blur the object and * _7_ - is a combination between _1_ and _6_ (frame/name + blur).", alias="drawMode")
+    grey: Optional[Annotated[int, Field(le=255, strict=True, ge=0)]] = Field(default=127, description="A grey scale color used in combination of _drawMode_ '2' or '3'. '0' will represent black, while the maximum '255' will be white.")
+    scale: Optional[Union[Annotated[float, Field(le=4.0, strict=True, ge=0.5)], Annotated[int, Field(le=4, strict=True, ge=1)]]] = Field(default=1.0, description="Scale of the bounds around the classification object. Specify a value to increase or decrease the size of the bounds. This is applied to the resulting media as well as the JSON coordinates.")
+    ignore: Optional[StrictBool] = Field(default=False, description="A shorthand to ignore the classification object. This is equal to setting _min=0_, _max=-1_ and _drawMode=0_.")
+    __properties: ClassVar[List[str]] = ["classification", "min", "max", "severity", "drawMode", "grey", "scale", "ignore"]
 
-    @validator('classification')
+    @field_validator('classification')
     def classification_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('face', 'hand', 'foot', 'footwear', 'chest', 'breast', 'vulva', 'penis', 'vagina', 'buttocks', 'anus', 'oral', 'penetration', 'toy', 'bondage', 'gag', 'child', 'adult', 'senior', 'pose', 'female', 'male', 'hair', 'hairless', 'beard', 'moustache', 'headpiece', 'glasses', 'sunglasses', 'mask', 'slimSizedFace', 'realSizedFace', 'plusSizedFace', 'slimSized', 'realSized', 'plusSized', 'noNipple', 'hasNipple', 'beer', 'beerBottle', 'beerCan', 'wine', 'wineBottle', 'cocktail', 'alcohol', 'cannabis', 'cigarette', 'cocaine', 'heroine', 'coffee', 'camouflage', 'club', 'knife', 'sword', 'pistol', 'rifle', 'cannon', 'fire', 'hand2mouth', 'point2nose', 'relaxed', 'point2chin', 'hand2cheek', 'excellent', 'nice', 'thinking', 'thumbUp', 'victory', 'lookout', 'fingerUp', 'middleFinger', 'nudityCheck', 'ageVerification', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck', 'selfieCheck'):
             raise ValueError("must be one of enum values ('face', 'hand', 'foot', 'footwear', 'chest', 'breast', 'vulva', 'penis', 'vagina', 'buttocks', 'anus', 'oral', 'penetration', 'toy', 'bondage', 'gag', 'child', 'adult', 'senior', 'pose', 'female', 'male', 'hair', 'hairless', 'beard', 'moustache', 'headpiece', 'glasses', 'sunglasses', 'mask', 'slimSizedFace', 'realSizedFace', 'plusSizedFace', 'slimSized', 'realSized', 'plusSized', 'noNipple', 'hasNipple', 'beer', 'beerBottle', 'beerCan', 'wine', 'wineBottle', 'cocktail', 'alcohol', 'cannabis', 'cigarette', 'cocaine', 'heroine', 'coffee', 'camouflage', 'club', 'knife', 'sword', 'pistol', 'rifle', 'cannon', 'fire', 'hand2mouth', 'point2nose', 'relaxed', 'point2chin', 'hand2cheek', 'excellent', 'nice', 'thinking', 'thumbUp', 'victory', 'lookout', 'fingerUp', 'middleFinger', 'nudityCheck', 'ageVerification', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck', 'selfieCheck')")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Param:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Param from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+            },
+            exclude_none=True,
+        )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Param:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of Param from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Param.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = Param.parse_obj({
+        _obj = cls.model_validate({
             "classification": obj.get("classification"),
             "min": obj.get("min"),
             "max": obj.get("max"),
             "severity": obj.get("severity") if obj.get("severity") is not None else 100,
-            "draw_mode": obj.get("drawMode"),
+            "drawMode": obj.get("drawMode"),
             "grey": obj.get("grey") if obj.get("grey") is not None else 127,
             "scale": obj.get("scale") if obj.get("scale") is not None else 1.0,
             "ignore": obj.get("ignore") if obj.get("ignore") is not None else False

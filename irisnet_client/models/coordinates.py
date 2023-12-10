@@ -19,41 +19,57 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
-from pydantic import BaseModel, conlist
+from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel
 from irisnet_client.models.rectangle import Rectangle
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Coordinates(BaseModel):
     """
-    Describes the position and bounds of the classification object.  # noqa: E501
-    """
-    rectangles: Optional[conlist(Rectangle)] = None
-    __properties = ["rectangles"]
+    Describes the position and bounds of the classification object.
+    """ # noqa: E501
+    rectangles: Optional[List[Rectangle]] = None
+    __properties: ClassVar[List[str]] = ["rectangles"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Coordinates:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Coordinates from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+            },
+            exclude_none=True,
+        )
         # override the default output from pydantic by calling `to_dict()` of each item in rectangles (list)
         _items = []
         if self.rectangles:
@@ -64,15 +80,15 @@ class Coordinates(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Coordinates:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of Coordinates from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Coordinates.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = Coordinates.parse_obj({
+        _obj = cls.model_validate({
             "rectangles": [Rectangle.from_dict(_item) for _item in obj.get("rectangles")] if obj.get("rectangles") is not None else None
         })
         return _obj

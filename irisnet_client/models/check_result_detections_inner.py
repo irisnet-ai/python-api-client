@@ -20,13 +20,18 @@ import pprint
 import re  # noqa: F401
 
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
 from irisnet_client.models.base_detection import BaseDetection
 from irisnet_client.models.breast_detection import BreastDetection
 from irisnet_client.models.face_detection import FaceDetection
 from irisnet_client.models.hair_detection import HairDetection
-from typing import Union, Any, List, TYPE_CHECKING
+from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
+from typing_extensions import Literal
 from pydantic import StrictStr, Field
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 CHECKRESULTDETECTIONSINNER_ONE_OF_SCHEMAS = ["BaseDetection", "BreastDetection", "FaceDetection", "HairDetection"]
 
@@ -42,16 +47,15 @@ class CheckResultDetectionsInner(BaseModel):
     oneof_schema_3_validator: Optional[FaceDetection] = None
     # data type: HairDetection
     oneof_schema_4_validator: Optional[HairDetection] = None
-    if TYPE_CHECKING:
-        actual_instance: Union[BaseDetection, BreastDetection, FaceDetection, HairDetection]
-    else:
-        actual_instance: Any
-    one_of_schemas: List[str] = Field(CHECKRESULTDETECTIONSINNER_ONE_OF_SCHEMAS, const=True)
+    actual_instance: Optional[Union[BaseDetection, BreastDetection, FaceDetection, HairDetection]] = None
+    one_of_schemas: List[str] = Literal["BaseDetection", "BreastDetection", "FaceDetection", "HairDetection"]
 
-    class Config:
-        validate_assignment = True
+    model_config = {
+        "validate_assignment": True
+    }
 
-    discriminator_value_class_map = {
+
+    discriminator_value_class_map: Dict[str, str] = {
     }
 
     def __init__(self, *args, **kwargs) -> None:
@@ -64,9 +68,9 @@ class CheckResultDetectionsInner(BaseModel):
         else:
             super().__init__(**kwargs)
 
-    @validator('actual_instance')
+    @field_validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
-        instance = CheckResultDetectionsInner.construct()
+        instance = CheckResultDetectionsInner.model_construct()
         error_messages = []
         match = 0
         # validate data type: BaseDetection
@@ -99,13 +103,13 @@ class CheckResultDetectionsInner(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: dict) -> CheckResultDetectionsInner:
+    def from_dict(cls, obj: dict) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
-    def from_json(cls, json_str: str) -> CheckResultDetectionsInner:
+    def from_json(cls, json_str: str) -> Self:
         """Returns the object represented by the json string"""
-        instance = CheckResultDetectionsInner.construct()
+        instance = cls.model_construct()
         error_messages = []
         match = 0
 
@@ -154,7 +158,7 @@ class CheckResultDetectionsInner(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None
@@ -168,6 +172,6 @@ class CheckResultDetectionsInner(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.dict())
+        return pprint.pformat(self.model_dump())
 
 

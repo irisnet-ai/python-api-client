@@ -19,55 +19,72 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, StrictFloat, StrictInt
+from pydantic import Field
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Rectangle(BaseModel):
     """
-    Describes the bounds of a rectangle starting from the center.  # noqa: E501
-    """
-    x0: Optional[Union[StrictFloat, StrictInt]] = Field(None, description="The center of the rectangle in the horizontal (x) direction.")
-    y0: Optional[Union[StrictFloat, StrictInt]] = Field(None, description="The center of the rectangle in the vertical (y) direction.")
-    width: Optional[Union[StrictFloat, StrictInt]] = Field(None, description="The total width of the rectangle in the horizontal (x) direction. Use _x0 - width / 2_ and _x0 + width / 2_ to get the left and right edges of the rectangle.")
-    height: Optional[Union[StrictFloat, StrictInt]] = Field(None, description="The total height of the rectangle in the vertical (y) direction. Use _y0 - height / 2_ and _y0 + height / 2_ to get the top and bottom edges of the rectangle.")
-    __properties = ["x0", "y0", "width", "height"]
+    Describes the bounds of a rectangle starting from the center.
+    """ # noqa: E501
+    x0: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="The center of the rectangle in the horizontal (x) direction.")
+    y0: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="The center of the rectangle in the vertical (y) direction.")
+    width: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="The total width of the rectangle in the horizontal (x) direction. Use _x0 - width / 2_ and _x0 + width / 2_ to get the left and right edges of the rectangle.")
+    height: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="The total height of the rectangle in the vertical (y) direction. Use _y0 - height / 2_ and _y0 + height / 2_ to get the top and bottom edges of the rectangle.")
+    __properties: ClassVar[List[str]] = ["x0", "y0", "width", "height"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Rectangle:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Rectangle from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+            },
+            exclude_none=True,
+        )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Rectangle:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of Rectangle from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Rectangle.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = Rectangle.parse_obj({
+        _obj = cls.model_validate({
             "x0": obj.get("x0"),
             "y0": obj.get("y0"),
             "width": obj.get("width"),

@@ -15,7 +15,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.4.1"
+__version__ = "3.4.2"
 
 # import apis into sdk package
 from irisnet_client.api.ai_check_operations_api import AICheckOperationsApi

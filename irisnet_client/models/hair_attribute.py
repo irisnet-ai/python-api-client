@@ -19,19 +19,24 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, validator
+from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, StrictStr, field_validator
+from pydantic import Field
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class HairAttribute(BaseModel):
     """
-    Attributes qualifying the _hair_ classification.  # noqa: E501
-    """
-    type: Optional[StrictStr] = Field(None, description="Used as a type discriminator for json to object conversion.")
-    color: Optional[StrictStr] = Field(None, description="The color of the hair.")
-    style: Optional[StrictStr] = Field(None, description="The hair style.")
-    __properties = ["type", "color", "style"]
+    Attributes qualifying the _hair_ classification.
+    """ # noqa: E501
+    type: Optional[StrictStr] = Field(default=None, description="Used as a type discriminator for json to object conversion.")
+    color: Optional[StrictStr] = Field(default=None, description="The color of the hair.")
+    style: Optional[StrictStr] = Field(default=None, description="The hair style.")
+    __properties: ClassVar[List[str]] = ["type", "color", "style"]
 
-    @validator('color')
+    @field_validator('color')
     def color_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -41,7 +46,7 @@ class HairAttribute(BaseModel):
             raise ValueError("must be one of enum values ('black', 'brown', 'blonde', 'grey', 'red', 'other')")
         return value
 
-    @validator('style')
+    @field_validator('style')
     def style_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -51,42 +56,54 @@ class HairAttribute(BaseModel):
             raise ValueError("must be one of enum values ('longHaired', 'shortHaired')")
         return value
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> HairAttribute:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of HairAttribute from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+            },
+            exclude_none=True,
+        )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> HairAttribute:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of HairAttribute from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return HairAttribute.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = HairAttribute.parse_obj({
+        _obj = cls.model_validate({
             "type": obj.get("type"),
             "color": obj.get("color"),
             "style": obj.get("style")

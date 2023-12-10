@@ -19,67 +19,84 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist
+from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import Field
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Summary(BaseModel):
     """
-    Summarizing the result of the AI.  # noqa: E501
-    """
-    status: Optional[StrictStr] = Field(None, description="A simple status string that can be either _accept_ or _reject_.")
-    broken_rules_count: Optional[StrictInt] = Field(None, alias="brokenRulesCount", description="The amount of broken rules that are contained in the source media.")
-    help_suggested: Optional[StrictInt] = Field(None, alias="helpSuggested", description="In cases where the AI is uncertain, this attribute is set (1), indication that it could be useful to double check the source media by a human.")
-    severity: Optional[StrictInt] = Field(None, description="The highest severity value found amongst the broken rules.")
-    credits_consumed: Optional[StrictInt] = Field(None, alias="creditsConsumed", description="The amount of credits that was consumed for the check.")
-    tags: Optional[conlist(StrictStr, unique_items=True)] = Field(None, description="A list of classification names that were found.")
-    reject_tags: Optional[conlist(StrictStr, unique_items=True)] = Field(None, alias="rejectTags", description="A list of classification names that caused a rule to be broken.")
-    reject_reasons: Optional[conlist(StrictStr, unique_items=True)] = Field(None, alias="rejectReasons", description="The names of the classification groups that caused a rule to be broken.")
-    __properties = ["status", "brokenRulesCount", "helpSuggested", "severity", "creditsConsumed", "tags", "rejectTags", "rejectReasons"]
+    Summarizing the result of the AI.
+    """ # noqa: E501
+    status: Optional[StrictStr] = Field(default=None, description="A simple status string that can be either _accept_ or _reject_.")
+    broken_rules_count: Optional[StrictInt] = Field(default=None, description="The amount of broken rules that are contained in the source media.", alias="brokenRulesCount")
+    help_suggested: Optional[StrictInt] = Field(default=None, description="In cases where the AI is uncertain, this attribute is set (1), indication that it could be useful to double check the source media by a human.", alias="helpSuggested")
+    severity: Optional[StrictInt] = Field(default=None, description="The highest severity value found amongst the broken rules.")
+    credits_consumed: Optional[StrictInt] = Field(default=None, description="The amount of credits that was consumed for the check.", alias="creditsConsumed")
+    tags: Optional[List[StrictStr]] = Field(default=None, description="A list of classification names that were found.")
+    reject_tags: Optional[List[StrictStr]] = Field(default=None, description="A list of classification names that caused a rule to be broken.", alias="rejectTags")
+    reject_reasons: Optional[List[StrictStr]] = Field(default=None, description="The names of the classification groups that caused a rule to be broken.", alias="rejectReasons")
+    __properties: ClassVar[List[str]] = ["status", "brokenRulesCount", "helpSuggested", "severity", "creditsConsumed", "tags", "rejectTags", "rejectReasons"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Summary:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Summary from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+            },
+            exclude_none=True,
+        )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Summary:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of Summary from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Summary.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = Summary.parse_obj({
+        _obj = cls.model_validate({
             "status": obj.get("status"),
-            "broken_rules_count": obj.get("brokenRulesCount"),
-            "help_suggested": obj.get("helpSuggested"),
+            "brokenRulesCount": obj.get("brokenRulesCount"),
+            "helpSuggested": obj.get("helpSuggested"),
             "severity": obj.get("severity"),
-            "credits_consumed": obj.get("creditsConsumed"),
+            "creditsConsumed": obj.get("creditsConsumed"),
             "tags": obj.get("tags"),
-            "reject_tags": obj.get("rejectTags"),
-            "reject_reasons": obj.get("rejectReasons")
+            "rejectTags": obj.get("rejectTags"),
+            "rejectReasons": obj.get("rejectReasons")
         })
         return _obj
 

@@ -19,60 +19,77 @@ import re  # noqa: F401
 import json
 
 
-from typing import Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import Field
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class LicenseInfo(BaseModel):
     """
-    Describes the current balance of the given license key. A key has a certain amount of credits that can be used for any kind of AI recognition. The license key is invalid, when all of the credits have been used, the license was disabled or expired.  # noqa: E501
-    """
-    credits_used: Optional[StrictInt] = Field(None, alias="creditsUsed", description="Credits used for the license key.")
-    credits_remaining: Optional[StrictInt] = Field(None, alias="creditsRemaining", description="Credits remaining for the license key.")
-    total_credits: Optional[StrictInt] = Field(None, alias="totalCredits", description="Total credits contained within the license key.")
-    license_key: Optional[StrictStr] = Field(None, alias="licenseKey", description="The license key")
-    privileges: Optional[Dict[str, StrictStr]] = Field(None, description="A map of privileges")
-    __properties = ["creditsUsed", "creditsRemaining", "totalCredits", "licenseKey", "privileges"]
+    Describes the current balance of the given license key. A key has a certain amount of credits that can be used for any kind of AI recognition. The license key is invalid, when all of the credits have been used, the license was disabled or expired.
+    """ # noqa: E501
+    credits_used: Optional[StrictInt] = Field(default=None, description="Credits used for the license key.", alias="creditsUsed")
+    credits_remaining: Optional[StrictInt] = Field(default=None, description="Credits remaining for the license key.", alias="creditsRemaining")
+    total_credits: Optional[StrictInt] = Field(default=None, description="Total credits contained within the license key.", alias="totalCredits")
+    license_key: Optional[StrictStr] = Field(default=None, description="The license key", alias="licenseKey")
+    privileges: Optional[Dict[str, StrictStr]] = Field(default=None, description="A map of privileges")
+    __properties: ClassVar[List[str]] = ["creditsUsed", "creditsRemaining", "totalCredits", "licenseKey", "privileges"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> LicenseInfo:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of LicenseInfo from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+            },
+            exclude_none=True,
+        )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> LicenseInfo:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of LicenseInfo from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return LicenseInfo.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = LicenseInfo.parse_obj({
-            "credits_used": obj.get("creditsUsed"),
-            "credits_remaining": obj.get("creditsRemaining"),
-            "total_credits": obj.get("totalCredits"),
-            "license_key": obj.get("licenseKey"),
+        _obj = cls.model_validate({
+            "creditsUsed": obj.get("creditsUsed"),
+            "creditsRemaining": obj.get("creditsRemaining"),
+            "totalCredits": obj.get("totalCredits"),
+            "licenseKey": obj.get("licenseKey"),
             "privileges": obj.get("privileges")
         })
         return _obj
