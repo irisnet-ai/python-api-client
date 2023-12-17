@@ -630,9 +630,9 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '404': "ApiNotice",
             '400': "ApiNotice",
             '204': None,
-            '404': "ApiNotice",
             '200': "ParamSet"
             
         }
@@ -705,9 +705,9 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '404': "ApiNotice",
             '400': "ApiNotice",
             '204': None,
-            '404': "ApiNotice",
             '200': "ParamSet"
             
         }
@@ -780,9 +780,9 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '404': "ApiNotice",
             '400': "ApiNotice",
             '204': None,
-            '404': "ApiNotice",
             '200': "ParamSet"
             
         }

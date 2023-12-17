@@ -121,9 +121,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '402': "ApiNotice",
             '404': "ApiNotice",
-            '200': "CheckResult"
+            '200': "CheckResult",
+            '402': "ApiNotice"
             
         }
         response_data = self.api_client.call_api(
@@ -207,9 +207,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '402': "ApiNotice",
             '404': "ApiNotice",
-            '200': "CheckResult"
+            '200': "CheckResult",
+            '402': "ApiNotice"
             
         }
         response_data = self.api_client.call_api(
@@ -293,9 +293,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '402': "ApiNotice",
             '404': "ApiNotice",
-            '200': "CheckResult"
+            '200': "CheckResult",
+            '402': "ApiNotice"
             
         }
         response_data = self.api_client.call_api(
@@ -457,9 +457,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '402': "ApiNotice",
             '404': "ApiNotice",
-            '200': "List[CheckResult]"
+            '200': "List[CheckResult]",
+            '402': "ApiNotice"
             
         }
         response_data = self.api_client.call_api(
@@ -543,9 +543,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '402': "ApiNotice",
             '404': "ApiNotice",
-            '200': "List[CheckResult]"
+            '200': "List[CheckResult]",
+            '402': "ApiNotice"
             
         }
         response_data = self.api_client.call_api(
@@ -629,9 +629,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '402': "ApiNotice",
             '404': "ApiNotice",
-            '200': "List[CheckResult]"
+            '200': "List[CheckResult]",
+            '402': "ApiNotice"
             
         }
         response_data = self.api_client.call_api(
