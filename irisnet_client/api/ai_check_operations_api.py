@@ -30,8 +30,9 @@ from pydantic import StrictBool, StrictStr
 
 from typing import List, Optional
 
+from irisnet_client.models.callback import Callback
 from irisnet_client.models.check_result import CheckResult
-from irisnet_client.models.config import Config
+from irisnet_client.models.data import Data
 
 from irisnet_client.api_client import ApiClient
 from irisnet_client.api_response import ApiResponse
@@ -55,10 +56,10 @@ class AICheckOperationsApi:
     def check_image(
         self,
         config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
-        url: Annotated[Optional[StrictStr], Field(description="<s>The url to the image that needs to be checked.</s> Deprecated: Use 'data' parameter instead. <b>This parameter will be removed in future releases.</b>")] = None,
-        data: Annotated[Optional[StrictStr], Field(description="The http(s) url or base64 encoded data uri of the image that needs to be checked.")] = None,
+        url: Annotated[Optional[StrictStr], Field(description="<s>The url to the image that needs to be checked.</s> Deprecated: Use request body instead. <b>This parameter will be removed in future releases.</b>")] = None,
         detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object.")] = None,
         image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.")] = None,
+        data: Annotated[Optional[Data], Field(description="The http(s) url or base64 encoded body uri of the image that needs to be checked.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -78,14 +79,14 @@ class AICheckOperationsApi:
 
         :param config_id: The configuration id from the Basic Configuration operations. (required)
         :type config_id: str
-        :param url: <s>The url to the image that needs to be checked.</s> Deprecated: Use 'data' parameter instead. <b>This parameter will be removed in future releases.</b>
+        :param url: <s>The url to the image that needs to be checked.</s> Deprecated: Use request body instead. <b>This parameter will be removed in future releases.</b>
         :type url: str
-        :param data: The http(s) url or base64 encoded data uri of the image that needs to be checked.
-        :type data: str
         :param detail: Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object.
         :type detail: int
         :param image_encode: Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.
         :type image_encode: bool
+        :param data: The http(s) url or base64 encoded body uri of the image that needs to be checked.
+        :type data: Data
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -111,9 +112,9 @@ class AICheckOperationsApi:
         _param = self._check_image_serialize(
             config_id=config_id,
             url=url,
-            data=data,
             detail=detail,
             image_encode=image_encode,
+            data=data,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -121,9 +122,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
+            '402': "ApiNotice",
             '200': "CheckResult",
-            '402': "ApiNotice"
+            '404': "ApiNotice"
             
         }
         response_data = self.api_client.call_api(
@@ -141,10 +142,10 @@ class AICheckOperationsApi:
     def check_image_with_http_info(
         self,
         config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
-        url: Annotated[Optional[StrictStr], Field(description="<s>The url to the image that needs to be checked.</s> Deprecated: Use 'data' parameter instead. <b>This parameter will be removed in future releases.</b>")] = None,
-        data: Annotated[Optional[StrictStr], Field(description="The http(s) url or base64 encoded data uri of the image that needs to be checked.")] = None,
+        url: Annotated[Optional[StrictStr], Field(description="<s>The url to the image that needs to be checked.</s> Deprecated: Use request body instead. <b>This parameter will be removed in future releases.</b>")] = None,
         detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object.")] = None,
         image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.")] = None,
+        data: Annotated[Optional[Data], Field(description="The http(s) url or base64 encoded body uri of the image that needs to be checked.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -164,14 +165,14 @@ class AICheckOperationsApi:
 
         :param config_id: The configuration id from the Basic Configuration operations. (required)
         :type config_id: str
-        :param url: <s>The url to the image that needs to be checked.</s> Deprecated: Use 'data' parameter instead. <b>This parameter will be removed in future releases.</b>
+        :param url: <s>The url to the image that needs to be checked.</s> Deprecated: Use request body instead. <b>This parameter will be removed in future releases.</b>
         :type url: str
-        :param data: The http(s) url or base64 encoded data uri of the image that needs to be checked.
-        :type data: str
         :param detail: Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object.
         :type detail: int
         :param image_encode: Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.
         :type image_encode: bool
+        :param data: The http(s) url or base64 encoded body uri of the image that needs to be checked.
+        :type data: Data
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -197,9 +198,9 @@ class AICheckOperationsApi:
         _param = self._check_image_serialize(
             config_id=config_id,
             url=url,
-            data=data,
             detail=detail,
             image_encode=image_encode,
+            data=data,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -207,9 +208,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
+            '402': "ApiNotice",
             '200': "CheckResult",
-            '402': "ApiNotice"
+            '404': "ApiNotice"
             
         }
         response_data = self.api_client.call_api(
@@ -227,10 +228,10 @@ class AICheckOperationsApi:
     def check_image_without_preload_content(
         self,
         config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
-        url: Annotated[Optional[StrictStr], Field(description="<s>The url to the image that needs to be checked.</s> Deprecated: Use 'data' parameter instead. <b>This parameter will be removed in future releases.</b>")] = None,
-        data: Annotated[Optional[StrictStr], Field(description="The http(s) url or base64 encoded data uri of the image that needs to be checked.")] = None,
+        url: Annotated[Optional[StrictStr], Field(description="<s>The url to the image that needs to be checked.</s> Deprecated: Use request body instead. <b>This parameter will be removed in future releases.</b>")] = None,
         detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object.")] = None,
         image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.")] = None,
+        data: Annotated[Optional[Data], Field(description="The http(s) url or base64 encoded body uri of the image that needs to be checked.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -250,14 +251,14 @@ class AICheckOperationsApi:
 
         :param config_id: The configuration id from the Basic Configuration operations. (required)
         :type config_id: str
-        :param url: <s>The url to the image that needs to be checked.</s> Deprecated: Use 'data' parameter instead. <b>This parameter will be removed in future releases.</b>
+        :param url: <s>The url to the image that needs to be checked.</s> Deprecated: Use request body instead. <b>This parameter will be removed in future releases.</b>
         :type url: str
-        :param data: The http(s) url or base64 encoded data uri of the image that needs to be checked.
-        :type data: str
         :param detail: Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object.
         :type detail: int
         :param image_encode: Specifies whether or not to draw an output image that will be delivered in the response body as base64 encoded string. The _Encoded_ schema will be available in the response.
         :type image_encode: bool
+        :param data: The http(s) url or base64 encoded body uri of the image that needs to be checked.
+        :type data: Data
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -283,9 +284,9 @@ class AICheckOperationsApi:
         _param = self._check_image_serialize(
             config_id=config_id,
             url=url,
-            data=data,
             detail=detail,
             image_encode=image_encode,
+            data=data,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -293,9 +294,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
+            '402': "ApiNotice",
             '200': "CheckResult",
-            '402': "ApiNotice"
+            '404': "ApiNotice"
             
         }
         response_data = self.api_client.call_api(
@@ -309,9 +310,9 @@ class AICheckOperationsApi:
         self,
         config_id,
         url,
-        data,
         detail,
         image_encode,
+        data,
         _request_auth,
         _content_type,
         _headers,
@@ -339,10 +340,6 @@ class AICheckOperationsApi:
             
             _query_params.append(('url', url))
             
-        if data is not None:
-            
-            _query_params.append(('data', data))
-            
         if detail is not None:
             
             _query_params.append(('detail', detail))
@@ -354,6 +351,8 @@ class AICheckOperationsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if data is not None:
+            _body_params = data
 
 
         # set the HTTP header `Accept`
@@ -363,6 +362,19 @@ class AICheckOperationsApi:
             ]
         )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -457,9 +469,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
+            '402': "ApiNotice",
             '200': "List[CheckResult]",
-            '402': "ApiNotice"
+            '404': "ApiNotice"
             
         }
         response_data = self.api_client.call_api(
@@ -543,9 +555,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
+            '402': "ApiNotice",
             '200': "List[CheckResult]",
-            '402': "ApiNotice"
+            '404': "ApiNotice"
             
         }
         response_data = self.api_client.call_api(
@@ -629,9 +641,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
+            '402': "ApiNotice",
             '200': "List[CheckResult]",
-            '402': "ApiNotice"
+            '404': "ApiNotice"
             
         }
         response_data = self.api_client.call_api(
@@ -728,7 +740,7 @@ class AICheckOperationsApi:
         self,
         config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
         url: Annotated[StrictStr, Field(description="The url to the video that needs to be checked.")],
-        config: Config,
+        callback: Callback,
         detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.")] = None,
         image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.")] = None,
         check_rate: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None,
@@ -753,8 +765,8 @@ class AICheckOperationsApi:
         :type config_id: str
         :param url: The url to the video that needs to be checked. (required)
         :type url: str
-        :param config: (required)
-        :type config: Config
+        :param callback: (required)
+        :type callback: Callback
         :param detail: Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.
         :type detail: int
         :param image_encode: Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.
@@ -786,7 +798,7 @@ class AICheckOperationsApi:
         _param = self._check_video_serialize(
             config_id=config_id,
             url=url,
-            config=config,
+            callback=callback,
             detail=detail,
             image_encode=image_encode,
             check_rate=check_rate,
@@ -815,7 +827,7 @@ class AICheckOperationsApi:
         self,
         config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
         url: Annotated[StrictStr, Field(description="The url to the video that needs to be checked.")],
-        config: Config,
+        callback: Callback,
         detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.")] = None,
         image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.")] = None,
         check_rate: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None,
@@ -840,8 +852,8 @@ class AICheckOperationsApi:
         :type config_id: str
         :param url: The url to the video that needs to be checked. (required)
         :type url: str
-        :param config: (required)
-        :type config: Config
+        :param callback: (required)
+        :type callback: Callback
         :param detail: Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.
         :type detail: int
         :param image_encode: Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.
@@ -873,7 +885,7 @@ class AICheckOperationsApi:
         _param = self._check_video_serialize(
             config_id=config_id,
             url=url,
-            config=config,
+            callback=callback,
             detail=detail,
             image_encode=image_encode,
             check_rate=check_rate,
@@ -902,7 +914,7 @@ class AICheckOperationsApi:
         self,
         config_id: Annotated[StrictStr, Field(description="The configuration id from the Basic Configuration operations.")],
         url: Annotated[StrictStr, Field(description="The url to the video that needs to be checked.")],
-        config: Config,
+        callback: Callback,
         detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.")] = None,
         image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.")] = None,
         check_rate: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None,
@@ -927,8 +939,8 @@ class AICheckOperationsApi:
         :type config_id: str
         :param url: The url to the video that needs to be checked. (required)
         :type url: str
-        :param config: (required)
-        :type config: Config
+        :param callback: (required)
+        :type callback: Callback
         :param detail: Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.
         :type detail: int
         :param image_encode: Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.
@@ -960,7 +972,7 @@ class AICheckOperationsApi:
         _param = self._check_video_serialize(
             config_id=config_id,
             url=url,
-            config=config,
+            callback=callback,
             detail=detail,
             image_encode=image_encode,
             check_rate=check_rate,
@@ -984,7 +996,7 @@ class AICheckOperationsApi:
         self,
         config_id,
         url,
-        config,
+        callback,
         detail,
         image_encode,
         check_rate,
@@ -1030,8 +1042,8 @@ class AICheckOperationsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if config is not None:
-            _body_params = config
+        if callback is not None:
+            _body_params = callback
 
 
         # set the HTTP header `Accept`

@@ -10,11 +10,13 @@ docs/BaseAttribute.md
 docs/BaseDetection.md
 docs/BreastDetection.md
 docs/BrokenRule.md
+docs/Callback.md
 docs/CheckResult.md
 docs/CheckResultDetectionsInner.md
 docs/Config.md
 docs/ConfigurationManagementApi.md
 docs/Coordinates.md
+docs/Data.md
 docs/DetailedConfigurationParametersApi.md
 docs/Encoded.md
 docs/Event.md
@@ -44,10 +46,12 @@ irisnet_client/models/base_attribute.py
 irisnet_client/models/base_detection.py
 irisnet_client/models/breast_detection.py
 irisnet_client/models/broken_rule.py
+irisnet_client/models/callback.py
 irisnet_client/models/check_result.py
 irisnet_client/models/check_result_detections_inner.py
 irisnet_client/models/config.py
 irisnet_client/models/coordinates.py
+irisnet_client/models/data.py
 irisnet_client/models/encoded.py
 irisnet_client/models/event.py
 irisnet_client/models/face_detection.py
@@ -67,4 +71,6 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_callback.py
+test/test_data.py
 tox.ini

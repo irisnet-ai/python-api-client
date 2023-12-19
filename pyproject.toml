@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "irisnet_client"
-version = "3.4.3"
+version = "3.5.4"
 description = "Irisnet API"
 authors = ["irisnet GmbH <info@irisnet.de>"]
 license = "NoLicense"

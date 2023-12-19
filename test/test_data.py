@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# flake8: noqa
 """
     Irisnet API
 
@@ -14,26 +13,42 @@
 """  # noqa: E501
 
 
-# import models into model package
-from irisnet_client.models.api_notice import ApiNotice
-from irisnet_client.models.base_attribute import BaseAttribute
-from irisnet_client.models.base_detection import BaseDetection
-from irisnet_client.models.breast_detection import BreastDetection
-from irisnet_client.models.broken_rule import BrokenRule
-from irisnet_client.models.callback import Callback
-from irisnet_client.models.check_result import CheckResult
-from irisnet_client.models.check_result_detections_inner import CheckResultDetectionsInner
-from irisnet_client.models.config import Config
-from irisnet_client.models.coordinates import Coordinates
+import unittest
+import datetime
+
 from irisnet_client.models.data import Data
-from irisnet_client.models.encoded import Encoded
-from irisnet_client.models.event import Event
-from irisnet_client.models.face_detection import FaceDetection
-from irisnet_client.models.hair_attribute import HairAttribute
-from irisnet_client.models.hair_detection import HairDetection
-from irisnet_client.models.license_info import LicenseInfo
-from irisnet_client.models.param import Param
-from irisnet_client.models.param_set import ParamSet
-from irisnet_client.models.pricing import Pricing
-from irisnet_client.models.rectangle import Rectangle
-from irisnet_client.models.summary import Summary
+
+class TestData(unittest.TestCase):
+    """Data unit test stubs"""
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def make_instance(self, include_optional) -> Data:
+        """Test Data
+            include_option is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # uncomment below to create an instance of `Data`
+        """
+        model = Data()
+        if include_optional:
+            return Data(
+                data = 'https://example.com/path/to/your/image.png'
+            )
+        else:
+            return Data(
+                data = 'https://example.com/path/to/your/image.png',
+        )
+        """
+
+    def testData(self):
+        """Test Data"""
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
+
+if __name__ == '__main__':
+    unittest.main()
