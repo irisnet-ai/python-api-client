@@ -18,15 +18,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional, Union
-from pydantic import BaseModel, StrictBool, StrictStr, field_validator
-from pydantic import Field
 from typing_extensions import Annotated
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class Param(BaseModel):
     """
@@ -45,14 +41,15 @@ class Param(BaseModel):
     @field_validator('classification')
     def classification_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('face', 'hand', 'foot', 'footwear', 'chest', 'breast', 'vulva', 'penis', 'vagina', 'buttocks', 'anus', 'oral', 'penetration', 'toy', 'bondage', 'gag', 'child', 'adult', 'senior', 'pose', 'female', 'male', 'hair', 'hairless', 'beard', 'moustache', 'headpiece', 'glasses', 'sunglasses', 'mask', 'slimSizedFace', 'realSizedFace', 'plusSizedFace', 'slimSized', 'realSized', 'plusSized', 'noNipple', 'hasNipple', 'beer', 'beerBottle', 'beerCan', 'wine', 'wineBottle', 'cocktail', 'alcohol', 'cannabis', 'cigarette', 'cocaine', 'heroine', 'coffee', 'camouflage', 'club', 'knife', 'sword', 'pistol', 'rifle', 'cannon', 'fire', 'hand2mouth', 'point2nose', 'relaxed', 'point2chin', 'hand2cheek', 'excellent', 'nice', 'thinking', 'thumbUp', 'victory', 'lookout', 'fingerUp', 'middleFinger', 'nudityCheck', 'ageVerification', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck', 'selfieCheck'):
+        if value not in set(['face', 'hand', 'foot', 'footwear', 'chest', 'breast', 'vulva', 'penis', 'vagina', 'buttocks', 'anus', 'oral', 'penetration', 'toy', 'bondage', 'gag', 'child', 'adult', 'senior', 'pose', 'female', 'male', 'hair', 'hairless', 'beard', 'moustache', 'headpiece', 'glasses', 'sunglasses', 'mask', 'slimSizedFace', 'realSizedFace', 'plusSizedFace', 'slimSized', 'realSized', 'plusSized', 'noNipple', 'hasNipple', 'beer', 'beerBottle', 'beerCan', 'wine', 'wineBottle', 'cocktail', 'alcohol', 'cannabis', 'cigarette', 'cocaine', 'heroine', 'coffee', 'camouflage', 'club', 'knife', 'sword', 'pistol', 'rifle', 'cannon', 'fire', 'hand2mouth', 'point2nose', 'relaxed', 'point2chin', 'hand2cheek', 'excellent', 'nice', 'thinking', 'thumbUp', 'victory', 'lookout', 'fingerUp', 'middleFinger', 'nudityCheck', 'ageVerification', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck', 'selfieCheck']):
             raise ValueError("must be one of enum values ('face', 'hand', 'foot', 'footwear', 'chest', 'breast', 'vulva', 'penis', 'vagina', 'buttocks', 'anus', 'oral', 'penetration', 'toy', 'bondage', 'gag', 'child', 'adult', 'senior', 'pose', 'female', 'male', 'hair', 'hairless', 'beard', 'moustache', 'headpiece', 'glasses', 'sunglasses', 'mask', 'slimSizedFace', 'realSizedFace', 'plusSizedFace', 'slimSized', 'realSized', 'plusSized', 'noNipple', 'hasNipple', 'beer', 'beerBottle', 'beerCan', 'wine', 'wineBottle', 'cocktail', 'alcohol', 'cannabis', 'cigarette', 'cocaine', 'heroine', 'coffee', 'camouflage', 'club', 'knife', 'sword', 'pistol', 'rifle', 'cannon', 'fire', 'hand2mouth', 'point2nose', 'relaxed', 'point2chin', 'hand2cheek', 'excellent', 'nice', 'thinking', 'thumbUp', 'victory', 'lookout', 'fingerUp', 'middleFinger', 'nudityCheck', 'ageVerification', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck', 'selfieCheck')")
         return value
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -65,7 +62,7 @@ class Param(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of Param from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -79,16 +76,18 @@ class Param(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of Param from a dict"""
         if obj is None:
             return None

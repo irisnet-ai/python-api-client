@@ -20,9 +20,8 @@ Deletes the AI configuration with the given id.
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.rest import ApiException
 from pprint import pprint
@@ -61,6 +60,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **config_id** | **str**| The id of the configuration that should be deleted. | 
@@ -79,6 +79,7 @@ void (empty response body)
  - **Accept**: */*
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | successful operation. |  -  |
@@ -96,9 +97,8 @@ Returns a list of all configurations with its id's and configured prototypes. Th
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.models.config import Config
 from irisnet_client.rest import ApiException
@@ -138,6 +138,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -154,6 +155,7 @@ This endpoint does not need any parameter.
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation. |  -  |
@@ -170,9 +172,8 @@ Returns a specific AI configuration for the requested id.
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.models.config import Config
 from irisnet_client.rest import ApiException
@@ -214,6 +215,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **config_id** | **str**| The id of the configuration that is being requested. | 
@@ -232,6 +234,7 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation. |  -  |
@@ -249,9 +252,8 @@ Create a new AI configuration with the desired prototypes.
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.models.config import Config
 from irisnet_client.rest import ApiException
@@ -293,6 +295,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **config** | [**Config**](Config.md)| Define the prototypes to use for an AI check operation. View the _Config_ schema to see the available prototypes. | 
@@ -311,11 +314,12 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**400** | Bad request. Check for badly formatted request body. |  -  |
 **403** | Maximum number of stored AI configurations reached. |  -  |
 **200** | successful operation. |  -  |
+**400** | Bad request. Check for badly formatted request body. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

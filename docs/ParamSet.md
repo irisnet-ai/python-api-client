@@ -3,6 +3,7 @@
 A set of parameters/rules that describe how the AI should behave.
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **thresh** | **float** | Threshold when an object can be recognized. Lowering the value will increase the probability of recognizing objects. A threshold of 0.5 would mean, that 50% of an object like a face must be visible, to be detected.Setting the value too low however, can cause false positives. | [optional] [default to 0.5]
@@ -21,12 +22,12 @@ json = "{}"
 # create an instance of ParamSet from a JSON string
 param_set_instance = ParamSet.from_json(json)
 # print the JSON string representation of the object
-print ParamSet.to_json()
+print(ParamSet.to_json())
 
 # convert the object into a dict
 param_set_dict = param_set_instance.to_dict()
 # create an instance of ParamSet from a dict
-param_set_form_dict = param_set.from_dict(param_set_dict)
+param_set_from_dict = ParamSet.from_dict(param_set_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

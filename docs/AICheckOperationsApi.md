@@ -19,9 +19,8 @@ The response (_CheckResult_ schema) is returned immediately after the request.
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.models.check_result import CheckResult
 from irisnet_client.models.data import Data
@@ -68,6 +67,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **config_id** | **str**| The configuration id from the Basic Configuration operations. | 
@@ -90,11 +90,12 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**402** | Not enough credits. |  -  |
 **200** | successful operation. |  -  |
 **404** | configId not found. |  -  |
+**402** | Not enough credits. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -108,9 +109,8 @@ The body is continuously send per JSON stream until completion of the video stre
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.models.check_result import CheckResult
 from irisnet_client.rest import ApiException
@@ -156,6 +156,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **config_id** | **str**| The configuration id from the Basic Configuration operations. | 
@@ -178,11 +179,12 @@ Name | Type | Description  | Notes
  - **Accept**: application/x-ndjson
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**402** | Not enough credits. |  -  |
 **200** | successful operation. |  -  |
 **404** | configId not found. |  -  |
+**402** | Not enough credits. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -196,9 +198,8 @@ An empty response is returned immediately. The actual body (_CheckResult_ schema
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.models.callback import Callback
 from irisnet_client.rest import ApiException
@@ -229,7 +230,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
     url = 'url_example' # str | The url to the video that needs to be checked.
     callback = {"callbackUrl":"http://www.example.com/callback?video","headers":{"Authorization":"Basic Rm9yemEgTmFwb2xpLCBzZW1wcmUh"}} # Callback | 
     detail = 1 # int | Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object. (optional) (default to 1)
-    image_encode = False # bool | Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response. (optional) (default to False)
+    image_encode = False # bool | Specifies whether or not to draw an output video that can be downloaded afterwards. The output video format will be MP4 containing H.264 encoding independent of the input format. The _Encoded_ schema will be available in the response. (optional) (default to False)
     check_rate = 0 # int | The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'. (optional) (default to 0)
 
     try:
@@ -243,13 +244,14 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **config_id** | **str**| The configuration id from the Basic Configuration operations. | 
  **url** | **str**| The url to the video that needs to be checked. | 
  **callback** | [**Callback**](Callback.md)|  | 
  **detail** | **int**| Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information&#39;s (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object. | [optional] [default to 1]
- **image_encode** | **bool**| Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response. | [optional] [default to False]
+ **image_encode** | **bool**| Specifies whether or not to draw an output video that can be downloaded afterwards. The output video format will be MP4 containing H.264 encoding independent of the input format. The _Encoded_ schema will be available in the response. | [optional] [default to False]
  **check_rate** | **int**| The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to &#39;1000&#39;. | [optional] [default to 0]
 
 ### Return type
@@ -266,11 +268,12 @@ void (empty response body)
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **202** | operation accepted: wait for callback. |  -  |
-**402** | Not enough credits. |  -  |
 **404** | configId not found. |  -  |
+**402** | Not enough credits. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

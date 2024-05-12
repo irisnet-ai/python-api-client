@@ -20,9 +20,8 @@ The cost is subtracted from the license key after a successful check-image opera
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.models.pricing import Pricing
 from irisnet_client.rest import ApiException
@@ -64,6 +63,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **config_id** | **str**| The configuration id from the Basic Configuration operations. | 
@@ -82,10 +82,11 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | The cost of the given configuration. |  -  |
 **429** | The ai could not handle the request because it is either overloaded or currently down for maintenance. This is a temporary state. A &#39;Retry-After&#39; Header is included in the response to signal the client to retry after a certain amount of seconds. |  -  |
+**200** | The cost of the given configuration. |  -  |
 **404** | configId not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -100,9 +101,8 @@ Get the LicenseInfo schema for the given license key in the authorization header
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.models.license_info import LicenseInfo
 from irisnet_client.rest import ApiException
@@ -142,6 +142,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -158,6 +159,7 @@ This endpoint does not need any parameter.
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **404** | The entered license key was not found. |  -  |
@@ -175,9 +177,8 @@ The cost is subtracted from the license key after a successful check operation f
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.models.pricing import Pricing
 from irisnet_client.rest import ApiException
@@ -220,6 +221,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **config_id** | **str**| The configuration id from the Basic Configuration operations. | 
@@ -239,11 +241,12 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **429** | The ai could not handle the request because it is either overloaded or currently down for maintenance. This is a temporary state. A &#39;Retry-After&#39; Header is included in the response to signal the client to retry after a certain amount of seconds. |  -  |
-**200** | The cost of the given configuration |  -  |
 **404** | configId not found. |  -  |
+**200** | The cost of the given configuration |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -257,9 +260,8 @@ The cost is subtracted from the license key after a successful check operation f
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.models.pricing import Pricing
 from irisnet_client.rest import ApiException
@@ -303,6 +305,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **config_id** | **str**| The configuration id from the Basic Configuration operations. | 
@@ -323,10 +326,11 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | The cost of the given configuration. |  -  |
 **429** | The ai could not handle the request because it is either overloaded or currently down for maintenance. This is a temporary state. A &#39;Retry-After&#39; Header is included in the response to signal the client to retry after a certain amount of seconds. |  -  |
+**200** | The cost of the given configuration. |  -  |
 **404** | configId not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

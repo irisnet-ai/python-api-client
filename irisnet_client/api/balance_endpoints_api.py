@@ -12,26 +12,17 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
-import io
 import warnings
-
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Dict, List, Optional, Tuple, Union, Any
-
-try:
-    from typing import Annotated
-except ImportError:
-    from typing_extensions import Annotated
-
-from pydantic import Field
+from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
-from pydantic import StrictInt, StrictStr
 
+from pydantic import Field, StrictInt, StrictStr
+from typing_extensions import Annotated
 from irisnet_client.models.license_info import LicenseInfo
 from irisnet_client.models.pricing import Pricing
 
-from irisnet_client.api_client import ApiClient
+from irisnet_client.api_client import ApiClient, RequestSerialized
 from irisnet_client.api_response import ApiResponse
 from irisnet_client.rest import RESTResponseType
 
@@ -103,10 +94,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pricing",
             '429': "ApiNotice",
-            '404': "ApiNotice"
-            
+            '200': "Pricing",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -173,10 +163,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pricing",
             '429': "ApiNotice",
-            '404': "ApiNotice"
-            
+            '200': "Pricing",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -243,10 +232,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pricing",
             '429': "ApiNotice",
-            '404': "ApiNotice"
-            
+            '200': "Pricing",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -262,19 +250,18 @@ class BalanceEndpointsApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -368,8 +355,7 @@ class BalanceEndpointsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '404': "ApiNotice",
-            '200': "LicenseInfo"
-            
+            '200': "LicenseInfo",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -433,8 +419,7 @@ class BalanceEndpointsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '404': "ApiNotice",
-            '200': "LicenseInfo"
-            
+            '200': "LicenseInfo",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -498,8 +483,7 @@ class BalanceEndpointsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '404': "ApiNotice",
-            '200': "LicenseInfo"
-            
+            '200': "LicenseInfo",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -514,19 +498,18 @@ class BalanceEndpointsApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -626,9 +609,8 @@ class BalanceEndpointsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '429': "ApiNotice",
+            '404': "ApiNotice",
             '200': "Pricing",
-            '404': "ApiNotice"
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -700,9 +682,8 @@ class BalanceEndpointsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '429': "ApiNotice",
+            '404': "ApiNotice",
             '200': "Pricing",
-            '404': "ApiNotice"
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -774,9 +755,8 @@ class BalanceEndpointsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '429': "ApiNotice",
+            '404': "ApiNotice",
             '200': "Pricing",
-            '404': "ApiNotice"
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -793,19 +773,18 @@ class BalanceEndpointsApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -912,10 +891,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pricing",
             '429': "ApiNotice",
-            '404': "ApiNotice"
-            
+            '200': "Pricing",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -990,10 +968,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pricing",
             '429': "ApiNotice",
-            '404': "ApiNotice"
-            
+            '200': "Pricing",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1068,10 +1045,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pricing",
             '429': "ApiNotice",
-            '404': "ApiNotice"
-            
+            '200': "Pricing",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1089,19 +1065,18 @@ class BalanceEndpointsApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters

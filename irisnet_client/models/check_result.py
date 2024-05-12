@@ -18,20 +18,16 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel
-from pydantic import Field
 from irisnet_client.models.api_notice import ApiNotice
 from irisnet_client.models.broken_rule import BrokenRule
 from irisnet_client.models.check_result_detections_inner import CheckResultDetectionsInner
 from irisnet_client.models.encoded import Encoded
 from irisnet_client.models.event import Event
 from irisnet_client.models.summary import Summary
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class CheckResult(BaseModel):
     """
@@ -43,12 +39,14 @@ class CheckResult(BaseModel):
     detections: Optional[List[CheckResultDetectionsInner]] = None
     events: Optional[List[Event]] = None
     notifications: Optional[List[ApiNotice]] = None
-    __properties: ClassVar[List[str]] = ["summary", "encodings", "brokenRules", "detections", "events", "notifications"]
+    check_id: Optional[StrictStr] = Field(default=None, description="The id of the async running check", alias="checkId")
+    __properties: ClassVar[List[str]] = ["summary", "encodings", "brokenRules", "detections", "events", "notifications", "checkId"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -61,7 +59,7 @@ class CheckResult(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of CheckResult from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -75,10 +73,12 @@ class CheckResult(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of summary
@@ -122,7 +122,7 @@ class CheckResult(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of CheckResult from a dict"""
         if obj is None:
             return None
@@ -131,12 +131,13 @@ class CheckResult(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "summary": Summary.from_dict(obj.get("summary")) if obj.get("summary") is not None else None,
-            "encodings": [Encoded.from_dict(_item) for _item in obj.get("encodings")] if obj.get("encodings") is not None else None,
-            "brokenRules": [BrokenRule.from_dict(_item) for _item in obj.get("brokenRules")] if obj.get("brokenRules") is not None else None,
-            "detections": [CheckResultDetectionsInner.from_dict(_item) for _item in obj.get("detections")] if obj.get("detections") is not None else None,
-            "events": [Event.from_dict(_item) for _item in obj.get("events")] if obj.get("events") is not None else None,
-            "notifications": [ApiNotice.from_dict(_item) for _item in obj.get("notifications")] if obj.get("notifications") is not None else None
+            "summary": Summary.from_dict(obj["summary"]) if obj.get("summary") is not None else None,
+            "encodings": [Encoded.from_dict(_item) for _item in obj["encodings"]] if obj.get("encodings") is not None else None,
+            "brokenRules": [BrokenRule.from_dict(_item) for _item in obj["brokenRules"]] if obj.get("brokenRules") is not None else None,
+            "detections": [CheckResultDetectionsInner.from_dict(_item) for _item in obj["detections"]] if obj.get("detections") is not None else None,
+            "events": [Event.from_dict(_item) for _item in obj["events"]] if obj.get("events") is not None else None,
+            "notifications": [ApiNotice.from_dict(_item) for _item in obj["notifications"]] if obj.get("notifications") is not None else None,
+            "checkId": obj.get("checkId")
         })
         return _obj
 

@@ -14,26 +14,20 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import json
 import pprint
-import re  # noqa: F401
-
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
 from irisnet_client.models.base_detection import BaseDetection
 from irisnet_client.models.breast_detection import BreastDetection
 from irisnet_client.models.face_detection import FaceDetection
 from irisnet_client.models.hair_detection import HairDetection
-from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
-from typing_extensions import Literal
+from irisnet_client.models.id_document_detection import IdDocumentDetection
 from pydantic import StrictStr, Field
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Union, List, Set, Optional, Dict
+from typing_extensions import Literal, Self
 
-CHECKRESULTDETECTIONSINNER_ONE_OF_SCHEMAS = ["BaseDetection", "BreastDetection", "FaceDetection", "HairDetection"]
+CHECKRESULTDETECTIONSINNER_ONE_OF_SCHEMAS = ["BaseDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection"]
 
 class CheckResultDetectionsInner(BaseModel):
     """
@@ -47,12 +41,15 @@ class CheckResultDetectionsInner(BaseModel):
     oneof_schema_3_validator: Optional[FaceDetection] = None
     # data type: HairDetection
     oneof_schema_4_validator: Optional[HairDetection] = None
-    actual_instance: Optional[Union[BaseDetection, BreastDetection, FaceDetection, HairDetection]] = None
-    one_of_schemas: List[str] = Literal["BaseDetection", "BreastDetection", "FaceDetection", "HairDetection"]
+    # data type: IdDocumentDetection
+    oneof_schema_5_validator: Optional[IdDocumentDetection] = None
+    actual_instance: Optional[Union[BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection]] = None
+    one_of_schemas: Set[str] = { "BaseDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection" }
 
-    model_config = {
-        "validate_assignment": True
-    }
+    model_config = ConfigDict(
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     discriminator_value_class_map: Dict[str, str] = {
@@ -93,17 +90,22 @@ class CheckResultDetectionsInner(BaseModel):
             error_messages.append(f"Error! Input type `{type(v)}` is not `HairDetection`")
         else:
             match += 1
+        # validate data type: IdDocumentDetection
+        if not isinstance(v, IdDocumentDetection):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `IdDocumentDetection`")
+        else:
+            match += 1
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in CheckResultDetectionsInner with oneOf schemas: BaseDetection, BreastDetection, FaceDetection, HairDetection. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in CheckResultDetectionsInner with oneOf schemas: BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when setting `actual_instance` in CheckResultDetectionsInner with oneOf schemas: BaseDetection, BreastDetection, FaceDetection, HairDetection. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in CheckResultDetectionsInner with oneOf schemas: BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
         else:
             return v
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Union[str, Dict[str, Any]]) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
@@ -137,13 +139,19 @@ class CheckResultDetectionsInner(BaseModel):
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
+        # deserialize data into IdDocumentDetection
+        try:
+            instance.actual_instance = IdDocumentDetection.from_json(json_str)
+            match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
 
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into CheckResultDetectionsInner with oneOf schemas: BaseDetection, BreastDetection, FaceDetection, HairDetection. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when deserializing the JSON string into CheckResultDetectionsInner with oneOf schemas: BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into CheckResultDetectionsInner with oneOf schemas: BaseDetection, BreastDetection, FaceDetection, HairDetection. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into CheckResultDetectionsInner with oneOf schemas: BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
         else:
             return instance
 
@@ -152,19 +160,17 @@ class CheckResultDetectionsInner(BaseModel):
         if self.actual_instance is None:
             return "null"
 
-        to_json = getattr(self.actual_instance, "to_json", None)
-        if callable(to_json):
+        if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
             return self.actual_instance.to_json()
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None
 
-        to_dict = getattr(self.actual_instance, "to_dict", None)
-        if callable(to_dict):
+        if hasattr(self.actual_instance, "to_dict") and callable(self.actual_instance.to_dict):
             return self.actual_instance.to_dict()
         else:
             # primitive type

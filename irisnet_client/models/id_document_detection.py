@@ -18,19 +18,27 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import ConfigDict, Field
+from pydantic import ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from irisnet_client.models.base_detection import BaseDetection
-from irisnet_client.models.hair_attribute import HairAttribute
+from irisnet_client.models.id_document_attribute import IdDocumentAttribute
 from irisnet_client.models.id_document_sub_checks import IdDocumentSubChecks
 from typing import Optional, Set
 from typing_extensions import Self
 
-class HairDetection(BaseDetection):
+class IdDocumentDetection(BaseDetection):
     """
-    Contains further characteristics particular to _hair_ detection.
+    Contains further characteristics particular to _idDocument_ detection.
     """ # noqa: E501
-    attributes: Optional[List[HairAttribute]] = Field(default=None, description="Contains attributes for the _hair_ classification.")
+    check_id: Optional[StrictStr] = Field(default=None, description="The id of the check that lead to the detection", alias="checkId")
+    has_official_document: Optional[StrictBool] = Field(default=None, description="Indicates whether the identified document is official", alias="hasOfficialDocument")
+    comparable: Optional[StrictBool] = Field(default=None, description="Indicates whether the provided selfie-image is comparable to the document")
+    face_similarity: Optional[StrictInt] = Field(default=None, description="Indicates the similarity-level of whether two faces belong to the same person", alias="faceSimilarity")
+    face_liveness_check_score: Optional[StrictInt] = Field(default=None, description="Indicates the liveness score of the selfie image", alias="faceLivenessCheckScore")
+    document_front_liveness_score: Optional[StrictInt] = Field(default=None, description="Indicates the liveness score of the front side image of the document", alias="documentFrontLivenessScore")
+    document_back_liveness_score: Optional[StrictInt] = Field(default=None, description="Indicates the liveness score of the back side image of the document", alias="documentBackLivenessScore")
+    processed_checks: Optional[IdDocumentSubChecks] = Field(default=None, alias="processedChecks")
+    attributes: Optional[List[IdDocumentAttribute]] = Field(default=None, description="Attributes of the _idDocument_ detection.")
     __properties: ClassVar[List[str]] = ["type", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks"]
 
     model_config = ConfigDict(
@@ -51,7 +59,7 @@ class HairDetection(BaseDetection):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of HairDetection from a JSON string"""
+        """Create an instance of IdDocumentDetection from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -93,7 +101,7 @@ class HairDetection(BaseDetection):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of HairDetection from a dict"""
+        """Create an instance of IdDocumentDetection from a dict"""
         if obj is None:
             return None
 
@@ -102,7 +110,7 @@ class HairDetection(BaseDetection):
 
         _obj = cls.model_validate({
             "type": obj.get("type"),
-            "attributes": [HairAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
+            "attributes": [IdDocumentAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
             "subDetections": [BaseDetection.from_dict(_item) for _item in obj["subDetections"]] if obj.get("subDetections") is not None else None,
             "checkId": obj.get("checkId"),
             "hasOfficialDocument": obj.get("hasOfficialDocument"),

@@ -12,29 +12,19 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
-import io
 import warnings
-
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Dict, List, Optional, Tuple, Union, Any
-
-try:
-    from typing import Annotated
-except ImportError:
-    from typing_extensions import Annotated
-
-from pydantic import Field
+from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
-from pydantic import StrictBool, StrictStr
 
+from pydantic import Field, StrictBool, StrictStr
 from typing import List, Optional
-
+from typing_extensions import Annotated
 from irisnet_client.models.callback import Callback
 from irisnet_client.models.check_result import CheckResult
 from irisnet_client.models.data import Data
 
-from irisnet_client.api_client import ApiClient
+from irisnet_client.api_client import ApiClient, RequestSerialized
 from irisnet_client.api_response import ApiResponse
 from irisnet_client.rest import RESTResponseType
 
@@ -122,10 +112,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '402': "ApiNotice",
             '200': "CheckResult",
-            '404': "ApiNotice"
-            
+            '404': "ApiNotice",
+            '402': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -208,10 +197,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '402': "ApiNotice",
             '200': "CheckResult",
-            '404': "ApiNotice"
-            
+            '404': "ApiNotice",
+            '402': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -294,10 +282,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '402': "ApiNotice",
             '200': "CheckResult",
-            '404': "ApiNotice"
-            
+            '404': "ApiNotice",
+            '402': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -317,19 +304,18 @@ class AICheckOperationsApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -469,10 +455,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '402': "ApiNotice",
             '200': "List[CheckResult]",
-            '404': "ApiNotice"
-            
+            '404': "ApiNotice",
+            '402': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -555,10 +540,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '402': "ApiNotice",
             '200': "List[CheckResult]",
-            '404': "ApiNotice"
-            
+            '404': "ApiNotice",
+            '402': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -641,10 +625,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '402': "ApiNotice",
             '200': "List[CheckResult]",
-            '404': "ApiNotice"
-            
+            '404': "ApiNotice",
+            '402': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -664,19 +647,18 @@ class AICheckOperationsApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -742,7 +724,7 @@ class AICheckOperationsApi:
         url: Annotated[StrictStr, Field(description="The url to the video that needs to be checked.")],
         callback: Callback,
         detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.")] = None,
-        image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.")] = None,
+        image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The output video format will be MP4 containing H.264 encoding independent of the input format. The _Encoded_ schema will be available in the response.")] = None,
         check_rate: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None,
         _request_timeout: Union[
             None,
@@ -769,7 +751,7 @@ class AICheckOperationsApi:
         :type callback: Callback
         :param detail: Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.
         :type detail: int
-        :param image_encode: Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.
+        :param image_encode: Specifies whether or not to draw an output video that can be downloaded afterwards. The output video format will be MP4 containing H.264 encoding independent of the input format. The _Encoded_ schema will be available in the response.
         :type image_encode: bool
         :param check_rate: The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.
         :type check_rate: int
@@ -809,7 +791,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
+            '202': None,
+            '404': "ApiNotice",
+            '402': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -829,7 +813,7 @@ class AICheckOperationsApi:
         url: Annotated[StrictStr, Field(description="The url to the video that needs to be checked.")],
         callback: Callback,
         detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.")] = None,
-        image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.")] = None,
+        image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The output video format will be MP4 containing H.264 encoding independent of the input format. The _Encoded_ schema will be available in the response.")] = None,
         check_rate: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None,
         _request_timeout: Union[
             None,
@@ -856,7 +840,7 @@ class AICheckOperationsApi:
         :type callback: Callback
         :param detail: Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.
         :type detail: int
-        :param image_encode: Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.
+        :param image_encode: Specifies whether or not to draw an output video that can be downloaded afterwards. The output video format will be MP4 containing H.264 encoding independent of the input format. The _Encoded_ schema will be available in the response.
         :type image_encode: bool
         :param check_rate: The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.
         :type check_rate: int
@@ -896,7 +880,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
+            '202': None,
+            '404': "ApiNotice",
+            '402': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -916,7 +902,7 @@ class AICheckOperationsApi:
         url: Annotated[StrictStr, Field(description="The url to the video that needs to be checked.")],
         callback: Callback,
         detail: Annotated[Optional[Annotated[int, Field(le=3, strict=True, ge=0)]], Field(description="Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.")] = None,
-        image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.")] = None,
+        image_encode: Annotated[Optional[StrictBool], Field(description="Specifies whether or not to draw an output video that can be downloaded afterwards. The output video format will be MP4 containing H.264 encoding independent of the input format. The _Encoded_ schema will be available in the response.")] = None,
         check_rate: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.")] = None,
         _request_timeout: Union[
             None,
@@ -943,7 +929,7 @@ class AICheckOperationsApi:
         :type callback: Callback
         :param detail: Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows events (_Event_ schema) that contains extended features to each found object.
         :type detail: int
-        :param image_encode: Specifies whether or not to draw an output video that can be downloaded afterwards. The _Encoded_ schema will be available in the response.
+        :param image_encode: Specifies whether or not to draw an output video that can be downloaded afterwards. The output video format will be MP4 containing H.264 encoding independent of the input format. The _Encoded_ schema will be available in the response.
         :type image_encode: bool
         :param check_rate: The milliseconds between each AI check. E.g. The AI will check 1 frame per second when checkRate is set to '1000'.
         :type check_rate: int
@@ -983,7 +969,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
+            '202': None,
+            '404': "ApiNotice",
+            '402': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1004,19 +992,18 @@ class AICheckOperationsApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters

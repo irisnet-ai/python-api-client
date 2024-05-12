@@ -18,29 +18,26 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-
-from pydantic import Field
 from irisnet_client.models.base_attribute import BaseAttribute
 from irisnet_client.models.base_detection import BaseDetection
-from irisnet_client.models.coordinates import Coordinates
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from irisnet_client.models.id_document_sub_checks import IdDocumentSubChecks
+from typing import Optional, Set
+from typing_extensions import Self
 
 class BreastDetection(BaseDetection):
     """
     Contains further characteristics particular to _breast_ detection.
     """ # noqa: E501
     attributes: Optional[List[BaseAttribute]] = Field(default=None, description="Attributes characterizing the _breast_ detection. Mainly contains attributes that were activated with the _nippleCheck_ prototype.")
-    __properties: ClassVar[List[str]] = ["classification", "group", "id", "probability", "coordinates", "type", "attributes"]
+    __properties: ClassVar[List[str]] = ["type", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -53,7 +50,7 @@ class BreastDetection(BaseDetection):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of BreastDetection from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -67,15 +64,14 @@ class BreastDetection(BaseDetection):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of coordinates
-        if self.coordinates:
-            _dict['coordinates'] = self.coordinates.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in attributes (list)
         _items = []
         if self.attributes:
@@ -83,10 +79,20 @@ class BreastDetection(BaseDetection):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['attributes'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in sub_detections (list)
+        _items = []
+        if self.sub_detections:
+            for _item in self.sub_detections:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['subDetections'] = _items
+        # override the default output from pydantic by calling `to_dict()` of processed_checks
+        if self.processed_checks:
+            _dict['processedChecks'] = self.processed_checks.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of BreastDetection from a dict"""
         if obj is None:
             return None
@@ -95,13 +101,17 @@ class BreastDetection(BaseDetection):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "classification": obj.get("classification"),
-            "group": obj.get("group"),
-            "id": obj.get("id"),
-            "probability": obj.get("probability"),
-            "coordinates": Coordinates.from_dict(obj.get("coordinates")) if obj.get("coordinates") is not None else None,
             "type": obj.get("type"),
-            "attributes": [BaseAttribute.from_dict(_item) for _item in obj.get("attributes")] if obj.get("attributes") is not None else None
+            "attributes": [BaseAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
+            "subDetections": [BaseDetection.from_dict(_item) for _item in obj["subDetections"]] if obj.get("subDetections") is not None else None,
+            "checkId": obj.get("checkId"),
+            "hasOfficialDocument": obj.get("hasOfficialDocument"),
+            "comparable": obj.get("comparable"),
+            "faceSimilarity": obj.get("faceSimilarity"),
+            "faceLivenessCheckScore": obj.get("faceLivenessCheckScore"),
+            "documentFrontLivenessScore": obj.get("documentFrontLivenessScore"),
+            "documentBackLivenessScore": obj.get("documentBackLivenessScore"),
+            "processedChecks": IdDocumentSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None
         })
         return _obj
 

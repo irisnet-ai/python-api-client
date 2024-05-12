@@ -19,9 +19,8 @@ Clears the parameters and restores the defaults for all classifications.
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.rest import ApiException
 from pprint import pprint
@@ -60,6 +59,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **config_id** | **str**| The id of the configuration where the parameters should be deleted. | 
@@ -78,6 +78,7 @@ void (empty response body)
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | successful operation. |  -  |
@@ -95,9 +96,8 @@ Returns the parameters stored in the given configuration.
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.models.param_set import ParamSet
 from irisnet_client.rest import ApiException
@@ -139,6 +139,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **config_id** | **str**| The id of the configuration for which the parameters are being requested. | 
@@ -157,6 +158,7 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation. |  -  |
@@ -174,9 +176,8 @@ Save or modify the parameters stored in the AI configuration.
 ### Example
 
 * Api Key Authentication (LICENSE-KEY):
+
 ```python
-import time
-import os
 import irisnet_client
 from irisnet_client.models.param_set import ParamSet
 from irisnet_client.rest import ApiException
@@ -219,6 +220,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **config_id** | **str**| The id of the configuration where the parameters should be added. | 
@@ -238,10 +240,11 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**400** | Bad request. Check for badly formatted request body. |  -  |
 **204** | successful operation. No previously configured parameters exist. |  -  |
+**400** | Bad request. Check for badly formatted request body. |  -  |
 **404** | configId not found. |  -  |
 **200** | successful operation. Previous user configured parameters are returned. |  -  |
 
