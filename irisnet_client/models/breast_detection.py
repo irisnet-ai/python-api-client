@@ -31,7 +31,7 @@ class BreastDetection(BaseDetection):
     Contains further characteristics particular to _breast_ detection.
     """ # noqa: E501
     attributes: Optional[List[BaseAttribute]] = Field(default=None, description="Attributes characterizing the _breast_ detection. Mainly contains attributes that were activated with the _nippleCheck_ prototype.")
-    __properties: ClassVar[List[str]] = ["type", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks"]
+    __properties: ClassVar[List[str]] = ["type", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks", "documentHolderId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -111,7 +111,8 @@ class BreastDetection(BaseDetection):
             "faceLivenessCheckScore": obj.get("faceLivenessCheckScore"),
             "documentFrontLivenessScore": obj.get("documentFrontLivenessScore"),
             "documentBackLivenessScore": obj.get("documentBackLivenessScore"),
-            "processedChecks": IdDocumentSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None
+            "processedChecks": IdDocumentSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None,
+            "documentHolderId": obj.get("documentHolderId")
         })
         return _obj
 

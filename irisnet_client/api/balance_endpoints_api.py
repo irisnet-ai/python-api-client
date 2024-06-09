@@ -94,9 +94,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '404': "ApiNotice",
             '429': "ApiNotice",
             '200': "Pricing",
-            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -163,9 +163,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '404': "ApiNotice",
             '429': "ApiNotice",
             '200': "Pricing",
-            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -232,9 +232,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '404': "ApiNotice",
             '429': "ApiNotice",
             '200': "Pricing",
-            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -608,9 +608,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '429': "ApiNotice",
-            '404': "ApiNotice",
             '200': "Pricing",
+            '404': "ApiNotice",
+            '429': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -681,9 +681,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '429': "ApiNotice",
-            '404': "ApiNotice",
             '200': "Pricing",
+            '404': "ApiNotice",
+            '429': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -754,9 +754,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '429': "ApiNotice",
-            '404': "ApiNotice",
             '200': "Pricing",
+            '404': "ApiNotice",
+            '429': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -891,9 +891,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '404': "ApiNotice",
             '429': "ApiNotice",
             '200': "Pricing",
-            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -968,9 +968,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '404': "ApiNotice",
             '429': "ApiNotice",
             '200': "Pricing",
-            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1045,9 +1045,9 @@ class BalanceEndpointsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '404': "ApiNotice",
             '429': "ApiNotice",
             '200': "Pricing",
-            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,

@@ -35,13 +35,12 @@ class IdDocumentSubChecks(BaseModel):
     photo_location: Optional[StrictStr] = Field(default=None, description="Indicates whether the photo is in the correct location for a given document type", alias="photoLocation")
     blacklist_check: Optional[StrictStr] = Field(default=None, description="Indicates whether a competent authority deny-listed the ID document", alias="blacklistCheck")
     photocopy_check: Optional[StrictStr] = Field(default=None, description="Indicates whether the document is a photocopy", alias="photocopyCheck")
-    tampering_check: Optional[StrictStr] = Field(default=None, description="Indicates whether the document image has been digitally tampered with", alias="tamperingCheck")
     specimen_check: Optional[StrictStr] = Field(default=None, description="Indicates whether the document has been copied from the Internet", alias="specimenCheck")
     document_model_identification: Optional[StrictStr] = Field(default=None, description="Indicates whether the document model has been identified", alias="documentModelIdentification")
     document_liveness_check: Optional[StrictStr] = Field(default=None, description="Indicates if the document image is genuine and not a photo of an image or of a screen", alias="documentLivenessCheck")
     spoofed_image_analysis: Optional[StrictStr] = Field(default=None, description="Indicates whether the selfie image is spoofed, copied from the Internet, or is a known deny-listed image", alias="spoofedImageAnalysis")
     face_liveness_check: Optional[StrictStr] = Field(default=None, description="Indicates if the selfie image is genuine and not a photo of an image or of a screen", alias="faceLivenessCheck")
-    __properties: ClassVar[List[str]] = ["mrzChecksum", "mrzFormat", "mrzConsistency", "expirationDate", "securityElements", "photoLocation", "blacklistCheck", "photocopyCheck", "tamperingCheck", "specimenCheck", "documentModelIdentification", "documentLivenessCheck", "spoofedImageAnalysis", "faceLivenessCheck"]
+    __properties: ClassVar[List[str]] = ["mrzChecksum", "mrzFormat", "mrzConsistency", "expirationDate", "securityElements", "photoLocation", "blacklistCheck", "photocopyCheck", "specimenCheck", "documentModelIdentification", "documentLivenessCheck", "spoofedImageAnalysis", "faceLivenessCheck"]
 
     @field_validator('mrz_checksum')
     def mrz_checksum_validate_enum(cls, value):
@@ -115,16 +114,6 @@ class IdDocumentSubChecks(BaseModel):
 
     @field_validator('photocopy_check')
     def photocopy_check_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in set(['passed', 'failed', 'not_processed']):
-            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
-        return value
-
-    @field_validator('tampering_check')
-    def tampering_check_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
             return value
@@ -242,7 +231,6 @@ class IdDocumentSubChecks(BaseModel):
             "photoLocation": obj.get("photoLocation"),
             "blacklistCheck": obj.get("blacklistCheck"),
             "photocopyCheck": obj.get("photocopyCheck"),
-            "tamperingCheck": obj.get("tamperingCheck"),
             "specimenCheck": obj.get("specimenCheck"),
             "documentModelIdentification": obj.get("documentModelIdentification"),
             "documentLivenessCheck": obj.get("documentLivenessCheck"),

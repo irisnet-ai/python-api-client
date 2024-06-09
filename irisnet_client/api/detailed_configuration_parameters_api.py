@@ -354,8 +354,8 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ParamSet",
             '404': "ApiNotice",
+            '200': "ParamSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -422,8 +422,8 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ParamSet",
             '404': "ApiNotice",
+            '200': "ParamSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -490,8 +490,8 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ParamSet",
             '404': "ApiNotice",
+            '200': "ParamSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -619,8 +619,8 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
             '400': "ApiNotice",
+            '204': None,
             '404': "ApiNotice",
             '200': "ParamSet",
         }
@@ -693,8 +693,8 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
             '400': "ApiNotice",
+            '204': None,
             '404': "ApiNotice",
             '200': "ParamSet",
         }
@@ -767,8 +767,8 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
             '400': "ApiNotice",
+            '204': None,
             '404': "ApiNotice",
             '200': "ParamSet",
         }

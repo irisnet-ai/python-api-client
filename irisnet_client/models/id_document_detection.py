@@ -39,7 +39,8 @@ class IdDocumentDetection(BaseDetection):
     document_back_liveness_score: Optional[StrictInt] = Field(default=None, description="Indicates the liveness score of the back side image of the document", alias="documentBackLivenessScore")
     processed_checks: Optional[IdDocumentSubChecks] = Field(default=None, alias="processedChecks")
     attributes: Optional[List[IdDocumentAttribute]] = Field(default=None, description="Attributes of the _idDocument_ detection.")
-    __properties: ClassVar[List[str]] = ["type", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks"]
+    document_holder_id: Optional[StrictStr] = Field(default=None, description="The id of the documentHolder", alias="documentHolderId")
+    __properties: ClassVar[List[str]] = ["type", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks", "documentHolderId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -119,7 +120,8 @@ class IdDocumentDetection(BaseDetection):
             "faceLivenessCheckScore": obj.get("faceLivenessCheckScore"),
             "documentFrontLivenessScore": obj.get("documentFrontLivenessScore"),
             "documentBackLivenessScore": obj.get("documentBackLivenessScore"),
-            "processedChecks": IdDocumentSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None
+            "processedChecks": IdDocumentSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None,
+            "documentHolderId": obj.get("documentHolderId")
         })
         return _obj
 

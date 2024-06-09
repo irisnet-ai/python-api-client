@@ -20,38 +20,30 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from irisnet_client.models.callback import Callback
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Config(BaseModel):
+class DocumentCheckRequestData(BaseModel):
     """
-    Can be used to set a multitude of pre-defined commonly used rules without the need of specifying each parameter set.
+    DocumentCheckRequestData
     """ # noqa: E501
-    id: Optional[StrictStr] = Field(default=None, description="The unique identifier for the AI configuration. Use this for any check operation to tell the AI how to behave.")
-    prototypes: Optional[List[StrictStr]] = Field(default=None, description="Configures your detection. As there are literally hundreds of parameters, prototypes can be used to get useful behaviour. This includes a default setting for parameters and rules that should be applied to the check operations. You can use multiple prototypes for a single check operation.")
-    kyc_check_parameters: Optional[List[StrictStr]] = Field(default=None, description="Configures your kyc checks. You can combine certain parameters to customize a single check operation.", alias="kycCheckParameters")
-    __properties: ClassVar[List[str]] = ["id", "prototypes", "kycCheckParameters"]
+    callback: Callback
+    front_image: StrictStr = Field(description="The base64 encoded front image of the document to be checked in either jpg or png file format", alias="frontImage")
+    back_image: Optional[StrictStr] = Field(default=None, description="The base64 encoded back image of the document to be checked in either jpg or png file format", alias="backImage")
+    selfie_image: Optional[StrictStr] = Field(default=None, description="The base64 encoded selfie image to be checked in either jpg or png file format", alias="selfieImage")
+    document_type: Optional[StrictStr] = Field(default=None, description="The type of the document", alias="documentType")
+    document_country: Optional[StrictStr] = Field(default=None, description="The document's country in ISO 3166-1 alpha-2 format", alias="documentCountry")
+    __properties: ClassVar[List[str]] = ["callback", "frontImage", "backImage", "selfieImage", "documentType", "documentCountry"]
 
-    @field_validator('prototypes')
-    def prototypes_validate_enum(cls, value):
+    @field_validator('document_type')
+    def document_type_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
             return value
 
-        for i in value:
-            if i not in set(['nudityCheck', 'ageVerification', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck', 'selfieCheck']):
-                raise ValueError("each list item must be one of ('nudityCheck', 'ageVerification', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck', 'selfieCheck')")
-        return value
-
-    @field_validator('kyc_check_parameters')
-    def kyc_check_parameters_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        for i in value:
-            if i not in set(['identityDocumentCheck', 'automatedDocumentRecognition', 'biometricCheck', 'formAutofill', 'ageEstimation']):
-                raise ValueError("each list item must be one of ('identityDocumentCheck', 'automatedDocumentRecognition', 'biometricCheck', 'formAutofill', 'ageEstimation')")
+        if value not in set(['passport', 'driving_license', 'national_identity_card', 'residence_permit', 'visa', 'unknown']):
+            raise ValueError("must be one of enum values ('passport', 'driving_license', 'national_identity_card', 'residence_permit', 'visa', 'unknown')")
         return value
 
     model_config = ConfigDict(
@@ -72,7 +64,7 @@ class Config(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Config from a JSON string"""
+        """Create an instance of DocumentCheckRequestData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -93,11 +85,14 @@ class Config(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of callback
+        if self.callback:
+            _dict['callback'] = self.callback.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Config from a dict"""
+        """Create an instance of DocumentCheckRequestData from a dict"""
         if obj is None:
             return None
 
@@ -105,9 +100,12 @@ class Config(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "prototypes": obj.get("prototypes"),
-            "kycCheckParameters": obj.get("kycCheckParameters")
+            "callback": Callback.from_dict(obj["callback"]) if obj.get("callback") is not None else None,
+            "frontImage": obj.get("frontImage"),
+            "backImage": obj.get("backImage"),
+            "selfieImage": obj.get("selfieImage"),
+            "documentType": obj.get("documentType"),
+            "documentCountry": obj.get("documentCountry")
         })
         return _obj
 

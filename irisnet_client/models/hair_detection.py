@@ -31,7 +31,7 @@ class HairDetection(BaseDetection):
     Contains further characteristics particular to _hair_ detection.
     """ # noqa: E501
     attributes: Optional[List[HairAttribute]] = Field(default=None, description="Contains attributes for the _hair_ classification.")
-    __properties: ClassVar[List[str]] = ["type", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks"]
+    __properties: ClassVar[List[str]] = ["type", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks", "documentHolderId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -111,7 +111,8 @@ class HairDetection(BaseDetection):
             "faceLivenessCheckScore": obj.get("faceLivenessCheckScore"),
             "documentFrontLivenessScore": obj.get("documentFrontLivenessScore"),
             "documentBackLivenessScore": obj.get("documentBackLivenessScore"),
-            "processedChecks": IdDocumentSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None
+            "processedChecks": IdDocumentSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None,
+            "documentHolderId": obj.get("documentHolderId")
         })
         return _obj
 

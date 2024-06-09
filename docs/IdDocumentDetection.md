@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **document_back_liveness_score** | **int** | Indicates the liveness score of the back side image of the document | [optional] 
 **processed_checks** | [**IdDocumentSubChecks**](IdDocumentSubChecks.md) |  | [optional] 
 **attributes** | [**List[IdDocumentAttribute]**](IdDocumentAttribute.md) | Attributes of the _idDocument_ detection. | [optional] 
+**document_holder_id** | **str** | The id of the documentHolder | [optional] 
 
 ## Example
 

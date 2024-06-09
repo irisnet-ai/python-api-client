@@ -4,10 +4,94 @@ All URIs are relative to *https://api.irisnet.de*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**check_id_document**](AICheckOperationsApi.md#check_id_document) | **POST** /v2/check-id-document/{configId} | Check an id document with the AI.
 [**check_image**](AICheckOperationsApi.md#check_image) | **POST** /v2/check-image/{configId} | Check an image with the AI.
 [**check_stream**](AICheckOperationsApi.md#check_stream) | **POST** /v2/check-stream/{configId} | Check a stream with the AI.
 [**check_video**](AICheckOperationsApi.md#check_video) | **POST** /v2/check-video/{configId} | Check a video with the AI.
 
+
+# **check_id_document**
+> CheckResult check_id_document(config_id, document_check_request_data)
+
+Check an id document with the AI.
+
+The response (_CheckResult_ schema) containing only the checkId and possibly ApiNotices is returned immediately after the request. The actual body (_CheckResult_ schema) is send to the _callbackUrl_ after the AI has finished processing.
+
+### Example
+
+* Api Key Authentication (LICENSE-KEY):
+
+```python
+import irisnet_client
+from irisnet_client.models.check_result import CheckResult
+from irisnet_client.models.document_check_request_data import DocumentCheckRequestData
+from irisnet_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.irisnet.de
+# See configuration.py for a list of all supported configuration parameters.
+configuration = irisnet_client.Configuration(
+    host = "https://api.irisnet.de"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: LICENSE-KEY
+configuration.api_key['LICENSE-KEY'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['LICENSE-KEY'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with irisnet_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = irisnet_client.AICheckOperationsApi(api_client)
+    config_id = 'config_id_example' # str | The configuration id from the Basic Configuration operations.
+    document_check_request_data = {"callback":{"callbackUrl":"https://www.example.com/callback?idcheck"},"documentCountry":"DE","documentType":"national_identity_card","frontImage":"/9j/4AAQSkZJRgABAQEASABIAAD...","backImage":"/9j/4AAQSkZJRgABAQEASABIAAD...","selfieImage":"/9j/4AAQSkZJRgABAQEASABIAAD..."} # DocumentCheckRequestData | The DocumentCheckRequestData containing data needed for the id document check.
+
+    try:
+        # Check an id document with the AI.
+        api_response = api_instance.check_id_document(config_id, document_check_request_data)
+        print("The response of AICheckOperationsApi->check_id_document:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AICheckOperationsApi->check_id_document: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **config_id** | **str**| The configuration id from the Basic Configuration operations. | 
+ **document_check_request_data** | [**DocumentCheckRequestData**](DocumentCheckRequestData.md)| The DocumentCheckRequestData containing data needed for the id document check. | 
+
+### Return type
+
+[**CheckResult**](CheckResult.md)
+
+### Authorization
+
+[LICENSE-KEY](../README.md#LICENSE-KEY)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**402** | Not enough credits. |  -  |
+**202** | Input accepted: Wait for callback. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **check_image**
 > CheckResult check_image(config_id, url=url, detail=detail, image_encode=image_encode, data=data)
@@ -93,8 +177,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation. |  -  |
 **404** | configId not found. |  -  |
+**200** | successful operation. |  -  |
 **402** | Not enough credits. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -182,8 +266,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation. |  -  |
 **404** | configId not found. |  -  |
+**200** | successful operation. |  -  |
 **402** | Not enough credits. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

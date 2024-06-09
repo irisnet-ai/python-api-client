@@ -14,7 +14,6 @@ Name | Type | Description | Notes
 **photo_location** | **str** | Indicates whether the photo is in the correct location for a given document type | [optional] 
 **blacklist_check** | **str** | Indicates whether a competent authority deny-listed the ID document | [optional] 
 **photocopy_check** | **str** | Indicates whether the document is a photocopy | [optional] 
-**tampering_check** | **str** | Indicates whether the document image has been digitally tampered with | [optional] 
 **specimen_check** | **str** | Indicates whether the document has been copied from the Internet | [optional] 
 **document_model_identification** | **str** | Indicates whether the document model has been identified | [optional] 
 **document_liveness_check** | **str** | Indicates if the document image is genuine and not a photo of an image or of a screen | [optional] 

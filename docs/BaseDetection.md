@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **document_front_liveness_score** | **int** | Indicates the liveness score of the front side image of the document | [optional] 
 **document_back_liveness_score** | **int** | Indicates the liveness score of the back side image of the document | [optional] 
 **processed_checks** | [**IdDocumentSubChecks**](IdDocumentSubChecks.md) |  | [optional] 
+**document_holder_id** | **str** | The id of the documentHolder | [optional] 
 **sub_detections** | [**List[BaseDetection]**](BaseDetection.md) | A set of sub-detection that are particular to the _face_ detection. Mainly contains detections that were activated with the _attributesCheck_ prototype. | [optional] 
 
 ## Example

@@ -12,11 +12,11 @@ docs/BreastDetection.md
 docs/BrokenRule.md
 docs/Callback.md
 docs/CheckResult.md
-docs/CheckResultDetectionsInner.md
 docs/Config.md
 docs/ConfigurationManagementApi.md
 docs/Data.md
 docs/DetailedConfigurationParametersApi.md
+docs/DocumentCheckRequestData.md
 docs/Encoded.md
 docs/Event.md
 docs/FaceDetection.md
@@ -49,9 +49,9 @@ irisnet_client/models/breast_detection.py
 irisnet_client/models/broken_rule.py
 irisnet_client/models/callback.py
 irisnet_client/models/check_result.py
-irisnet_client/models/check_result_detections_inner.py
 irisnet_client/models/config.py
 irisnet_client/models/data.py
+irisnet_client/models/document_check_request_data.py
 irisnet_client/models/encoded.py
 irisnet_client/models/event.py
 irisnet_client/models/face_detection.py
@@ -73,7 +73,5 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_id_document_attribute.py
-test/test_id_document_detection.py
-test/test_id_document_sub_checks.py
+test/test_document_check_request_data.py
 tox.ini
