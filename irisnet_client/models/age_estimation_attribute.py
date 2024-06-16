@@ -18,20 +18,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from irisnet_client.models.age_estimation_sub_checks import AgeEstimationSubChecks
-from irisnet_client.models.base_detection import BaseDetection
-from irisnet_client.models.hair_attribute import HairAttribute
 from typing import Optional, Set
 from typing_extensions import Self
 
-class HairDetection(BaseDetection):
+class AgeEstimationAttribute(BaseModel):
     """
-    Contains further characteristics particular to _hair_ detection.
+    Attributes qualifying the _ageEstimation_ classification.
     """ # noqa: E501
-    attributes: Optional[List[HairAttribute]] = Field(default=None, description="Contains attributes for the _hair_ classification.")
-    __properties: ClassVar[List[str]] = ["type", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks", "documentHolderId"]
+    type: Optional[StrictStr] = Field(default=None, description="Used as a type discriminator for json to object conversion.")
+    age: Optional[StrictInt] = Field(default=None, description="The estimated age of the person in the selfie in years.")
+    age_min: Optional[StrictInt] = Field(default=None, description="The estimated minimum age of the person in the selfie in years.", alias="ageMin")
+    age_max: Optional[StrictInt] = Field(default=None, description="The estimated maximum age of the person in the selfie in years.", alias="ageMax")
+    __properties: ClassVar[List[str]] = ["type", "age", "ageMin", "ageMax"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +51,7 @@ class HairDetection(BaseDetection):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of HairDetection from a JSON string"""
+        """Create an instance of AgeEstimationAttribute from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,28 +72,11 @@ class HairDetection(BaseDetection):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in attributes (list)
-        _items = []
-        if self.attributes:
-            for _item in self.attributes:
-                if _item:
-                    _items.append(_item.to_dict())
-            _dict['attributes'] = _items
-        # override the default output from pydantic by calling `to_dict()` of each item in sub_detections (list)
-        _items = []
-        if self.sub_detections:
-            for _item in self.sub_detections:
-                if _item:
-                    _items.append(_item.to_dict())
-            _dict['subDetections'] = _items
-        # override the default output from pydantic by calling `to_dict()` of processed_checks
-        if self.processed_checks:
-            _dict['processedChecks'] = self.processed_checks.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of HairDetection from a dict"""
+        """Create an instance of AgeEstimationAttribute from a dict"""
         if obj is None:
             return None
 
@@ -102,17 +85,9 @@ class HairDetection(BaseDetection):
 
         _obj = cls.model_validate({
             "type": obj.get("type"),
-            "attributes": [HairAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
-            "subDetections": [BaseDetection.from_dict(_item) for _item in obj["subDetections"]] if obj.get("subDetections") is not None else None,
-            "checkId": obj.get("checkId"),
-            "hasOfficialDocument": obj.get("hasOfficialDocument"),
-            "comparable": obj.get("comparable"),
-            "faceSimilarity": obj.get("faceSimilarity"),
-            "faceLivenessCheckScore": obj.get("faceLivenessCheckScore"),
-            "documentFrontLivenessScore": obj.get("documentFrontLivenessScore"),
-            "documentBackLivenessScore": obj.get("documentBackLivenessScore"),
-            "processedChecks": AgeEstimationSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None,
-            "documentHolderId": obj.get("documentHolderId")
+            "age": obj.get("age"),
+            "ageMin": obj.get("ageMin"),
+            "ageMax": obj.get("ageMax")
         })
         return _obj
 

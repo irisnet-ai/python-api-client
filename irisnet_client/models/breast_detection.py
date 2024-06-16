@@ -20,9 +20,9 @@ import json
 
 from pydantic import ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
+from irisnet_client.models.age_estimation_sub_checks import AgeEstimationSubChecks
 from irisnet_client.models.base_attribute import BaseAttribute
 from irisnet_client.models.base_detection import BaseDetection
-from irisnet_client.models.id_document_sub_checks import IdDocumentSubChecks
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -111,7 +111,7 @@ class BreastDetection(BaseDetection):
             "faceLivenessCheckScore": obj.get("faceLivenessCheckScore"),
             "documentFrontLivenessScore": obj.get("documentFrontLivenessScore"),
             "documentBackLivenessScore": obj.get("documentBackLivenessScore"),
-            "processedChecks": IdDocumentSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None,
+            "processedChecks": AgeEstimationSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None,
             "documentHolderId": obj.get("documentHolderId")
         })
         return _obj

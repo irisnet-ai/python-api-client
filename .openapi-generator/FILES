@@ -4,6 +4,9 @@
 .travis.yml
 README.md
 docs/AICheckOperationsApi.md
+docs/AgeEstimationAttribute.md
+docs/AgeEstimationDetection.md
+docs/AgeEstimationSubChecks.md
 docs/ApiNotice.md
 docs/BalanceEndpointsApi.md
 docs/BaseAttribute.md
@@ -42,6 +45,9 @@ irisnet_client/api_response.py
 irisnet_client/configuration.py
 irisnet_client/exceptions.py
 irisnet_client/models/__init__.py
+irisnet_client/models/age_estimation_attribute.py
+irisnet_client/models/age_estimation_detection.py
+irisnet_client/models/age_estimation_sub_checks.py
 irisnet_client/models/api_notice.py
 irisnet_client/models/base_attribute.py
 irisnet_client/models/base_detection.py
@@ -73,5 +79,7 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_document_check_request_data.py
+test/test_age_estimation_attribute.py
+test/test_age_estimation_detection.py
+test/test_age_estimation_sub_checks.py
 tox.ini

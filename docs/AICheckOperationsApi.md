@@ -178,8 +178,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **404** | configId not found. |  -  |
-**200** | successful operation. |  -  |
 **402** | Not enough credits. |  -  |
+**200** | successful operation. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -267,8 +267,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **404** | configId not found. |  -  |
-**200** | successful operation. |  -  |
 **402** | Not enough credits. |  -  |
+**200** | successful operation. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -355,8 +355,8 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**202** | operation accepted: wait for callback. |  -  |
 **404** | configId not found. |  -  |
+**202** | operation accepted: wait for callback. |  -  |
 **402** | Not enough credits. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
