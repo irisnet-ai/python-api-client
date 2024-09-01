@@ -289,11 +289,12 @@ class AICheckOperationsApi:
 
 
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [
-                'application/json'
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -402,9 +403,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '402': "ApiNotice",
             '200': "CheckResult",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -487,9 +488,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '402': "ApiNotice",
             '200': "CheckResult",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -572,9 +573,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '402': "ApiNotice",
             '200': "CheckResult",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -632,11 +633,12 @@ class AICheckOperationsApi:
 
 
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [
-                'application/json'
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -745,9 +747,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '402': "ApiNotice",
             '200': "List[CheckResult]",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -830,9 +832,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '402': "ApiNotice",
             '200': "List[CheckResult]",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -915,9 +917,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '402': "ApiNotice",
             '200': "List[CheckResult]",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -977,11 +979,12 @@ class AICheckOperationsApi:
 
 
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [
-                'application/x-ndjson'
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/x-ndjson'
+                ]
+            )
 
 
         # authentication setting
@@ -1081,9 +1084,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '202': None,
             '402': "ApiNotice",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1170,9 +1173,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '202': None,
             '402': "ApiNotice",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1259,9 +1262,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '202': None,
             '402': "ApiNotice",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1324,11 +1327,12 @@ class AICheckOperationsApi:
 
 
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [
-                'application/json'
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:

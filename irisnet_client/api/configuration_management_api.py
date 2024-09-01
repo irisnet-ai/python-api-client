@@ -94,8 +94,8 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '204': None,
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -162,8 +162,8 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '204': None,
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -230,8 +230,8 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '204': None,
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -271,11 +271,12 @@ class ConfigurationManagementApi:
 
 
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [
-                '*/*'
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    '*/*'
+                ]
+            )
 
 
         # authentication setting
@@ -514,11 +515,12 @@ class ConfigurationManagementApi:
 
 
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [
-                'application/json'
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -598,8 +600,8 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '200': "Config",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -666,8 +668,8 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '200': "Config",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -734,8 +736,8 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '200': "Config",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -775,11 +777,12 @@ class ConfigurationManagementApi:
 
 
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [
-                'application/json'
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -859,9 +862,9 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Config",
-            '403': "ApiNotice",
             '400': "ApiNotice",
+            '403': "ApiNotice",
+            '200': "Config",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -928,9 +931,9 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Config",
-            '403': "ApiNotice",
             '400': "ApiNotice",
+            '403': "ApiNotice",
+            '200': "Config",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -997,9 +1000,9 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Config",
-            '403': "ApiNotice",
             '400': "ApiNotice",
+            '403': "ApiNotice",
+            '200': "Config",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1039,11 +1042,12 @@ class ConfigurationManagementApi:
 
 
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [
-                'application/json'
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:

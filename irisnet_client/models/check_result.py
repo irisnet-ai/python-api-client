@@ -87,37 +87,37 @@ class CheckResult(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each item in encodings (list)
         _items = []
         if self.encodings:
-            for _item in self.encodings:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_encodings in self.encodings:
+                if _item_encodings:
+                    _items.append(_item_encodings.to_dict())
             _dict['encodings'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in broken_rules (list)
         _items = []
         if self.broken_rules:
-            for _item in self.broken_rules:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_broken_rules in self.broken_rules:
+                if _item_broken_rules:
+                    _items.append(_item_broken_rules.to_dict())
             _dict['brokenRules'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in detections (list)
         _items = []
         if self.detections:
-            for _item in self.detections:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_detections in self.detections:
+                if _item_detections:
+                    _items.append(_item_detections.to_dict())
             _dict['detections'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in events (list)
         _items = []
         if self.events:
-            for _item in self.events:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_events in self.events:
+                if _item_events:
+                    _items.append(_item_events.to_dict())
             _dict['events'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in notifications (list)
         _items = []
         if self.notifications:
-            for _item in self.notifications:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_notifications in self.notifications:
+                if _item_notifications:
+                    _items.append(_item_notifications.to_dict())
             _dict['notifications'] = _items
         return _dict
 

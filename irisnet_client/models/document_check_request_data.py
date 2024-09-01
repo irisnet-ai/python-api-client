@@ -18,7 +18,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from irisnet_client.models.callback import Callback
 from typing import Optional, Set
@@ -32,9 +32,10 @@ class DocumentCheckRequestData(BaseModel):
     front_image: StrictStr = Field(description="The base64 encoded front image of the document to be checked in either jpg or png file format", alias="frontImage")
     back_image: Optional[StrictStr] = Field(default=None, description="The base64 encoded back image of the document to be checked in either jpg or png file format", alias="backImage")
     selfie_image: Optional[StrictStr] = Field(default=None, description="The base64 encoded selfie image to be checked in either jpg or png file format", alias="selfieImage")
+    minimum_accepted_age: Optional[StrictInt] = Field(default=None, description="The minimum accepted age in years for a DocumentCheck. Defaults to 18 if not provided", alias="minimumAcceptedAge")
     document_type: Optional[StrictStr] = Field(default=None, description="The type of the document", alias="documentType")
     document_country: Optional[StrictStr] = Field(default=None, description="The document's country in ISO 3166-1 alpha-2 format", alias="documentCountry")
-    __properties: ClassVar[List[str]] = ["callback", "frontImage", "backImage", "selfieImage", "documentType", "documentCountry"]
+    __properties: ClassVar[List[str]] = ["callback", "frontImage", "backImage", "selfieImage", "minimumAcceptedAge", "documentType", "documentCountry"]
 
     @field_validator('document_type')
     def document_type_validate_enum(cls, value):
@@ -104,6 +105,7 @@ class DocumentCheckRequestData(BaseModel):
             "frontImage": obj.get("frontImage"),
             "backImage": obj.get("backImage"),
             "selfieImage": obj.get("selfieImage"),
+            "minimumAcceptedAge": obj.get("minimumAcceptedAge"),
             "documentType": obj.get("documentType"),
             "documentCountry": obj.get("documentCountry")
         })

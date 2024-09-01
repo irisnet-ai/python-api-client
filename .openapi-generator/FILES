@@ -79,7 +79,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_age_estimation_attribute.py
-test/test_age_estimation_detection.py
-test/test_age_estimation_sub_checks.py
 tox.ini

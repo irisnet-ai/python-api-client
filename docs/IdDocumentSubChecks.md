@@ -15,10 +15,13 @@ Name | Type | Description | Notes
 **blacklist_check** | **str** | Indicates whether a competent authority deny-listed the ID document | [optional] 
 **photocopy_check** | **str** | Indicates whether the document is a photocopy | [optional] 
 **specimen_check** | **str** | Indicates whether the document has been copied from the Internet | [optional] 
-**document_model_identification** | **str** | Indicates whether the document model has been identified | [optional] 
+**document_model_identification** | **str** | Indicates whether the document model has been identified and whether or not the document conforms to official specifications | [optional] 
 **document_liveness_check** | **str** | Indicates if the document image is genuine and not a photo of an image or of a screen | [optional] 
 **spoofed_image_analysis** | **str** | Indicates whether the selfie image is spoofed, copied from the Internet, or is a known deny-listed image | [optional] 
 **face_liveness_check** | **str** | Indicates if the selfie image is genuine and not a photo of an image or of a screen | [optional] 
+**data_integrity_check** | **str** | Indicates whether the data fields contain the correct type of content | [optional] 
+**data_consistency_check** | **str** | Indicates whether the information on both sides of the document is consistent | [optional] 
+**age_validation_check** | **str** | Indicates if the extracted age is greater than or equal to a predefined minimum accepted age | [optional] 
 
 ## Example
 

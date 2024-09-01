@@ -75,16 +75,16 @@ class HairDetection(BaseDetection):
         # override the default output from pydantic by calling `to_dict()` of each item in attributes (list)
         _items = []
         if self.attributes:
-            for _item in self.attributes:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_attributes in self.attributes:
+                if _item_attributes:
+                    _items.append(_item_attributes.to_dict())
             _dict['attributes'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in sub_detections (list)
         _items = []
         if self.sub_detections:
-            for _item in self.sub_detections:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_sub_detections in self.sub_detections:
+                if _item_sub_detections:
+                    _items.append(_item_sub_detections.to_dict())
             _dict['subDetections'] = _items
         # override the default output from pydantic by calling `to_dict()` of processed_checks
         if self.processed_checks:

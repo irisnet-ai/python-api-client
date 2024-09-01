@@ -36,11 +36,14 @@ class IdDocumentSubChecks(BaseModel):
     blacklist_check: Optional[StrictStr] = Field(default=None, description="Indicates whether a competent authority deny-listed the ID document", alias="blacklistCheck")
     photocopy_check: Optional[StrictStr] = Field(default=None, description="Indicates whether the document is a photocopy", alias="photocopyCheck")
     specimen_check: Optional[StrictStr] = Field(default=None, description="Indicates whether the document has been copied from the Internet", alias="specimenCheck")
-    document_model_identification: Optional[StrictStr] = Field(default=None, description="Indicates whether the document model has been identified", alias="documentModelIdentification")
+    document_model_identification: Optional[StrictStr] = Field(default=None, description="Indicates whether the document model has been identified and whether or not the document conforms to official specifications", alias="documentModelIdentification")
     document_liveness_check: Optional[StrictStr] = Field(default=None, description="Indicates if the document image is genuine and not a photo of an image or of a screen", alias="documentLivenessCheck")
     spoofed_image_analysis: Optional[StrictStr] = Field(default=None, description="Indicates whether the selfie image is spoofed, copied from the Internet, or is a known deny-listed image", alias="spoofedImageAnalysis")
     face_liveness_check: Optional[StrictStr] = Field(default=None, description="Indicates if the selfie image is genuine and not a photo of an image or of a screen", alias="faceLivenessCheck")
-    __properties: ClassVar[List[str]] = ["mrzChecksum", "mrzFormat", "mrzConsistency", "expirationDate", "securityElements", "photoLocation", "blacklistCheck", "photocopyCheck", "specimenCheck", "documentModelIdentification", "documentLivenessCheck", "spoofedImageAnalysis", "faceLivenessCheck"]
+    data_integrity_check: Optional[StrictStr] = Field(default=None, description="Indicates whether the data fields contain the correct type of content", alias="dataIntegrityCheck")
+    data_consistency_check: Optional[StrictStr] = Field(default=None, description="Indicates whether the information on both sides of the document is consistent", alias="dataConsistencyCheck")
+    age_validation_check: Optional[StrictStr] = Field(default=None, description="Indicates if the extracted age is greater than or equal to a predefined minimum accepted age", alias="ageValidationCheck")
+    __properties: ClassVar[List[str]] = ["mrzChecksum", "mrzFormat", "mrzConsistency", "expirationDate", "securityElements", "photoLocation", "blacklistCheck", "photocopyCheck", "specimenCheck", "documentModelIdentification", "documentLivenessCheck", "spoofedImageAnalysis", "faceLivenessCheck", "dataIntegrityCheck", "dataConsistencyCheck", "ageValidationCheck"]
 
     @field_validator('mrz_checksum')
     def mrz_checksum_validate_enum(cls, value):
@@ -172,6 +175,36 @@ class IdDocumentSubChecks(BaseModel):
             raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
         return value
 
+    @field_validator('data_integrity_check')
+    def data_integrity_check_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
+    @field_validator('data_consistency_check')
+    def data_consistency_check_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
+    @field_validator('age_validation_check')
+    def age_validation_check_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
     model_config = ConfigDict(
         populate_by_name=True,
         validate_assignment=True,
@@ -235,7 +268,10 @@ class IdDocumentSubChecks(BaseModel):
             "documentModelIdentification": obj.get("documentModelIdentification"),
             "documentLivenessCheck": obj.get("documentLivenessCheck"),
             "spoofedImageAnalysis": obj.get("spoofedImageAnalysis"),
-            "faceLivenessCheck": obj.get("faceLivenessCheck")
+            "faceLivenessCheck": obj.get("faceLivenessCheck"),
+            "dataIntegrityCheck": obj.get("dataIntegrityCheck"),
+            "dataConsistencyCheck": obj.get("dataConsistencyCheck"),
+            "ageValidationCheck": obj.get("ageValidationCheck")
         })
         return _obj
 
