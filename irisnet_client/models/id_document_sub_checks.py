@@ -38,12 +38,15 @@ class IdDocumentSubChecks(BaseModel):
     specimen_check: Optional[StrictStr] = Field(default=None, description="Indicates whether the document has been copied from the Internet", alias="specimenCheck")
     document_model_identification: Optional[StrictStr] = Field(default=None, description="Indicates whether the document model has been identified and whether or not the document conforms to official specifications", alias="documentModelIdentification")
     document_liveness_check: Optional[StrictStr] = Field(default=None, description="Indicates if the document image is genuine and not a photo of an image or of a screen", alias="documentLivenessCheck")
-    spoofed_image_analysis: Optional[StrictStr] = Field(default=None, description="Indicates whether the selfie image is spoofed, copied from the Internet, or is a known deny-listed image", alias="spoofedImageAnalysis")
-    face_liveness_check: Optional[StrictStr] = Field(default=None, description="Indicates if the selfie image is genuine and not a photo of an image or of a screen", alias="faceLivenessCheck")
     data_integrity_check: Optional[StrictStr] = Field(default=None, description="Indicates whether the data fields contain the correct type of content", alias="dataIntegrityCheck")
     data_consistency_check: Optional[StrictStr] = Field(default=None, description="Indicates whether the information on both sides of the document is consistent", alias="dataConsistencyCheck")
     age_validation_check: Optional[StrictStr] = Field(default=None, description="Indicates if the extracted age is greater than or equal to a predefined minimum accepted age", alias="ageValidationCheck")
-    __properties: ClassVar[List[str]] = ["mrzChecksum", "mrzFormat", "mrzConsistency", "expirationDate", "securityElements", "photoLocation", "blacklistCheck", "photocopyCheck", "specimenCheck", "documentModelIdentification", "documentLivenessCheck", "spoofedImageAnalysis", "faceLivenessCheck", "dataIntegrityCheck", "dataConsistencyCheck", "ageValidationCheck"]
+    spoofed_image_analysis: Optional[StrictStr] = Field(default=None, description="Indicates whether the selfie image is spoofed, copied from the Internet, or is a known deny-listed image", alias="spoofedImageAnalysis")
+    face_liveness_check: Optional[StrictStr] = Field(default=None, description="Indicates if the selfie image is genuine and not a photo of an image or of a screen", alias="faceLivenessCheck")
+    voice_challenge_check: Optional[StrictStr] = Field(default=None, description="Indicates if the enduser had answered correctly during the voice challenge.", alias="voiceChallengeCheck")
+    action_challenge_check: Optional[StrictStr] = Field(default=None, description="Indicates if the enduser had moved correctly during the actions challenge.", alias="actionChallengeCheck")
+    known_faces_check: Optional[StrictStr] = Field(default=None, description="Indicates if the selfie image matches an aready existing client/customer", alias="knownFacesCheck")
+    __properties: ClassVar[List[str]] = ["mrzChecksum", "mrzFormat", "mrzConsistency", "expirationDate", "securityElements", "photoLocation", "blacklistCheck", "photocopyCheck", "specimenCheck", "documentModelIdentification", "documentLivenessCheck", "dataIntegrityCheck", "dataConsistencyCheck", "ageValidationCheck", "spoofedImageAnalysis", "faceLivenessCheck", "voiceChallengeCheck", "actionChallengeCheck", "knownFacesCheck"]
 
     @field_validator('mrz_checksum')
     def mrz_checksum_validate_enum(cls, value):
@@ -155,26 +158,6 @@ class IdDocumentSubChecks(BaseModel):
             raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
         return value
 
-    @field_validator('spoofed_image_analysis')
-    def spoofed_image_analysis_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in set(['passed', 'failed', 'not_processed']):
-            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
-        return value
-
-    @field_validator('face_liveness_check')
-    def face_liveness_check_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in set(['passed', 'failed', 'not_processed']):
-            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
-        return value
-
     @field_validator('data_integrity_check')
     def data_integrity_check_validate_enum(cls, value):
         """Validates the enum"""
@@ -197,6 +180,56 @@ class IdDocumentSubChecks(BaseModel):
 
     @field_validator('age_validation_check')
     def age_validation_check_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
+    @field_validator('spoofed_image_analysis')
+    def spoofed_image_analysis_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
+    @field_validator('face_liveness_check')
+    def face_liveness_check_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
+    @field_validator('voice_challenge_check')
+    def voice_challenge_check_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
+    @field_validator('action_challenge_check')
+    def action_challenge_check_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
+    @field_validator('known_faces_check')
+    def known_faces_check_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
             return value
@@ -267,11 +300,14 @@ class IdDocumentSubChecks(BaseModel):
             "specimenCheck": obj.get("specimenCheck"),
             "documentModelIdentification": obj.get("documentModelIdentification"),
             "documentLivenessCheck": obj.get("documentLivenessCheck"),
-            "spoofedImageAnalysis": obj.get("spoofedImageAnalysis"),
-            "faceLivenessCheck": obj.get("faceLivenessCheck"),
             "dataIntegrityCheck": obj.get("dataIntegrityCheck"),
             "dataConsistencyCheck": obj.get("dataConsistencyCheck"),
-            "ageValidationCheck": obj.get("ageValidationCheck")
+            "ageValidationCheck": obj.get("ageValidationCheck"),
+            "spoofedImageAnalysis": obj.get("spoofedImageAnalysis"),
+            "faceLivenessCheck": obj.get("faceLivenessCheck"),
+            "voiceChallengeCheck": obj.get("voiceChallengeCheck"),
+            "actionChallengeCheck": obj.get("actionChallengeCheck"),
+            "knownFacesCheck": obj.get("knownFacesCheck")
         })
         return _obj
 

@@ -22,20 +22,27 @@ from pydantic import ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from irisnet_client.models.age_estimation_attribute import AgeEstimationAttribute
 from irisnet_client.models.age_estimation_sub_checks import AgeEstimationSubChecks
-from irisnet_client.models.base_detection import BaseDetection
+from irisnet_client.models.coordinates import Coordinates
+from irisnet_client.models.detection import Detection
+from irisnet_client.models.known_face import KnownFace
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AgeEstimationDetection(BaseDetection):
+class AgeEstimationDetection(Detection):
     """
     Contains further characteristics particular to _ageEstimation_ detection.
     """ # noqa: E501
+    classification: Optional[StrictStr] = Field(default=None, description="The classification of the recognized object.")
+    group: Optional[StrictStr] = Field(default=None, description="The group of the classification.")
+    id: Optional[StrictInt] = Field(default=None, description="The id of the detection object.")
+    probability: Optional[StrictInt] = Field(default=None, description="The probability that the object found matches the classification.")
+    coordinates: Optional[Coordinates] = None
     check_id: Optional[StrictStr] = Field(default=None, description="The id of the check that lead to the detection", alias="checkId")
     face_similarity: Optional[StrictInt] = Field(default=None, description="Indicates the similarity-level of whether two faces belong to the same person", alias="faceSimilarity")
     face_liveness_check_score: Optional[StrictInt] = Field(default=None, description="Indicates the liveness score of the selfie image", alias="faceLivenessCheckScore")
     processed_checks: Optional[AgeEstimationSubChecks] = Field(default=None, alias="processedChecks")
     attributes: Optional[List[AgeEstimationAttribute]] = Field(default=None, description="Attributes of the _idDocument_ detection.")
-    __properties: ClassVar[List[str]] = ["type", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks", "documentHolderId"]
+    __properties: ClassVar[List[str]] = ["type", "classification", "group", "id", "probability", "coordinates", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks", "documentHolderId", "knownFaces"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -76,6 +83,9 @@ class AgeEstimationDetection(BaseDetection):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of coordinates
+        if self.coordinates:
+            _dict['coordinates'] = self.coordinates.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in attributes (list)
         _items = []
         if self.attributes:
@@ -93,6 +103,13 @@ class AgeEstimationDetection(BaseDetection):
         # override the default output from pydantic by calling `to_dict()` of processed_checks
         if self.processed_checks:
             _dict['processedChecks'] = self.processed_checks.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in known_faces (list)
+        _items = []
+        if self.known_faces:
+            for _item_known_faces in self.known_faces:
+                if _item_known_faces:
+                    _items.append(_item_known_faces.to_dict())
+            _dict['knownFaces'] = _items
         return _dict
 
     @classmethod
@@ -106,8 +123,13 @@ class AgeEstimationDetection(BaseDetection):
 
         _obj = cls.model_validate({
             "type": obj.get("type"),
+            "classification": obj.get("classification"),
+            "group": obj.get("group"),
+            "id": obj.get("id"),
+            "probability": obj.get("probability"),
+            "coordinates": Coordinates.from_dict(obj["coordinates"]) if obj.get("coordinates") is not None else None,
             "attributes": [AgeEstimationAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
-            "subDetections": [BaseDetection.from_dict(_item) for _item in obj["subDetections"]] if obj.get("subDetections") is not None else None,
+            "subDetections": [Detection.from_dict(_item) for _item in obj["subDetections"]] if obj.get("subDetections") is not None else None,
             "checkId": obj.get("checkId"),
             "hasOfficialDocument": obj.get("hasOfficialDocument"),
             "comparable": obj.get("comparable"),
@@ -116,7 +138,8 @@ class AgeEstimationDetection(BaseDetection):
             "documentFrontLivenessScore": obj.get("documentFrontLivenessScore"),
             "documentBackLivenessScore": obj.get("documentBackLivenessScore"),
             "processedChecks": AgeEstimationSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None,
-            "documentHolderId": obj.get("documentHolderId")
+            "documentHolderId": obj.get("documentHolderId"),
+            "knownFaces": [KnownFace.from_dict(_item) for _item in obj["knownFaces"]] if obj.get("knownFaces") is not None else None
         })
         return _obj
 

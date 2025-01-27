@@ -19,16 +19,16 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBytes, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing import Any, ClassVar, Dict, List, Optional, Tuple, Union
 from typing import Optional, Set
 from typing_extensions import Self
 
 class Encoded(BaseModel):
     """
-    Contains the resulting media as base64 encoded string or an URL to download that media.
+    Contains the resulting media as a data URL (RFC 2397) encoded string or an URL to download that media.
     """ # noqa: E501
-    name: Optional[StrictStr] = Field(default=None, description="<s>The original filename of the image or video.</s> Contains a randomly generated filename. <b>This property will be removed in future releases.</b>")
-    data: Optional[Union[StrictBytes, StrictStr]] = Field(default=None, description="The encoded image in base64 format.")
+    name: Optional[StrictStr] = Field(default=None, description="Contains a randomly generated filename, might be null.")
+    data: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = Field(default=None, description="The encoded image in data URL format (RFC 2397).")
     download_url: Optional[StrictStr] = Field(default=None, description="A one time URL to download the resulting video. The URL is only valid for 24 hours.", alias="downloadUrl")
     __properties: ClassVar[List[str]] = ["name", "data", "downloadUrl"]
 

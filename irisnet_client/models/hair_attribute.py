@@ -38,8 +38,8 @@ class HairAttribute(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['black', 'brown', 'blonde', 'grey', 'red', 'other']):
-            raise ValueError("must be one of enum values ('black', 'brown', 'blonde', 'grey', 'red', 'other')")
+        if value not in set(['black', 'darkBrown', 'brown', 'lightBrown', 'darkBlonde', 'blonde', 'darkGrey', 'grey', 'red', 'white', 'other']):
+            raise ValueError("must be one of enum values ('black', 'darkBrown', 'brown', 'lightBrown', 'darkBlonde', 'blonde', 'darkGrey', 'grey', 'red', 'white', 'other')")
         return value
 
     @field_validator('style')

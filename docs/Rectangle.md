@@ -3,6 +3,7 @@
 Describes the bounds of a rectangle starting from the center.
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **x0** | **float** | The center of the rectangle in the horizontal (x) direction. | [optional] 
@@ -20,12 +21,12 @@ json = "{}"
 # create an instance of Rectangle from a JSON string
 rectangle_instance = Rectangle.from_json(json)
 # print the JSON string representation of the object
-print Rectangle.to_json()
+print(Rectangle.to_json())
 
 # convert the object into a dict
 rectangle_dict = rectangle_instance.to_dict()
 # create an instance of Rectangle from a dict
-rectangle_form_dict = rectangle.from_dict(rectangle_dict)
+rectangle_from_dict = Rectangle.from_dict(rectangle_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

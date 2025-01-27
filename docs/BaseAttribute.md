@@ -6,9 +6,9 @@ An attribute describes a quality or characteristic that a detection object has.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**type** | **str** | Used as a type discriminator for json to object conversion. | [optional] 
 **classification** | **str** | The classification of the recognized attribute. | [optional] 
 **probability** | **int** | The probability that the attribute found matches the classification. | [optional] 
-**type** | **str** | Used as a type discriminator for json to object conversion. | [optional] 
 
 ## Example
 

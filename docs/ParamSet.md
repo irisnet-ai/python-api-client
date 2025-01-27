@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **min_duration** | **int** | Set the overall minimum duration in milliseconds for a rule to be broken in moving images. | [optional] [default to 100]
 **abort_on_severity** | **int** | Set a severity on which to automatically stop the check operation. Works with moving images.Use &#39;-1&#39; to ignore this option. | [optional] [default to -1]
 **params** | [**List[Param]**](Param.md) | A list of parameter sets that describe the rules of the objects. | [optional] 
+**kyc_ui_parameters** | [**KycUiParameter**](KycUiParameter.md) |  | [optional] 
+**kyc_document_country_deny_list** | **str** | A comma separated list of country codes (ISO 3166-1 alpha-2) for which id-documents should be rejected. | [optional] 
 
 ## Example
 

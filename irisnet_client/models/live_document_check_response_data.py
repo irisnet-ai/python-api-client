@@ -18,19 +18,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BaseAttribute(BaseModel):
+class LiveDocumentCheckResponseData(BaseModel):
     """
-    An attribute describes a quality or characteristic that a detection object has.
+    Response object containing neccessary information to start the enduser live document check on the client side.
     """ # noqa: E501
-    type: Optional[StrictStr] = Field(default=None, description="Used as a type discriminator for json to object conversion.")
-    classification: Optional[StrictStr] = Field(default=None, description="The classification of the recognized attribute.")
-    probability: Optional[StrictInt] = Field(default=None, description="The probability that the attribute found matches the classification.")
-    __properties: ClassVar[List[str]] = ["type", "classification", "probability"]
+    event_id: Optional[StrictStr] = Field(default=None, description="unique id of this live document check", alias="eventId")
+    ident_token: Optional[StrictStr] = Field(default=None, description="token to secure the live document check, might be null since already incorporated into endUserIdentUrl", alias="identToken")
+    end_user_ident_url: Optional[StrictStr] = Field(default=None, description="URL to send the enduser to, to start the live document check", alias="endUserIdentUrl")
+    __properties: ClassVar[List[str]] = ["eventId", "identToken", "endUserIdentUrl"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +50,7 @@ class BaseAttribute(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BaseAttribute from a JSON string"""
+        """Create an instance of LiveDocumentCheckResponseData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,7 +75,7 @@ class BaseAttribute(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BaseAttribute from a dict"""
+        """Create an instance of LiveDocumentCheckResponseData from a dict"""
         if obj is None:
             return None
 
@@ -83,9 +83,9 @@ class BaseAttribute(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "type": obj.get("type"),
-            "classification": obj.get("classification"),
-            "probability": obj.get("probability")
+            "eventId": obj.get("eventId"),
+            "identToken": obj.get("identToken"),
+            "endUserIdentUrl": obj.get("endUserIdentUrl")
         })
         return _obj
 

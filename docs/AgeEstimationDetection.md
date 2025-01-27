@@ -6,6 +6,11 @@ Contains further characteristics particular to _ageEstimation_ detection.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**classification** | **str** | The classification of the recognized object. | [optional] 
+**group** | **str** | The group of the classification. | [optional] 
+**id** | **int** | The id of the detection object. | [optional] 
+**probability** | **int** | The probability that the object found matches the classification. | [optional] 
+**coordinates** | [**Coordinates**](Coordinates.md) |  | [optional] 
 **check_id** | **str** | The id of the check that lead to the detection | [optional] 
 **face_similarity** | **int** | Indicates the similarity-level of whether two faces belong to the same person | [optional] 
 **face_liveness_check_score** | **int** | Indicates the liveness score of the selfie image | [optional] 

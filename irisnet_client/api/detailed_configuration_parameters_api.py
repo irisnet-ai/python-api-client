@@ -257,7 +257,9 @@ class DetailedConfigurationParametersApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, Union[str, bytes]] = {}
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -355,8 +357,8 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ParamSet",
             '404': "ApiNotice",
+            '200': "ParamSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -423,8 +425,8 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ParamSet",
             '404': "ApiNotice",
+            '200': "ParamSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -491,8 +493,8 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ParamSet",
             '404': "ApiNotice",
+            '200': "ParamSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -519,7 +521,9 @@ class DetailedConfigurationParametersApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, Union[str, bytes]] = {}
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -621,10 +625,10 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '404': "ApiNotice",
             '400': "ApiNotice",
             '204': None,
             '200': "ParamSet",
-            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -695,10 +699,10 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '404': "ApiNotice",
             '400': "ApiNotice",
             '204': None,
             '200': "ParamSet",
-            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -769,10 +773,10 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '404': "ApiNotice",
             '400': "ApiNotice",
             '204': None,
             '200': "ParamSet",
-            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -800,7 +804,9 @@ class DetailedConfigurationParametersApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, Union[str, bytes]] = {}
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters

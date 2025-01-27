@@ -18,9 +18,10 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing_extensions import Annotated
+from irisnet_client.models.kyc_ui_parameter import KycUiParameter
 from irisnet_client.models.param import Param
 from typing import Optional, Set
 from typing_extensions import Self
@@ -34,7 +35,9 @@ class ParamSet(BaseModel):
     min_duration: Optional[Annotated[int, Field(le=250, strict=True, ge=50)]] = Field(default=100, description="Set the overall minimum duration in milliseconds for a rule to be broken in moving images.", alias="minDuration")
     abort_on_severity: Optional[Annotated[int, Field(strict=True, ge=-1)]] = Field(default=-1, description="Set a severity on which to automatically stop the check operation. Works with moving images.Use '-1' to ignore this option.", alias="abortOnSeverity")
     params: Optional[List[Param]] = Field(default=None, description="A list of parameter sets that describe the rules of the objects.")
-    __properties: ClassVar[List[str]] = ["thresh", "grey", "minDuration", "abortOnSeverity", "params"]
+    kyc_ui_parameters: Optional[KycUiParameter] = Field(default=None, alias="kycUiParameters")
+    kyc_document_country_deny_list: Optional[StrictStr] = Field(default=None, description="A comma separated list of country codes (ISO 3166-1 alpha-2) for which id-documents should be rejected.", alias="kycDocumentCountryDenyList")
+    __properties: ClassVar[List[str]] = ["thresh", "grey", "minDuration", "abortOnSeverity", "params", "kycUiParameters", "kycDocumentCountryDenyList"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,6 +85,9 @@ class ParamSet(BaseModel):
                 if _item_params:
                     _items.append(_item_params.to_dict())
             _dict['params'] = _items
+        # override the default output from pydantic by calling `to_dict()` of kyc_ui_parameters
+        if self.kyc_ui_parameters:
+            _dict['kycUiParameters'] = self.kyc_ui_parameters.to_dict()
         return _dict
 
     @classmethod
@@ -98,7 +104,9 @@ class ParamSet(BaseModel):
             "grey": obj.get("grey") if obj.get("grey") is not None else 127,
             "minDuration": obj.get("minDuration") if obj.get("minDuration") is not None else 100,
             "abortOnSeverity": obj.get("abortOnSeverity") if obj.get("abortOnSeverity") is not None else -1,
-            "params": [Param.from_dict(_item) for _item in obj["params"]] if obj.get("params") is not None else None
+            "params": [Param.from_dict(_item) for _item in obj["params"]] if obj.get("params") is not None else None,
+            "kycUiParameters": KycUiParameter.from_dict(obj["kycUiParameters"]) if obj.get("kycUiParameters") is not None else None,
+            "kycDocumentCountryDenyList": obj.get("kycDocumentCountryDenyList")
         })
         return _obj
 

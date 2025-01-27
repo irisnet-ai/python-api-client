@@ -23,14 +23,13 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BaseAttribute(BaseModel):
+class KnownFace(BaseModel):
     """
-    An attribute describes a quality or characteristic that a detection object has.
+    A list of known faces, describing which other documentHolders match this documentHolder with a certain similarity
     """ # noqa: E501
-    type: Optional[StrictStr] = Field(default=None, description="Used as a type discriminator for json to object conversion.")
-    classification: Optional[StrictStr] = Field(default=None, description="The classification of the recognized attribute.")
-    probability: Optional[StrictInt] = Field(default=None, description="The probability that the attribute found matches the classification.")
-    __properties: ClassVar[List[str]] = ["type", "classification", "probability"]
+    document_holder_id: Optional[StrictStr] = Field(default=None, description="The id of the documentHolder", alias="documentHolderId")
+    face_similarity: Optional[StrictInt] = Field(default=None, description="Indicates the similarity-level between the known face and the documentHolder's selfie", alias="faceSimilarity")
+    __properties: ClassVar[List[str]] = ["documentHolderId", "faceSimilarity"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +49,7 @@ class BaseAttribute(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BaseAttribute from a JSON string"""
+        """Create an instance of KnownFace from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,7 +74,7 @@ class BaseAttribute(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BaseAttribute from a dict"""
+        """Create an instance of KnownFace from a dict"""
         if obj is None:
             return None
 
@@ -83,9 +82,8 @@ class BaseAttribute(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "type": obj.get("type"),
-            "classification": obj.get("classification"),
-            "probability": obj.get("probability")
+            "documentHolderId": obj.get("documentHolderId"),
+            "faceSimilarity": obj.get("faceSimilarity")
         })
         return _obj
 

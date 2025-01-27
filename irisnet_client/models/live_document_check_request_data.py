@@ -20,17 +20,19 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from irisnet_client.models.callback import Callback
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BaseAttribute(BaseModel):
+class LiveDocumentCheckRequestData(BaseModel):
     """
-    An attribute describes a quality or characteristic that a detection object has.
+    Data containing neccessary information to handle the enduser live document check.
     """ # noqa: E501
-    type: Optional[StrictStr] = Field(default=None, description="Used as a type discriminator for json to object conversion.")
-    classification: Optional[StrictStr] = Field(default=None, description="The classification of the recognized attribute.")
-    probability: Optional[StrictInt] = Field(default=None, description="The probability that the attribute found matches the classification.")
-    __properties: ClassVar[List[str]] = ["type", "classification", "probability"]
+    callback: Callback
+    status_url: Optional[StrictStr] = Field(default=None, description="The URL to send the intermediate status requests to. If not set, no intermediate status requests will be sent.", alias="statusUrl")
+    end_user_redirect_url: Optional[StrictStr] = Field(default=None, description="If set the enduser is being redirected to this URL after the check is finished.", alias="endUserRedirectUrl")
+    token_validity_in_seconds: Optional[StrictInt] = Field(default=None, description="The validity duration of a started ident process in seconds. Defaults to 3600 seconds = 60 minutes.", alias="tokenValidityInSeconds")
+    __properties: ClassVar[List[str]] = ["callback", "statusUrl", "endUserRedirectUrl", "tokenValidityInSeconds"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +52,7 @@ class BaseAttribute(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BaseAttribute from a JSON string"""
+        """Create an instance of LiveDocumentCheckRequestData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,11 +73,14 @@ class BaseAttribute(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of callback
+        if self.callback:
+            _dict['callback'] = self.callback.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BaseAttribute from a dict"""
+        """Create an instance of LiveDocumentCheckRequestData from a dict"""
         if obj is None:
             return None
 
@@ -83,9 +88,10 @@ class BaseAttribute(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "type": obj.get("type"),
-            "classification": obj.get("classification"),
-            "probability": obj.get("probability")
+            "callback": Callback.from_dict(obj["callback"]) if obj.get("callback") is not None else None,
+            "statusUrl": obj.get("statusUrl"),
+            "endUserRedirectUrl": obj.get("endUserRedirectUrl"),
+            "tokenValidityInSeconds": obj.get("tokenValidityInSeconds")
         })
         return _obj
 

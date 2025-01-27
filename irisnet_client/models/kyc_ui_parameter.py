@@ -18,19 +18,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BaseAttribute(BaseModel):
+class KycUiParameter(BaseModel):
     """
-    An attribute describes a quality or characteristic that a detection object has.
+    A collection of parameters that determine the appearance and behaviour of the user interface (UI).
     """ # noqa: E501
-    type: Optional[StrictStr] = Field(default=None, description="Used as a type discriminator for json to object conversion.")
-    classification: Optional[StrictStr] = Field(default=None, description="The classification of the recognized attribute.")
-    probability: Optional[StrictInt] = Field(default=None, description="The probability that the attribute found matches the classification.")
-    __properties: ClassVar[List[str]] = ["type", "classification", "probability"]
+    primary_color: Optional[StrictStr] = Field(default='57a632', description="The primary color of the UI in hex format (rrggbb).", alias="primaryColor")
+    background_color: Optional[StrictStr] = Field(default='000000', description="The background color of the UI in hex format (rrggbb).", alias="backgroundColor")
+    text_color: Optional[StrictStr] = Field(default='ffffff', description="The text color of the UI in hex format (rrggbb).", alias="textColor")
+    logo: Optional[StrictStr] = Field(default=None, description="The company logo for the UI in PNG fileformat (512 px * 512 px) as a base64 encoded string.")
+    __properties: ClassVar[List[str]] = ["primaryColor", "backgroundColor", "textColor", "logo"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +51,7 @@ class BaseAttribute(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BaseAttribute from a JSON string"""
+        """Create an instance of KycUiParameter from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,7 +76,7 @@ class BaseAttribute(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BaseAttribute from a dict"""
+        """Create an instance of KycUiParameter from a dict"""
         if obj is None:
             return None
 
@@ -83,9 +84,10 @@ class BaseAttribute(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "type": obj.get("type"),
-            "classification": obj.get("classification"),
-            "probability": obj.get("probability")
+            "primaryColor": obj.get("primaryColor") if obj.get("primaryColor") is not None else '57a632',
+            "backgroundColor": obj.get("backgroundColor") if obj.get("backgroundColor") is not None else '000000',
+            "textColor": obj.get("textColor") if obj.get("textColor") is not None else 'ffffff',
+            "logo": obj.get("logo")
         })
         return _obj
 

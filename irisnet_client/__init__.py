@@ -15,7 +15,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.6.4"
+__version__ = "3.7.0"
 
 # import apis into sdk package
 from irisnet_client.api.ai_check_operations_api import AICheckOperationsApi
@@ -46,7 +46,9 @@ from irisnet_client.models.broken_rule import BrokenRule
 from irisnet_client.models.callback import Callback
 from irisnet_client.models.check_result import CheckResult
 from irisnet_client.models.config import Config
+from irisnet_client.models.coordinates import Coordinates
 from irisnet_client.models.data import Data
+from irisnet_client.models.detection import Detection
 from irisnet_client.models.document_check_request_data import DocumentCheckRequestData
 from irisnet_client.models.encoded import Encoded
 from irisnet_client.models.event import Event
@@ -56,8 +58,13 @@ from irisnet_client.models.hair_detection import HairDetection
 from irisnet_client.models.id_document_attribute import IdDocumentAttribute
 from irisnet_client.models.id_document_detection import IdDocumentDetection
 from irisnet_client.models.id_document_sub_checks import IdDocumentSubChecks
+from irisnet_client.models.known_face import KnownFace
+from irisnet_client.models.kyc_ui_parameter import KycUiParameter
 from irisnet_client.models.license_info import LicenseInfo
+from irisnet_client.models.live_document_check_request_data import LiveDocumentCheckRequestData
+from irisnet_client.models.live_document_check_response_data import LiveDocumentCheckResponseData
 from irisnet_client.models.param import Param
 from irisnet_client.models.param_set import ParamSet
 from irisnet_client.models.pricing import Pricing
+from irisnet_client.models.rectangle import Rectangle
 from irisnet_client.models.summary import Summary

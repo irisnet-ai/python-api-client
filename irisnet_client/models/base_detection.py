@@ -14,191 +14,129 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
-import json
 import pprint
 import re  # noqa: F401
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
-from typing import Optional
-from irisnet_client.models.age_estimation_detection import AgeEstimationDetection
-from irisnet_client.models.breast_detection import BreastDetection
-from irisnet_client.models.hair_detection import HairDetection
-from irisnet_client.models.id_document_detection import IdDocumentDetection
-from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
-from typing_extensions import Literal, Self
-from pydantic import Field
+import json
 
-BASEDETECTION_ANY_OF_SCHEMAS = ["AgeEstimationDetection", "BaseDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection"]
+from pydantic import ConfigDict, Field, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
+from irisnet_client.models.age_estimation_sub_checks import AgeEstimationSubChecks
+from irisnet_client.models.base_attribute import BaseAttribute
+from irisnet_client.models.coordinates import Coordinates
+from irisnet_client.models.detection import Detection
+from irisnet_client.models.known_face import KnownFace
+from typing import Optional, Set
+from typing_extensions import Self
 
-class BaseDetection(BaseModel):
+class BaseDetection(Detection):
     """
     A detection describes the object found with all its details.
-    """
+    """ # noqa: E501
+    classification: Optional[StrictStr] = Field(default=None, description="The classification of the recognized object.")
+    group: Optional[StrictStr] = Field(default=None, description="The group of the classification.")
+    id: Optional[StrictInt] = Field(default=None, description="The id of the detection object.")
+    probability: Optional[StrictInt] = Field(default=None, description="The probability that the object found matches the classification.")
+    coordinates: Optional[Coordinates] = None
+    attributes: Optional[List[BaseAttribute]] = Field(default=None, description="Attributes characterizing the _base_ detection.")
+    __properties: ClassVar[List[str]] = ["type", "classification", "group", "id", "probability", "coordinates", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks", "documentHolderId", "knownFaces"]
 
-    # data type: BaseDetection
-    anyof_schema_1_validator: Optional[BaseDetection] = None
-    # data type: FaceDetection
-    anyof_schema_2_validator: Optional[FaceDetection] = None
-    # data type: BreastDetection
-    anyof_schema_3_validator: Optional[BreastDetection] = None
-    # data type: HairDetection
-    anyof_schema_4_validator: Optional[HairDetection] = None
-    # data type: IdDocumentDetection
-    anyof_schema_5_validator: Optional[IdDocumentDetection] = None
-    # data type: AgeEstimationDetection
-    anyof_schema_6_validator: Optional[AgeEstimationDetection] = None
-    if TYPE_CHECKING:
-        actual_instance: Optional[Union[AgeEstimationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection]] = None
-    else:
-        actual_instance: Any = None
-    any_of_schemas: Set[str] = { "AgeEstimationDetection", "BaseDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection" }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
-    model_config = {
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
-
-    discriminator_value_class_map: Dict[str, str] = {
-        'AgeEstimationDetection': 'AgeEstimationDetection',
-        'BreastDetection': 'BreastDetection',
-        'FaceDetection': 'FaceDetection',
-        'HairDetection': 'HairDetection',
-        'IdDocumentDetection': 'IdDocumentDetection'
-    }
-
-    def __init__(self, *args, **kwargs) -> None:
-        if args:
-            if len(args) > 1:
-                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
-            if kwargs:
-                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
-            super().__init__(actual_instance=args[0])
-        else:
-            super().__init__(**kwargs)
-
-    @field_validator('actual_instance')
-    def actual_instance_must_validate_anyof(cls, v):
-        instance = BaseDetection.model_construct()
-        error_messages = []
-        # validate data type: BaseDetection
-        if not isinstance(v, BaseDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `BaseDetection`")
-        else:
-            return v
-
-        # validate data type: FaceDetection
-        if not isinstance(v, FaceDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `FaceDetection`")
-        else:
-            return v
-
-        # validate data type: BreastDetection
-        if not isinstance(v, BreastDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `BreastDetection`")
-        else:
-            return v
-
-        # validate data type: HairDetection
-        if not isinstance(v, HairDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `HairDetection`")
-        else:
-            return v
-
-        # validate data type: IdDocumentDetection
-        if not isinstance(v, IdDocumentDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `IdDocumentDetection`")
-        else:
-            return v
-
-        # validate data type: AgeEstimationDetection
-        if not isinstance(v, AgeEstimationDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `AgeEstimationDetection`")
-        else:
-            return v
-
-        if error_messages:
-            # no match
-            raise ValueError("No match found when setting the actual_instance in BaseDetection with anyOf schemas: AgeEstimationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
-        else:
-            return v
-
-    @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Self:
-        return cls.from_json(json.dumps(obj))
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Self:
-        """Returns the object represented by the json string"""
-        instance = cls.model_construct()
-        error_messages = []
-        # anyof_schema_1_validator: Optional[BaseDetection] = None
-        try:
-            instance.actual_instance = BaseDetection.from_json(json_str)
-            return instance
-        except (ValidationError, ValueError) as e:
-             error_messages.append(str(e))
-        # anyof_schema_2_validator: Optional[FaceDetection] = None
-        try:
-            instance.actual_instance = FaceDetection.from_json(json_str)
-            return instance
-        except (ValidationError, ValueError) as e:
-             error_messages.append(str(e))
-        # anyof_schema_3_validator: Optional[BreastDetection] = None
-        try:
-            instance.actual_instance = BreastDetection.from_json(json_str)
-            return instance
-        except (ValidationError, ValueError) as e:
-             error_messages.append(str(e))
-        # anyof_schema_4_validator: Optional[HairDetection] = None
-        try:
-            instance.actual_instance = HairDetection.from_json(json_str)
-            return instance
-        except (ValidationError, ValueError) as e:
-             error_messages.append(str(e))
-        # anyof_schema_5_validator: Optional[IdDocumentDetection] = None
-        try:
-            instance.actual_instance = IdDocumentDetection.from_json(json_str)
-            return instance
-        except (ValidationError, ValueError) as e:
-             error_messages.append(str(e))
-        # anyof_schema_6_validator: Optional[AgeEstimationDetection] = None
-        try:
-            instance.actual_instance = AgeEstimationDetection.from_json(json_str)
-            return instance
-        except (ValidationError, ValueError) as e:
-             error_messages.append(str(e))
-
-        if error_messages:
-            # no match
-            raise ValueError("No match found when deserializing the JSON string into BaseDetection with anyOf schemas: AgeEstimationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
-        else:
-            return instance
-
-    def to_json(self) -> str:
-        """Returns the JSON representation of the actual instance"""
-        if self.actual_instance is None:
-            return "null"
-
-        if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
-            return self.actual_instance.to_json()
-        else:
-            return json.dumps(self.actual_instance)
-
-    def to_dict(self) -> Optional[Union[Dict[str, Any], AgeEstimationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection]]:
-        """Returns the dict representation of the actual instance"""
-        if self.actual_instance is None:
-            return None
-
-        if hasattr(self.actual_instance, "to_dict") and callable(self.actual_instance.to_dict):
-            return self.actual_instance.to_dict()
-        else:
-            return self.actual_instance
 
     def to_str(self) -> str:
-        """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.model_dump())
+        """Returns the string representation of the model using alias"""
+        return pprint.pformat(self.model_dump(by_alias=True))
 
-from irisnet_client.models.face_detection import FaceDetection
-# TODO: Rewrite to not use raise_errors
-BaseDetection.model_rebuild(raise_errors=False)
+    def to_json(self) -> str:
+        """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
+        return json.dumps(self.to_dict())
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Optional[Self]:
+        """Create an instance of BaseDetection from a JSON string"""
+        return cls.from_dict(json.loads(json_str))
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        excluded_fields: Set[str] = set([
+        ])
+
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude=excluded_fields,
+            exclude_none=True,
+        )
+        # override the default output from pydantic by calling `to_dict()` of coordinates
+        if self.coordinates:
+            _dict['coordinates'] = self.coordinates.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in attributes (list)
+        _items = []
+        if self.attributes:
+            for _item_attributes in self.attributes:
+                if _item_attributes:
+                    _items.append(_item_attributes.to_dict())
+            _dict['attributes'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in sub_detections (list)
+        _items = []
+        if self.sub_detections:
+            for _item_sub_detections in self.sub_detections:
+                if _item_sub_detections:
+                    _items.append(_item_sub_detections.to_dict())
+            _dict['subDetections'] = _items
+        # override the default output from pydantic by calling `to_dict()` of processed_checks
+        if self.processed_checks:
+            _dict['processedChecks'] = self.processed_checks.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in known_faces (list)
+        _items = []
+        if self.known_faces:
+            for _item_known_faces in self.known_faces:
+                if _item_known_faces:
+                    _items.append(_item_known_faces.to_dict())
+            _dict['knownFaces'] = _items
+        return _dict
+
+    @classmethod
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of BaseDetection from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+
+        _obj = cls.model_validate({
+            "type": obj.get("type"),
+            "classification": obj.get("classification"),
+            "group": obj.get("group"),
+            "id": obj.get("id"),
+            "probability": obj.get("probability"),
+            "coordinates": Coordinates.from_dict(obj["coordinates"]) if obj.get("coordinates") is not None else None,
+            "attributes": [BaseAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
+            "subDetections": [Detection.from_dict(_item) for _item in obj["subDetections"]] if obj.get("subDetections") is not None else None,
+            "checkId": obj.get("checkId"),
+            "hasOfficialDocument": obj.get("hasOfficialDocument"),
+            "comparable": obj.get("comparable"),
+            "faceSimilarity": obj.get("faceSimilarity"),
+            "faceLivenessCheckScore": obj.get("faceLivenessCheckScore"),
+            "documentFrontLivenessScore": obj.get("documentFrontLivenessScore"),
+            "documentBackLivenessScore": obj.get("documentBackLivenessScore"),
+            "processedChecks": AgeEstimationSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None,
+            "documentHolderId": obj.get("documentHolderId"),
+            "knownFaces": [KnownFace.from_dict(_item) for _item in obj["knownFaces"]] if obj.get("knownFaces") is not None else None
+        })
+        return _obj
+
 
