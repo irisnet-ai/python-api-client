@@ -189,7 +189,11 @@ Name | Type | Description  | Notes
 
 Check a stream with the AI.
 
-The body is continuously send per JSON stream until completion of the video stream. Only then the full _CheckResult_ schema will be shown (past _Events_ omitted).  <b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>  <b>WARNING: Please do not use the 'Try it out' for this operation. The browser is not able to refresh the response preview until the completion of the video stream.<b>
+The body is continuously send per JSON stream until completion of the video stream. Only then the full _CheckResult_ schema will be shown (past _Events_ omitted).
+
+<b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>
+
+<b>WARNING: Please do not use the 'Try it out' for this operation. The browser is not able to refresh the response preview until the completion of the video stream.<b>
 
 ### Example
 
@@ -278,7 +282,9 @@ Name | Type | Description  | Notes
 
 Check a video with the AI.
 
-An empty response is returned immediately. The actual body (_CheckResult_ schema) is send to the _callbackUrl_ after the AI has finished processing.  <b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>
+An empty response is returned immediately. The actual body (_CheckResult_ schema) is send to the _callbackUrl_ after the AI has finished processing.
+
+<b>NOTICE: Depending on your configuration and parameters this operation can be quite expensive on your credit balance.<b>
 
 ### Example
 

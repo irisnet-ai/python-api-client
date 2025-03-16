@@ -322,7 +322,7 @@ class ConfigurationManagementApi:
     ) -> List[Config]:
         """List all saved AI configurations.
 
-        Returns a list of all configurations with its id's and configured prototypes. There is a limit on how many configurations can be stored per license key. You can find this limit in the response of the info operation.
+        Returns a list of all configurations with their ids and configured prototypes. There is a limit to the number of configurations that can be stored per license key. You can find this limit in the response of the info operation.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -385,7 +385,7 @@ class ConfigurationManagementApi:
     ) -> ApiResponse[List[Config]]:
         """List all saved AI configurations.
 
-        Returns a list of all configurations with its id's and configured prototypes. There is a limit on how many configurations can be stored per license key. You can find this limit in the response of the info operation.
+        Returns a list of all configurations with their ids and configured prototypes. There is a limit to the number of configurations that can be stored per license key. You can find this limit in the response of the info operation.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -448,7 +448,7 @@ class ConfigurationManagementApi:
     ) -> RESTResponseType:
         """List all saved AI configurations.
 
-        Returns a list of all configurations with its id's and configured prototypes. There is a limit on how many configurations can be stored per license key. You can find this limit in the response of the info operation.
+        Returns a list of all configurations with their ids and configured prototypes. There is a limit to the number of configurations that can be stored per license key. You can find this limit in the response of the info operation.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -868,9 +868,9 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '403': "ApiNotice",
-            '400': "ApiNotice",
             '200': "Config",
+            '400': "ApiNotice",
+            '403': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -937,9 +937,9 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '403': "ApiNotice",
-            '400': "ApiNotice",
             '200': "Config",
+            '400': "ApiNotice",
+            '403': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1006,9 +1006,9 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '403': "ApiNotice",
-            '400': "ApiNotice",
             '200': "Config",
+            '400': "ApiNotice",
+            '403': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,

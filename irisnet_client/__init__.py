@@ -15,7 +15,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.7.0"
+__version__ = "3.7.1"
 
 # import apis into sdk package
 from irisnet_client.api.ai_check_operations_api import AICheckOperationsApi
@@ -35,9 +35,9 @@ from irisnet_client.exceptions import ApiAttributeError
 from irisnet_client.exceptions import ApiException
 
 # import models into sdk package
-from irisnet_client.models.age_estimation_attribute import AgeEstimationAttribute
-from irisnet_client.models.age_estimation_detection import AgeEstimationDetection
-from irisnet_client.models.age_estimation_sub_checks import AgeEstimationSubChecks
+from irisnet_client.models.age_verification_attribute import AgeVerificationAttribute
+from irisnet_client.models.age_verification_detection import AgeVerificationDetection
+from irisnet_client.models.age_verification_sub_checks import AgeVerificationSubChecks
 from irisnet_client.models.api_notice import ApiNotice
 from irisnet_client.models.base_attribute import BaseAttribute
 from irisnet_client.models.base_detection import BaseDetection

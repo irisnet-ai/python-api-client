@@ -20,21 +20,18 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from irisnet_client.models.callback import Callback
 from typing import Optional, Set
 from typing_extensions import Self
 
-class LiveDocumentCheckRequestData(BaseModel):
+class AgeVerificationAttribute(BaseModel):
     """
-    Data containing neccessary information to handle the enduser live check.
+    Attributes qualifying the _ageVerification_ classification.
     """ # noqa: E501
-    callback: Callback
-    status_url: Optional[StrictStr] = Field(default=None, description="The URL to send the intermediate status requests to. If not set, no intermediate status requests will be sent.", alias="statusUrl")
-    end_user_redirect_url: Optional[StrictStr] = Field(default=None, description="If set the enduser is being redirected to this URL after the check is finished.", alias="endUserRedirectUrl")
-    token_validity_in_seconds: Optional[StrictInt] = Field(default=None, description="The validity duration of a started ident process in seconds. Defaults to 3600 seconds = 60 minutes.", alias="tokenValidityInSeconds")
-    document_holder_id: Optional[StrictStr] = Field(default=None, description="The documentHolderId from a previous successful live identification", alias="documentHolderId")
-    minimum_accepted_age: Optional[StrictInt] = Field(default=None, description="The minimum accepted age in years for a check. Defaults to 18 if not provided", alias="minimumAcceptedAge")
-    __properties: ClassVar[List[str]] = ["callback", "statusUrl", "endUserRedirectUrl", "tokenValidityInSeconds", "documentHolderId", "minimumAcceptedAge"]
+    type: Optional[StrictStr] = Field(default=None, description="Used as a type discriminator for json to object conversion.")
+    age: Optional[StrictInt] = Field(default=None, description="The estimated age of the person in the selfie in years.")
+    age_min: Optional[StrictInt] = Field(default=None, description="The estimated minimum age of the person in the selfie in years.", alias="ageMin")
+    age_max: Optional[StrictInt] = Field(default=None, description="The estimated maximum age of the person in the selfie in years.", alias="ageMax")
+    __properties: ClassVar[List[str]] = ["type", "age", "ageMin", "ageMax"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -54,7 +51,7 @@ class LiveDocumentCheckRequestData(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of LiveDocumentCheckRequestData from a JSON string"""
+        """Create an instance of AgeVerificationAttribute from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,14 +72,11 @@ class LiveDocumentCheckRequestData(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of callback
-        if self.callback:
-            _dict['callback'] = self.callback.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of LiveDocumentCheckRequestData from a dict"""
+        """Create an instance of AgeVerificationAttribute from a dict"""
         if obj is None:
             return None
 
@@ -90,12 +84,10 @@ class LiveDocumentCheckRequestData(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "callback": Callback.from_dict(obj["callback"]) if obj.get("callback") is not None else None,
-            "statusUrl": obj.get("statusUrl"),
-            "endUserRedirectUrl": obj.get("endUserRedirectUrl"),
-            "tokenValidityInSeconds": obj.get("tokenValidityInSeconds"),
-            "documentHolderId": obj.get("documentHolderId"),
-            "minimumAcceptedAge": obj.get("minimumAcceptedAge")
+            "type": obj.get("type"),
+            "age": obj.get("age"),
+            "ageMin": obj.get("ageMin"),
+            "ageMax": obj.get("ageMax")
         })
         return _obj
 

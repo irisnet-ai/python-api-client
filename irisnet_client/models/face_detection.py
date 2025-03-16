@@ -20,7 +20,7 @@ import json
 
 from pydantic import ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from irisnet_client.models.age_estimation_sub_checks import AgeEstimationSubChecks
+from irisnet_client.models.age_verification_sub_checks import AgeVerificationSubChecks
 from irisnet_client.models.base_attribute import BaseAttribute
 from irisnet_client.models.coordinates import Coordinates
 from irisnet_client.models.known_face import KnownFace
@@ -133,7 +133,7 @@ class FaceDetection(Detection):
             "faceLivenessCheckScore": obj.get("faceLivenessCheckScore"),
             "documentFrontLivenessScore": obj.get("documentFrontLivenessScore"),
             "documentBackLivenessScore": obj.get("documentBackLivenessScore"),
-            "processedChecks": AgeEstimationSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None,
+            "processedChecks": AgeVerificationSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None,
             "documentHolderId": obj.get("documentHolderId"),
             "knownFaces": [KnownFace.from_dict(_item) for _item in obj["knownFaces"]] if obj.get("knownFaces") is not None else None
         })

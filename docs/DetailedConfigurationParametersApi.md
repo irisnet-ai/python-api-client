@@ -243,10 +243,10 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**404** | configId not found. |  -  |
 **400** | Bad request. Check for badly formatted request body. |  -  |
-**204** | successful operation. No previously configured parameters exist. |  -  |
+**404** | configId not found. |  -  |
 **200** | successful operation. Previous user configured parameters are returned. |  -  |
+**204** | successful operation. No previously configured parameters exist. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

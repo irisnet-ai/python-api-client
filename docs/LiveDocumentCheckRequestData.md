@@ -1,6 +1,6 @@
 # LiveDocumentCheckRequestData
 
-Data containing neccessary information to handle the enduser live document check.
+Data containing neccessary information to handle the enduser live check.
 
 ## Properties
 
@@ -10,6 +10,8 @@ Name | Type | Description | Notes
 **status_url** | **str** | The URL to send the intermediate status requests to. If not set, no intermediate status requests will be sent. | [optional] 
 **end_user_redirect_url** | **str** | If set the enduser is being redirected to this URL after the check is finished. | [optional] 
 **token_validity_in_seconds** | **int** | The validity duration of a started ident process in seconds. Defaults to 3600 seconds &#x3D; 60 minutes. | [optional] 
+**document_holder_id** | **str** | The documentHolderId from a previous successful live identification | [optional] 
+**minimum_accepted_age** | **int** | The minimum accepted age in years for a check. Defaults to 18 if not provided | [optional] 
 
 ## Example
 

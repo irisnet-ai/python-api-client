@@ -15,9 +15,9 @@
 
 
 # import models into model package
-from irisnet_client.models.age_estimation_attribute import AgeEstimationAttribute
-from irisnet_client.models.age_estimation_detection import AgeEstimationDetection
-from irisnet_client.models.age_estimation_sub_checks import AgeEstimationSubChecks
+from irisnet_client.models.age_verification_attribute import AgeVerificationAttribute
+from irisnet_client.models.age_verification_detection import AgeVerificationDetection
+from irisnet_client.models.age_verification_sub_checks import AgeVerificationSubChecks
 from irisnet_client.models.api_notice import ApiNotice
 from irisnet_client.models.base_attribute import BaseAttribute
 from irisnet_client.models.base_detection import BaseDetection

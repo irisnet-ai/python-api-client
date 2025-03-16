@@ -20,24 +20,28 @@ import json
 
 from pydantic import ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from irisnet_client.models.age_verification_attribute import AgeVerificationAttribute
 from irisnet_client.models.age_verification_sub_checks import AgeVerificationSubChecks
-from irisnet_client.models.base_attribute import BaseAttribute
 from irisnet_client.models.coordinates import Coordinates
 from irisnet_client.models.detection import Detection
 from irisnet_client.models.known_face import KnownFace
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BaseDetection(Detection):
+class AgeVerificationDetection(Detection):
     """
-    A detection describes the object found with all its details.
+    Contains other features specific to _ageVerification_ detection.
     """ # noqa: E501
     classification: Optional[StrictStr] = Field(default=None, description="The classification of the recognized object.")
     group: Optional[StrictStr] = Field(default=None, description="The group of the classification.")
     id: Optional[StrictInt] = Field(default=None, description="The id of the detection object.")
     probability: Optional[StrictInt] = Field(default=None, description="The probability that the object found matches the classification.")
     coordinates: Optional[Coordinates] = None
-    attributes: Optional[List[BaseAttribute]] = Field(default=None, description="Attributes characterizing the _base_ detection.")
+    check_id: Optional[StrictStr] = Field(default=None, description="The id of the check that lead to the detection", alias="checkId")
+    face_similarity: Optional[StrictInt] = Field(default=None, description="Indicates the similarity-level of whether two faces belong to the same person", alias="faceSimilarity")
+    face_liveness_check_score: Optional[StrictInt] = Field(default=None, description="Indicates the liveness score of the selfie image", alias="faceLivenessCheckScore")
+    processed_checks: Optional[AgeVerificationSubChecks] = Field(default=None, alias="processedChecks")
+    attributes: Optional[List[AgeVerificationAttribute]] = Field(default=None, description="Attributes of the _ageVerification_ detection.")
     __properties: ClassVar[List[str]] = ["type", "classification", "group", "id", "probability", "coordinates", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks", "documentHolderId", "knownFaces"]
 
     model_config = ConfigDict(
@@ -58,7 +62,7 @@ class BaseDetection(Detection):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BaseDetection from a JSON string"""
+        """Create an instance of AgeVerificationDetection from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -110,7 +114,7 @@ class BaseDetection(Detection):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BaseDetection from a dict"""
+        """Create an instance of AgeVerificationDetection from a dict"""
         if obj is None:
             return None
 
@@ -124,7 +128,7 @@ class BaseDetection(Detection):
             "id": obj.get("id"),
             "probability": obj.get("probability"),
             "coordinates": Coordinates.from_dict(obj["coordinates"]) if obj.get("coordinates") is not None else None,
-            "attributes": [BaseAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
+            "attributes": [AgeVerificationAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
             "subDetections": [Detection.from_dict(_item) for _item in obj["subDetections"]] if obj.get("subDetections") is not None else None,
             "checkId": obj.get("checkId"),
             "hasOfficialDocument": obj.get("hasOfficialDocument"),

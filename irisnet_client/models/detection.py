@@ -20,7 +20,7 @@ import pprint
 import re  # noqa: F401
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
 from typing import Optional
-from irisnet_client.models.age_estimation_detection import AgeEstimationDetection
+from irisnet_client.models.age_verification_detection import AgeVerificationDetection
 from irisnet_client.models.base_detection import BaseDetection
 from irisnet_client.models.breast_detection import BreastDetection
 from irisnet_client.models.hair_detection import HairDetection
@@ -29,7 +29,7 @@ from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
 from typing_extensions import Literal, Self
 from pydantic import Field
 
-DETECTION_ANY_OF_SCHEMAS = ["AgeEstimationDetection", "BaseDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection"]
+DETECTION_ANY_OF_SCHEMAS = ["AgeVerificationDetection", "BaseDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection"]
 
 class Detection(BaseModel):
     """
@@ -46,13 +46,13 @@ class Detection(BaseModel):
     anyof_schema_4_validator: Optional[HairDetection] = None
     # data type: IdDocumentDetection
     anyof_schema_5_validator: Optional[IdDocumentDetection] = None
-    # data type: AgeEstimationDetection
-    anyof_schema_6_validator: Optional[AgeEstimationDetection] = None
+    # data type: AgeVerificationDetection
+    anyof_schema_6_validator: Optional[AgeVerificationDetection] = None
     if TYPE_CHECKING:
-        actual_instance: Optional[Union[AgeEstimationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection]] = None
+        actual_instance: Optional[Union[AgeVerificationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection]] = None
     else:
         actual_instance: Any = None
-    any_of_schemas: Set[str] = { "AgeEstimationDetection", "BaseDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection" }
+    any_of_schemas: Set[str] = { "AgeVerificationDetection", "BaseDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection" }
 
     model_config = {
         "validate_assignment": True,
@@ -60,7 +60,7 @@ class Detection(BaseModel):
     }
 
     discriminator_value_class_map: Dict[str, str] = {
-        'AgeEstimationDetection': 'AgeEstimationDetection',
+        'AgeVerificationDetection': 'AgeVerificationDetection',
         'BaseDetection': 'BaseDetection',
         'BreastDetection': 'BreastDetection',
         'FaceDetection': 'FaceDetection',
@@ -112,15 +112,15 @@ class Detection(BaseModel):
         else:
             return v
 
-        # validate data type: AgeEstimationDetection
-        if not isinstance(v, AgeEstimationDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `AgeEstimationDetection`")
+        # validate data type: AgeVerificationDetection
+        if not isinstance(v, AgeVerificationDetection):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `AgeVerificationDetection`")
         else:
             return v
 
         if error_messages:
             # no match
-            raise ValueError("No match found when setting the actual_instance in Detection with anyOf schemas: AgeEstimationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting the actual_instance in Detection with anyOf schemas: AgeVerificationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -163,16 +163,16 @@ class Detection(BaseModel):
             return instance
         except (ValidationError, ValueError) as e:
              error_messages.append(str(e))
-        # anyof_schema_6_validator: Optional[AgeEstimationDetection] = None
+        # anyof_schema_6_validator: Optional[AgeVerificationDetection] = None
         try:
-            instance.actual_instance = AgeEstimationDetection.from_json(json_str)
+            instance.actual_instance = AgeVerificationDetection.from_json(json_str)
             return instance
         except (ValidationError, ValueError) as e:
              error_messages.append(str(e))
 
         if error_messages:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into Detection with anyOf schemas: AgeEstimationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into Detection with anyOf schemas: AgeVerificationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
         else:
             return instance
 
@@ -186,7 +186,7 @@ class Detection(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], AgeEstimationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection]]:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], AgeVerificationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

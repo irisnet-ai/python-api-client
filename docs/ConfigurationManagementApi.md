@@ -92,7 +92,7 @@ void (empty response body)
 
 List all saved AI configurations.
 
-Returns a list of all configurations with its id's and configured prototypes. There is a limit on how many configurations can be stored per license key. You can find this limit in the response of the info operation.
+Returns a list of all configurations with their ids and configured prototypes. There is a limit to the number of configurations that can be stored per license key. You can find this limit in the response of the info operation.
 
 ### Example
 
@@ -280,7 +280,7 @@ configuration.api_key['LICENSE-KEY'] = os.environ["API_KEY"]
 with irisnet_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = irisnet_client.ConfigurationManagementApi(api_client)
-    config = {"prototypes":["nudityCheck","ageEstimation","illegalSymbols","attributesCheck","nippleCheck","textRecognition","bodyAttributes","unwantedSubstances","violenceCheck","selfieCheck"]} # Config | Define the prototypes to use for an AI check operation. View the _Config_ schema to see the available prototypes.
+    config = {"name":"first attempt","prototypes":["nudityCheck","ageEstimation","illegalSymbols","attributesCheck","nippleCheck","textRecognition","bodyAttributes","unwantedSubstances","violenceCheck","selfieCheck"]} # Config | Define the prototypes to use for an AI check operation. View the _Config_ schema to see the available prototypes.
 
     try:
         # Create a new AI configuration.
@@ -317,9 +317,9 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**403** | Maximum number of stored AI configurations reached. |  -  |
-**400** | Bad request. Check for badly formatted request body. |  -  |
 **200** | successful operation. |  -  |
+**400** | Bad request. Check for a badly formatted request body. |  -  |
+**403** | Maximum number of stored AI configurations reached. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
