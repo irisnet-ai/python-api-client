@@ -32,8 +32,8 @@ class LiveDocumentCheckRequestData(BaseModel):
     status_url: Optional[StrictStr] = Field(default=None, description="The URL to send the intermediate status requests to. If not set, no intermediate status requests will be sent.", alias="statusUrl")
     end_user_redirect_url: Optional[StrictStr] = Field(default=None, description="If set the enduser is being redirected to this URL after the check is finished.", alias="endUserRedirectUrl")
     token_validity_in_seconds: Optional[StrictInt] = Field(default=None, description="The validity duration of a started ident process in seconds. Defaults to 3600 seconds = 60 minutes.", alias="tokenValidityInSeconds")
-    document_holder_id: Optional[StrictStr] = Field(default=None, description="The documentHolderId from a previous successful live identification", alias="documentHolderId")
-    minimum_accepted_age: Optional[StrictInt] = Field(default=None, description="The minimum accepted age in years for a check. Defaults to 18 if not provided", alias="minimumAcceptedAge")
+    document_holder_id: Optional[StrictStr] = Field(default=None, description="The documentHolderId from a previous successful live identification.", alias="documentHolderId")
+    minimum_accepted_age: Optional[StrictInt] = Field(default=None, description="The minimum age in years accepted for a check, if applicable. Defaults to 18 if not specified.", alias="minimumAcceptedAge")
     __properties: ClassVar[List[str]] = ["callback", "statusUrl", "endUserRedirectUrl", "tokenValidityInSeconds", "documentHolderId", "minimumAcceptedAge"]
 
     model_config = ConfigDict(

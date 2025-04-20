@@ -25,7 +25,7 @@ from typing_extensions import Self
 
 class LiveDocumentCheckResponseData(BaseModel):
     """
-    Response object containing neccessary information to start the enduser live document check on the client side.
+    Response object containing necessary information to start the enduser live document check on the client side.
     """ # noqa: E501
     event_id: Optional[StrictStr] = Field(default=None, description="unique id of this live document check", alias="eventId")
     ident_token: Optional[StrictStr] = Field(default=None, description="token to secure the live document check, might be null since already incorporated into endUserIdentUrl", alias="identToken")

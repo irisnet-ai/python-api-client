@@ -11,6 +11,7 @@ docs/ApiNotice.md
 docs/BalanceEndpointsApi.md
 docs/BaseAttribute.md
 docs/BaseDetection.md
+docs/BiometricCheckRequestData.md
 docs/BreastDetection.md
 docs/BrokenRule.md
 docs/Callback.md
@@ -37,6 +38,7 @@ docs/LiveDocumentCheckRequestData.md
 docs/LiveDocumentCheckResponseData.md
 docs/Param.md
 docs/ParamSet.md
+docs/PoaCheckRequestData.md
 docs/Pricing.md
 docs/Rectangle.md
 docs/Summary.md
@@ -58,6 +60,7 @@ irisnet_client/models/age_verification_sub_checks.py
 irisnet_client/models/api_notice.py
 irisnet_client/models/base_attribute.py
 irisnet_client/models/base_detection.py
+irisnet_client/models/biometric_check_request_data.py
 irisnet_client/models/breast_detection.py
 irisnet_client/models/broken_rule.py
 irisnet_client/models/callback.py
@@ -82,6 +85,7 @@ irisnet_client/models/live_document_check_request_data.py
 irisnet_client/models/live_document_check_response_data.py
 irisnet_client/models/param.py
 irisnet_client/models/param_set.py
+irisnet_client/models/poa_check_request_data.py
 irisnet_client/models/pricing.py
 irisnet_client/models/rectangle.py
 irisnet_client/models/summary.py
@@ -93,7 +97,6 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_age_verification_attribute.py
-test/test_age_verification_detection.py
-test/test_age_verification_sub_checks.py
+test/test_biometric_check_request_data.py
+test/test_poa_check_request_data.py
 tox.ini

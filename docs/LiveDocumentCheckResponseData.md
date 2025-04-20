@@ -1,6 +1,6 @@
 # LiveDocumentCheckResponseData
 
-Response object containing neccessary information to start the enduser live document check on the client side.
+Response object containing necessary information to start the enduser live document check on the client side.
 
 ## Properties
 

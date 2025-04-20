@@ -15,7 +15,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.7.1"
+__version__ = "3.7.2"
 
 # import apis into sdk package
 from irisnet_client.api.ai_check_operations_api import AICheckOperationsApi
@@ -41,6 +41,7 @@ from irisnet_client.models.age_verification_sub_checks import AgeVerificationSub
 from irisnet_client.models.api_notice import ApiNotice
 from irisnet_client.models.base_attribute import BaseAttribute
 from irisnet_client.models.base_detection import BaseDetection
+from irisnet_client.models.biometric_check_request_data import BiometricCheckRequestData
 from irisnet_client.models.breast_detection import BreastDetection
 from irisnet_client.models.broken_rule import BrokenRule
 from irisnet_client.models.callback import Callback
@@ -65,6 +66,7 @@ from irisnet_client.models.live_document_check_request_data import LiveDocumentC
 from irisnet_client.models.live_document_check_response_data import LiveDocumentCheckResponseData
 from irisnet_client.models.param import Param
 from irisnet_client.models.param_set import ParamSet
+from irisnet_client.models.poa_check_request_data import PoaCheckRequestData
 from irisnet_client.models.pricing import Pricing
 from irisnet_client.models.rectangle import Rectangle
 from irisnet_client.models.summary import Summary

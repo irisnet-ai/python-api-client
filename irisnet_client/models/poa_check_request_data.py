@@ -20,50 +20,25 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from typing_extensions import Annotated
+from irisnet_client.models.callback import Callback
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Config(BaseModel):
+class PoaCheckRequestData(BaseModel):
     """
-    Can be used to set a multitude of pre-defined commonly used rules without the need of specifying each parameter set.
+    PoaCheckRequestData
     """ # noqa: E501
-    id: Optional[StrictStr] = Field(default=None, description="The unique identifier for the AI configuration. Use this for any check operation to tell the AI how to behave.")
-    name: Optional[Annotated[str, Field(strict=True, max_length=100)]] = Field(default=None, description="The name of the AI configuration.")
-    kyc_check_parameters: Optional[List[StrictStr]] = Field(default=None, description="Configures your kyc checks. You can combine certain parameters to customize a single check operation.", alias="kycCheckParameters")
-    prototypes: Optional[List[StrictStr]] = Field(default=None, description="Configures your detection. As there are literally hundreds of parameters, prototypes can be used to get useful behaviour. This includes a default setting for parameters and rules that should be applied to the check operations. You can use multiple prototypes for a single check operation.")
-    __properties: ClassVar[List[str]] = ["id", "name", "kycCheckParameters", "prototypes"]
+    callback: Callback
+    front_image: Optional[StrictStr] = Field(default=None, description="The base64-encoded front image of the document to be checked in either jpg or png file format.", alias="frontImage")
+    document_type: StrictStr = Field(description="The type of the document", alias="documentType")
+    document_holder_id: Optional[StrictStr] = Field(default=None, description="The documentHolderId from a previous successful check.", alias="documentHolderId")
+    __properties: ClassVar[List[str]] = ["callback", "frontImage", "documentType", "documentHolderId"]
 
-    @field_validator('name')
-    def name_validate_regular_expression(cls, value):
-        """Validates the regular expression"""
-        if value is None:
-            return value
-
-        if not re.match(r"^[0-9a-zA-Z _-]{0,100}$", value):
-            raise ValueError(r"must validate the regular expression /^[0-9a-zA-Z _-]{0,100}$/")
-        return value
-
-    @field_validator('kyc_check_parameters')
-    def kyc_check_parameters_validate_enum(cls, value):
+    @field_validator('document_type')
+    def document_type_validate_enum(cls, value):
         """Validates the enum"""
-        if value is None:
-            return value
-
-        for i in value:
-            if i not in set(['identityDocumentCheck', 'automatedDocumentRecognition', 'biometricCheck', 'formAutofill', 'ageVerificationCheck', 'proofOfAddressCheck', 'faceAuthentication', 'liveIdentification', 'liveIdentityDocumentCheck', 'liveSelfie', 'liveProofOfAddressCheck', 'liveAgeVerificationCheck', 'liveFaceAuthentication', 'videoUploadIdentification', 'considerKnownFaces', 'addEncodingsToResult', 'iFrameFlow', 'redirectFlow']):
-                raise ValueError("each list item must be one of ('identityDocumentCheck', 'automatedDocumentRecognition', 'biometricCheck', 'formAutofill', 'ageVerificationCheck', 'proofOfAddressCheck', 'faceAuthentication', 'liveIdentification', 'liveIdentityDocumentCheck', 'liveSelfie', 'liveProofOfAddressCheck', 'liveAgeVerificationCheck', 'liveFaceAuthentication', 'videoUploadIdentification', 'considerKnownFaces', 'addEncodingsToResult', 'iFrameFlow', 'redirectFlow')")
-        return value
-
-    @field_validator('prototypes')
-    def prototypes_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        for i in value:
-            if i not in set(['nudityCheck', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck', 'selfieCheck']):
-                raise ValueError("each list item must be one of ('nudityCheck', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck', 'selfieCheck')")
+        if value not in set(['passport', 'driving_license', 'national_identity_card', 'residence_permit', 'visa', 'bank_statement', 'utility_bill', 'tax_document', 'unidentified', 'unknown']):
+            raise ValueError("must be one of enum values ('passport', 'driving_license', 'national_identity_card', 'residence_permit', 'visa', 'bank_statement', 'utility_bill', 'tax_document', 'unidentified', 'unknown')")
         return value
 
     model_config = ConfigDict(
@@ -84,7 +59,7 @@ class Config(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Config from a JSON string"""
+        """Create an instance of PoaCheckRequestData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -105,11 +80,14 @@ class Config(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of callback
+        if self.callback:
+            _dict['callback'] = self.callback.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Config from a dict"""
+        """Create an instance of PoaCheckRequestData from a dict"""
         if obj is None:
             return None
 
@@ -117,10 +95,10 @@ class Config(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "name": obj.get("name"),
-            "kycCheckParameters": obj.get("kycCheckParameters"),
-            "prototypes": obj.get("prototypes")
+            "callback": Callback.from_dict(obj["callback"]) if obj.get("callback") is not None else None,
+            "frontImage": obj.get("frontImage"),
+            "documentType": obj.get("documentType"),
+            "documentHolderId": obj.get("documentHolderId")
         })
         return _obj
 

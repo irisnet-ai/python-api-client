@@ -18,34 +18,22 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from irisnet_client.models.callback import Callback
 from typing import Optional, Set
 from typing_extensions import Self
 
-class DocumentCheckRequestData(BaseModel):
+class BiometricCheckRequestData(BaseModel):
     """
-    DocumentCheckRequestData
+    BiometricCheckRequestData
     """ # noqa: E501
     callback: Callback
-    front_image: StrictStr = Field(description="The base64-encoded front image of the document to be checked in either jpg or png file format.", alias="frontImage")
-    back_image: Optional[StrictStr] = Field(default=None, description="The base64-encoded back image of the document to be checked in either jpg or png file format.", alias="backImage")
-    selfie_image: Optional[StrictStr] = Field(default=None, description="The base64-encoded selfie image to be checked in either jpg or png file format.", alias="selfieImage")
+    front_image: Optional[StrictStr] = Field(default=None, description="The base64-encoded front image of the document to be checked in either jpg or png file format.", alias="frontImage")
+    selfie_image: StrictStr = Field(description="The base64-encoded selfie image to be checked in either jpg or png file format.", alias="selfieImage")
     minimum_accepted_age: Optional[StrictInt] = Field(default=None, description="The minimum age in years accepted for a DocumentCheck, if applicable. Defaults to 18 if not specified.", alias="minimumAcceptedAge")
-    document_type: Optional[StrictStr] = Field(default=None, description="The type of the document", alias="documentType")
-    document_country: Optional[StrictStr] = Field(default=None, description="The country of the document in ISO 3166-1 alpha-2 format.", alias="documentCountry")
-    __properties: ClassVar[List[str]] = ["callback", "frontImage", "backImage", "selfieImage", "minimumAcceptedAge", "documentType", "documentCountry"]
-
-    @field_validator('document_type')
-    def document_type_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in set(['passport', 'driving_license', 'national_identity_card', 'residence_permit', 'visa', 'bank_statement', 'utility_bill', 'tax_document', 'unidentified', 'unknown']):
-            raise ValueError("must be one of enum values ('passport', 'driving_license', 'national_identity_card', 'residence_permit', 'visa', 'bank_statement', 'utility_bill', 'tax_document', 'unidentified', 'unknown')")
-        return value
+    document_holder_id: Optional[StrictStr] = Field(default=None, description="The documentHolderId from a previous successful DocumentCheck.", alias="documentHolderId")
+    __properties: ClassVar[List[str]] = ["callback", "frontImage", "selfieImage", "minimumAcceptedAge", "documentHolderId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -65,7 +53,7 @@ class DocumentCheckRequestData(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of DocumentCheckRequestData from a JSON string"""
+        """Create an instance of BiometricCheckRequestData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -93,7 +81,7 @@ class DocumentCheckRequestData(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of DocumentCheckRequestData from a dict"""
+        """Create an instance of BiometricCheckRequestData from a dict"""
         if obj is None:
             return None
 
@@ -103,11 +91,9 @@ class DocumentCheckRequestData(BaseModel):
         _obj = cls.model_validate({
             "callback": Callback.from_dict(obj["callback"]) if obj.get("callback") is not None else None,
             "frontImage": obj.get("frontImage"),
-            "backImage": obj.get("backImage"),
             "selfieImage": obj.get("selfieImage"),
             "minimumAcceptedAge": obj.get("minimumAcceptedAge"),
-            "documentType": obj.get("documentType"),
-            "documentCountry": obj.get("documentCountry")
+            "documentHolderId": obj.get("documentHolderId")
         })
         return _obj
 

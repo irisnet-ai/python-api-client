@@ -55,8 +55,8 @@ class IdDocumentAttribute(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['passport', 'driving_license', 'national_identity_card', 'residence_permit', 'visa', 'unknown']):
-            raise ValueError("must be one of enum values ('passport', 'driving_license', 'national_identity_card', 'residence_permit', 'visa', 'unknown')")
+        if value not in set(['passport', 'driving_license', 'national_identity_card', 'residence_permit', 'visa', 'bank_statement', 'utility_bill', 'tax_document', 'unidentified', 'unknown']):
+            raise ValueError("must be one of enum values ('passport', 'driving_license', 'national_identity_card', 'residence_permit', 'visa', 'bank_statement', 'utility_bill', 'tax_document', 'unidentified', 'unknown')")
         return value
 
     @field_validator('gender')
