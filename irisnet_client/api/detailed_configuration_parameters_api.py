@@ -93,8 +93,8 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
             '404': "ApiNotice",
+            '204': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -161,8 +161,8 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
             '404': "ApiNotice",
+            '204': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -229,8 +229,8 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
             '404': "ApiNotice",
+            '204': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -625,10 +625,10 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
-            '200': "ParamSet",
             '400': "ApiNotice",
             '404': "ApiNotice",
+            '204': None,
+            '200': "ParamSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -699,10 +699,10 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
-            '200': "ParamSet",
             '400': "ApiNotice",
             '404': "ApiNotice",
+            '204': None,
+            '200': "ParamSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -773,10 +773,10 @@ class DetailedConfigurationParametersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
-            '200': "ParamSet",
             '400': "ApiNotice",
             '404': "ApiNotice",
+            '204': None,
+            '200': "ParamSet",
         }
         response_data = self.api_client.call_api(
             *_param,

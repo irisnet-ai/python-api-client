@@ -105,8 +105,8 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "CheckResult",
             '402': "ApiNotice",
+            '202': "CheckResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -177,8 +177,8 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "CheckResult",
             '402': "ApiNotice",
+            '202': "CheckResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -249,8 +249,8 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "CheckResult",
             '402': "ApiNotice",
+            '202': "CheckResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -702,8 +702,8 @@ class AICheckOperationsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '402': "ApiNotice",
-            '200': "CheckResult",
             '404': "ApiNotice",
+            '200': "CheckResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -787,8 +787,8 @@ class AICheckOperationsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '402': "ApiNotice",
-            '200': "CheckResult",
             '404': "ApiNotice",
+            '200': "CheckResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -872,8 +872,8 @@ class AICheckOperationsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '402': "ApiNotice",
-            '200': "CheckResult",
             '404': "ApiNotice",
+            '200': "CheckResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1340,8 +1340,8 @@ class AICheckOperationsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '402': "ApiNotice",
-            '200': "List[CheckResult]",
             '404': "ApiNotice",
+            '200': "List[CheckResult]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1425,8 +1425,8 @@ class AICheckOperationsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '402': "ApiNotice",
-            '200': "List[CheckResult]",
             '404': "ApiNotice",
+            '200': "List[CheckResult]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1510,8 +1510,8 @@ class AICheckOperationsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '402': "ApiNotice",
-            '200': "List[CheckResult]",
             '404': "ApiNotice",
+            '200': "List[CheckResult]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1678,9 +1678,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': None,
             '402': "ApiNotice",
             '404': "ApiNotice",
+            '202': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1767,9 +1767,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': None,
             '402': "ApiNotice",
             '404': "ApiNotice",
+            '202': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1856,9 +1856,9 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': None,
             '402': "ApiNotice",
             '404': "ApiNotice",
+            '202': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2025,8 +2025,8 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "CheckResult",
             '402': "ApiNotice",
+            '202': "CheckResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2097,8 +2097,8 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "CheckResult",
             '402': "ApiNotice",
+            '202': "CheckResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2169,8 +2169,8 @@ class AICheckOperationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "CheckResult",
             '402': "ApiNotice",
+            '202': "CheckResult",
         }
         response_data = self.api_client.call_api(
             *_param,

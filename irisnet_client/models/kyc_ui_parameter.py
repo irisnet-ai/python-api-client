@@ -31,7 +31,8 @@ class KycUiParameter(BaseModel):
     background_color: Optional[StrictStr] = Field(default='000000', description="The background color of the UI in hex format (rrggbb).", alias="backgroundColor")
     text_color: Optional[StrictStr] = Field(default='ffffff', description="The text color of the UI in hex format (rrggbb).", alias="textColor")
     logo: Optional[StrictStr] = Field(default=None, description="The company logo for the UI in PNG fileformat (512 px * 512 px) as a base64 encoded string.")
-    __properties: ClassVar[List[str]] = ["primaryColor", "backgroundColor", "textColor", "logo"]
+    language: Optional[StrictStr] = Field(default=None, description="The language related settings for the UI as a JSON.")
+    __properties: ClassVar[List[str]] = ["primaryColor", "backgroundColor", "textColor", "logo", "language"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,7 +88,8 @@ class KycUiParameter(BaseModel):
             "primaryColor": obj.get("primaryColor") if obj.get("primaryColor") is not None else '57a632',
             "backgroundColor": obj.get("backgroundColor") if obj.get("backgroundColor") is not None else '000000',
             "textColor": obj.get("textColor") if obj.get("textColor") is not None else 'ffffff',
-            "logo": obj.get("logo")
+            "logo": obj.get("logo"),
+            "language": obj.get("language")
         })
         return _obj
 

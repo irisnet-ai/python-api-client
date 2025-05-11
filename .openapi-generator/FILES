@@ -97,6 +97,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_biometric_check_request_data.py
-test/test_poa_check_request_data.py
 tox.ini
