@@ -6,9 +6,9 @@ A collection of parameters that determine the appearance and behaviour of the us
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**primary_color** | **str** | The primary color of the UI in hex format (rrggbb). | [optional] [default to '57a632']
-**background_color** | **str** | The background color of the UI in hex format (rrggbb). | [optional] [default to '000000']
-**text_color** | **str** | The text color of the UI in hex format (rrggbb). | [optional] [default to 'ffffff']
+**primary_color** | **str** | The primary color of the UI in hex format (rrggbb). | [optional] [default to '4caf50']
+**background_color** | **str** | The background color of the UI in hex format (rrggbb). | [optional] [default to '333333']
+**text_color** | **str** | The text color of the UI in hex format (rrggbb). | [optional] [default to '000000']
 **logo** | **str** | The company logo for the UI in PNG fileformat (512 px * 512 px) as a base64 encoded string. | [optional] 
 **language** | **str** | The language related settings for the UI as a JSON. | [optional] 
 

@@ -27,9 +27,9 @@ class KycUiParameter(BaseModel):
     """
     A collection of parameters that determine the appearance and behaviour of the user interface (UI).
     """ # noqa: E501
-    primary_color: Optional[StrictStr] = Field(default='57a632', description="The primary color of the UI in hex format (rrggbb).", alias="primaryColor")
-    background_color: Optional[StrictStr] = Field(default='000000', description="The background color of the UI in hex format (rrggbb).", alias="backgroundColor")
-    text_color: Optional[StrictStr] = Field(default='ffffff', description="The text color of the UI in hex format (rrggbb).", alias="textColor")
+    primary_color: Optional[StrictStr] = Field(default='4caf50', description="The primary color of the UI in hex format (rrggbb).", alias="primaryColor")
+    background_color: Optional[StrictStr] = Field(default='333333', description="The background color of the UI in hex format (rrggbb).", alias="backgroundColor")
+    text_color: Optional[StrictStr] = Field(default='000000', description="The text color of the UI in hex format (rrggbb).", alias="textColor")
     logo: Optional[StrictStr] = Field(default=None, description="The company logo for the UI in PNG fileformat (512 px * 512 px) as a base64 encoded string.")
     language: Optional[StrictStr] = Field(default=None, description="The language related settings for the UI as a JSON.")
     __properties: ClassVar[List[str]] = ["primaryColor", "backgroundColor", "textColor", "logo", "language"]
@@ -85,9 +85,9 @@ class KycUiParameter(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "primaryColor": obj.get("primaryColor") if obj.get("primaryColor") is not None else '57a632',
-            "backgroundColor": obj.get("backgroundColor") if obj.get("backgroundColor") is not None else '000000',
-            "textColor": obj.get("textColor") if obj.get("textColor") is not None else 'ffffff',
+            "primaryColor": obj.get("primaryColor") if obj.get("primaryColor") is not None else '4caf50',
+            "backgroundColor": obj.get("backgroundColor") if obj.get("backgroundColor") is not None else '333333',
+            "textColor": obj.get("textColor") if obj.get("textColor") is not None else '000000',
             "logo": obj.get("logo"),
             "language": obj.get("language")
         })

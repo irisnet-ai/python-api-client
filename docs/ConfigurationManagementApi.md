@@ -317,9 +317,9 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation. |  -  |
-**403** | Maximum number of stored AI configurations reached. |  -  |
 **400** | Bad request. Check for a badly formatted request body. |  -  |
+**403** | Maximum number of stored AI configurations reached. |  -  |
+**200** | successful operation. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -868,9 +868,9 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Config",
-            '403': "ApiNotice",
             '400': "ApiNotice",
+            '403': "ApiNotice",
+            '200': "Config",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -937,9 +937,9 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Config",
-            '403': "ApiNotice",
             '400': "ApiNotice",
+            '403': "ApiNotice",
+            '200': "Config",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1006,9 +1006,9 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Config",
-            '403': "ApiNotice",
             '400': "ApiNotice",
+            '403': "ApiNotice",
+            '200': "Config",
         }
         response_data = self.api_client.call_api(
             *_param,

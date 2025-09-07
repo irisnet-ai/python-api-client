@@ -43,10 +43,16 @@ class IdDocumentSubChecks(BaseModel):
     age_validation_check: Optional[StrictStr] = Field(default=None, description="Indicates if the extracted age is greater than or equal to a predefined minimum accepted age", alias="ageValidationCheck")
     spoofed_image_analysis: Optional[StrictStr] = Field(default=None, description="Indicates whether the selfie image is spoofed, copied from the Internet, or is a known deny-listed image", alias="spoofedImageAnalysis")
     face_liveness_check: Optional[StrictStr] = Field(default=None, description="Indicates if the selfie image is genuine and not a photo of an image or of a screen", alias="faceLivenessCheck")
-    voice_challenge_check: Optional[StrictStr] = Field(default=None, description="Indicates if the enduser had answered correctly during the voice challenge.", alias="voiceChallengeCheck")
-    action_challenge_check: Optional[StrictStr] = Field(default=None, description="Indicates if the enduser had moved correctly during the actions challenge.", alias="actionChallengeCheck")
+    voice_challenge_check: Optional[StrictStr] = Field(default=None, description="Indicates if the enduser had answered correctly during the voice challenge", alias="voiceChallengeCheck")
+    action_challenge_check: Optional[StrictStr] = Field(default=None, description="Indicates if the enduser had moved correctly during the actions challenge", alias="actionChallengeCheck")
+    first_name_consistency: Optional[StrictStr] = Field(default=None, description="Indicates if the first name on the document and the MRZ are consistent", alias="firstNameConsistency")
+    last_name_consistency: Optional[StrictStr] = Field(default=None, description="Indicates if the last name on the document and the MRZ are consistent", alias="lastNameConsistency")
+    dob_consistency: Optional[StrictStr] = Field(default=None, description="Indicates if the date of birth on the document and the MRZ are consistent", alias="dobConsistency")
+    document_number_consistency: Optional[StrictStr] = Field(default=None, description="Indicates if the document number on the document and the MRZ are consistent", alias="documentNumberConsistency")
+    issuing_date_consistency: Optional[StrictStr] = Field(default=None, description="Indicates if the issuing date on the document and the MRZ are consistent", alias="issuingDateConsistency")
+    expiration_date_consistency: Optional[StrictStr] = Field(default=None, description="Indicates if the expiration date on the document and the MRZ are consistent", alias="expirationDateConsistency")
     known_faces_check: Optional[StrictStr] = Field(default=None, description="Indicates if the selfie image matches an aready existing client/customer", alias="knownFacesCheck")
-    __properties: ClassVar[List[str]] = ["mrzChecksum", "mrzFormat", "mrzConsistency", "expirationDate", "securityElements", "photoLocation", "blacklistCheck", "photocopyCheck", "specimenCheck", "documentModelIdentification", "documentLivenessCheck", "dataIntegrityCheck", "dataConsistencyCheck", "ageValidationCheck", "spoofedImageAnalysis", "faceLivenessCheck", "voiceChallengeCheck", "actionChallengeCheck", "knownFacesCheck"]
+    __properties: ClassVar[List[str]] = ["mrzChecksum", "mrzFormat", "mrzConsistency", "expirationDate", "securityElements", "photoLocation", "blacklistCheck", "photocopyCheck", "specimenCheck", "documentModelIdentification", "documentLivenessCheck", "dataIntegrityCheck", "dataConsistencyCheck", "ageValidationCheck", "spoofedImageAnalysis", "faceLivenessCheck", "voiceChallengeCheck", "actionChallengeCheck", "firstNameConsistency", "lastNameConsistency", "dobConsistency", "documentNumberConsistency", "issuingDateConsistency", "expirationDateConsistency", "knownFacesCheck"]
 
     @field_validator('mrz_checksum')
     def mrz_checksum_validate_enum(cls, value):
@@ -228,6 +234,66 @@ class IdDocumentSubChecks(BaseModel):
             raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
         return value
 
+    @field_validator('first_name_consistency')
+    def first_name_consistency_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
+    @field_validator('last_name_consistency')
+    def last_name_consistency_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
+    @field_validator('dob_consistency')
+    def dob_consistency_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
+    @field_validator('document_number_consistency')
+    def document_number_consistency_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
+    @field_validator('issuing_date_consistency')
+    def issuing_date_consistency_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
+    @field_validator('expiration_date_consistency')
+    def expiration_date_consistency_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
     @field_validator('known_faces_check')
     def known_faces_check_validate_enum(cls, value):
         """Validates the enum"""
@@ -307,6 +373,12 @@ class IdDocumentSubChecks(BaseModel):
             "faceLivenessCheck": obj.get("faceLivenessCheck"),
             "voiceChallengeCheck": obj.get("voiceChallengeCheck"),
             "actionChallengeCheck": obj.get("actionChallengeCheck"),
+            "firstNameConsistency": obj.get("firstNameConsistency"),
+            "lastNameConsistency": obj.get("lastNameConsistency"),
+            "dobConsistency": obj.get("dobConsistency"),
+            "documentNumberConsistency": obj.get("documentNumberConsistency"),
+            "issuingDateConsistency": obj.get("issuingDateConsistency"),
+            "expirationDateConsistency": obj.get("expirationDateConsistency"),
             "knownFacesCheck": obj.get("knownFacesCheck")
         })
         return _obj

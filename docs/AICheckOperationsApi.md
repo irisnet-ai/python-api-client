@@ -175,8 +175,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**202** | Input accepted: Wait for callback. |  -  |
 **402** | Not enough credits. |  -  |
+**202** | Input accepted: Wait for callback. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
