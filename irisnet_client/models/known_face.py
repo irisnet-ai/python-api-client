@@ -25,7 +25,7 @@ from typing_extensions import Self
 
 class KnownFace(BaseModel):
     """
-    A list of known faces, describing which other documentHolders match this documentHolder with a certain similarity
+    KnownFace
     """ # noqa: E501
     document_holder_id: Optional[StrictStr] = Field(default=None, description="The id of the documentHolder", alias="documentHolderId")
     face_similarity: Optional[StrictInt] = Field(default=None, description="Indicates the similarity-level between the known face and the documentHolder's selfie", alias="faceSimilarity")

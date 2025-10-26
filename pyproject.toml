@@ -1,6 +1,6 @@
 [project]
 name = "irisnet_client"
-version = "3.7.6"
+version = "4.1.3"
 description = "Irisnet API"
 authors = [
   {name = "irisnet GmbH",email = "info@irisnet.de"},

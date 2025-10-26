@@ -20,6 +20,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from irisnet_client.models.callback import Callback
 from typing import Optional, Set
 from typing_extensions import Self
@@ -29,7 +30,7 @@ class DocumentCheckRequestData(BaseModel):
     DocumentCheckRequestData
     """ # noqa: E501
     callback: Callback
-    front_image: StrictStr = Field(description="The base64-encoded front image of the document to be checked in either jpg or png file format.", alias="frontImage")
+    front_image: Annotated[str, Field(min_length=1, strict=True)] = Field(description="The base64-encoded front image of the document to be checked in either jpg or png file format.", alias="frontImage")
     back_image: Optional[StrictStr] = Field(default=None, description="The base64-encoded back image of the document to be checked in either jpg or png file format.", alias="backImage")
     selfie_image: Optional[StrictStr] = Field(default=None, description="The base64-encoded selfie image to be checked in either jpg or png file format.", alias="selfieImage")
     minimum_accepted_age: Optional[StrictInt] = Field(default=None, description="The minimum age in years accepted for a DocumentCheck, if applicable. Defaults to 18 if not specified.", alias="minimumAcceptedAge")

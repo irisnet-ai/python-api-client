@@ -5,9 +5,9 @@ All URIs are relative to *https://api.irisnet.de*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**delete_config**](ConfigurationManagementApi.md#delete_config) | **DELETE** /v2/config/{configId} | Delete an AI configuration.
-[**get_all_configs**](ConfigurationManagementApi.md#get_all_configs) | **GET** /v2/config/ | List all saved AI configurations.
+[**get_all_configs**](ConfigurationManagementApi.md#get_all_configs) | **GET** /v2/config | List all saved AI configurations.
 [**get_config**](ConfigurationManagementApi.md#get_config) | **GET** /v2/config/{configId} | Get a specific AI configuration.
-[**set_config**](ConfigurationManagementApi.md#set_config) | **POST** /v2/config/ | Create a new AI configuration.
+[**set_config**](ConfigurationManagementApi.md#set_config) | **POST** /v2/config | Create a new AI configuration.
 
 
 # **delete_config**
@@ -82,8 +82,8 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**404** | configId not found. |  -  |
 **204** | successful operation. |  -  |
+**404** | configId not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -237,8 +237,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**404** | configId not found. |  -  |
 **200** | successful operation. |  -  |
+**404** | configId not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -317,9 +317,9 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+**200** | successful operation. |  -  |
 **400** | Bad request. Check for a badly formatted request body. |  -  |
 **403** | Maximum number of stored AI configurations reached. |  -  |
-**200** | successful operation. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

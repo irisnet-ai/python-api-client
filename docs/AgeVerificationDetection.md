@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **check_id** | **str** | The id of the check that lead to the detection | [optional] 
 **face_similarity** | **int** | Indicates the similarity-level of whether two faces belong to the same person | [optional] 
 **face_liveness_check_score** | **int** | Indicates the liveness score of the selfie image | [optional] 
-**processed_checks** | [**AgeVerificationSubChecks**](AgeVerificationSubChecks.md) |  | [optional] 
+**processed_checks** | [**AgeVerificationSubChecks**](AgeVerificationSubChecks.md) | The sub-checks that were processed | [optional] 
 **attributes** | [**List[AgeVerificationAttribute]**](AgeVerificationAttribute.md) | Attributes of the _ageVerification_ detection. | [optional] 
 
 ## Example

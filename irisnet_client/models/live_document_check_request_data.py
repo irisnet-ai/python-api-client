@@ -28,7 +28,7 @@ class LiveDocumentCheckRequestData(BaseModel):
     """
     Data containing neccessary information to handle the enduser live check.
     """ # noqa: E501
-    callback: Callback
+    callback: Callback = Field(description="The URL the final check result is being sent to.")
     status_url: Optional[StrictStr] = Field(default=None, description="The URL to send the intermediate status requests to. If not set, no intermediate status requests will be sent.", alias="statusUrl")
     end_user_redirect_url: Optional[StrictStr] = Field(default=None, description="If set the enduser is being redirected to this URL after the check is finished.", alias="endUserRedirectUrl")
     token_validity_in_seconds: Optional[StrictInt] = Field(default=None, description="The validity duration of a started ident process in seconds. Defaults to 3600 seconds = 60 minutes.", alias="tokenValidityInSeconds")

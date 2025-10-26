@@ -5,9 +5,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | 
-**attributes** | [**List[IdDocumentAttribute]**](IdDocumentAttribute.md) | Attributes of the _idDocument_ detection. | [optional] 
-**sub_detections** | [**List[BaseDetection]**](BaseDetection.md) | A set of sub-detection that are particular to the _face_ detection. Mainly contains detections that were activated with the _attributesCheck_ prototype. | [optional] 
+**type** | **str** | Used as a type discriminator for json to object conversion. | [optional] 
+**classification** | **str** | The classification of the recognized object. | [optional] 
+**group** | **str** | The group of the classification. | [optional] 
+**id** | **int** | The id of the detection object. | [optional] 
+**probability** | **int** | The probability that the object found matches the classification. | [optional] 
+**coordinates** | [**Coordinates**](Coordinates.md) |  | [optional] 
+**attributes** | [**List[Attribute]**](Attribute.md) | Attributes characterizing the text. | [optional] 
+**sub_detections** | [**List[BaseDetection]**](BaseDetection.md) | A set of sub-detection for text moderation. | [optional] 
 **check_id** | **str** | The id of the check that lead to the detection | [optional] 
 **has_official_document** | **bool** | Indicates whether the identified document is official | [optional] 
 **comparable** | **bool** | Indicates whether the provided selfie-image is comparable to the document | [optional] 
@@ -15,7 +20,10 @@ Name | Type | Description | Notes
 **face_liveness_check_score** | **int** | Indicates the liveness score of the selfie image | [optional] 
 **document_front_liveness_score** | **int** | Indicates the liveness score of the front side image of the document | [optional] 
 **document_back_liveness_score** | **int** | Indicates the liveness score of the back side image of the document | [optional] 
-**processed_checks** | [**IdDocumentSubChecks**](IdDocumentSubChecks.md) |  | [optional] 
+**processed_checks** | [**PoaDocumentSubChecks**](PoaDocumentSubChecks.md) | The sub-checks that were processed | [optional] 
+**document_holder_id** | **str** | The id of the documentHolder | [optional] 
+**known_faces** | [**List[KnownFace]**](KnownFace.md) | A list of known faces, describing which other documentHolders match this documentHolder with a certain similarity | [optional] 
+**content** | **str** | The text that was detected | [optional] 
 
 ## Example
 

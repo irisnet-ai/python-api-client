@@ -55,17 +55,6 @@ class Config(BaseModel):
                 raise ValueError("each list item must be one of ('identityDocumentCheck', 'automatedDocumentRecognition', 'biometricCheck', 'formAutofill', 'ageVerificationCheck', 'proofOfAddressCheck', 'faceAuthentication', 'liveIdentification', 'liveIdentityDocumentCheck', 'liveSelfie', 'liveProofOfAddressCheck', 'liveAgeVerificationCheck', 'liveFaceAuthentication', 'videoUploadIdentification', 'considerKnownFaces', 'addEncodingsToResult', 'iFrameFlow', 'redirectFlow')")
         return value
 
-    @field_validator('prototypes')
-    def prototypes_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        for i in value:
-            if i not in set(['nudityCheck', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck', 'selfieCheck']):
-                raise ValueError("each list item must be one of ('nudityCheck', 'ageEstimation', 'illegalSymbols', 'textRecognition', 'attributesCheck', 'bodyAttributes', 'nippleCheck', 'unwantedSubstances', 'violenceCheck', 'selfieCheck')")
-        return value
-
     model_config = ConfigDict(
         populate_by_name=True,
         validate_assignment=True,

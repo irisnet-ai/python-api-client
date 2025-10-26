@@ -94,8 +94,8 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '204': None,
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -162,8 +162,8 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '204': None,
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -230,8 +230,8 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '204': None,
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -534,7 +534,7 @@ class ConfigurationManagementApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v2/config/',
+            resource_path='/v2/config',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -604,8 +604,8 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '200': "Config",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -672,8 +672,8 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '200': "Config",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -740,8 +740,8 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '404': "ApiNotice",
             '200': "Config",
+            '404': "ApiNotice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -868,9 +868,9 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Config",
             '400': "ApiNotice",
             '403': "ApiNotice",
-            '200': "Config",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -937,9 +937,9 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Config",
             '400': "ApiNotice",
             '403': "ApiNotice",
-            '200': "Config",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1006,9 +1006,9 @@ class ConfigurationManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Config",
             '400': "ApiNotice",
             '403': "ApiNotice",
-            '200': "Config",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1078,7 +1078,7 @@ class ConfigurationManagementApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v2/config/',
+            resource_path='/v2/config',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

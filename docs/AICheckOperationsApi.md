@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**check_image**](AICheckOperationsApi.md#check_image) | **POST** /v2/check-image/{configId} | Check an image with the AI.
 [**check_poa_document**](AICheckOperationsApi.md#check_poa_document) | **POST** /v2/check-poa-document/{configId} | Perform an proof of address check with the AI.
 [**check_stream**](AICheckOperationsApi.md#check_stream) | **POST** /v2/check-stream/{configId} | Check a stream with the AI.
+[**check_text**](AICheckOperationsApi.md#check_text) | **POST** /v2/check-text/{configId} | Check a text with the AI.
 [**check_video**](AICheckOperationsApi.md#check_video) | **POST** /v2/check-video/{configId} | Check a video with the AI.
 [**face_authentication**](AICheckOperationsApi.md#face_authentication) | **POST** /v2/face-authentication/{configId} | Perform a face authentication for a given selfie with the AI.
 [**live_document_check**](AICheckOperationsApi.md#live_document_check) | **POST** /v2/check-live-id-document/{configId} | Start a guided live id document check with the AI.
@@ -92,8 +93,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**402** | Not enough credits. |  -  |
 **202** | Input accepted: Wait for callback. |  -  |
+**402** | Not enough credits. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -175,8 +176,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**402** | Not enough credits. |  -  |
 **202** | Input accepted: Wait for callback. |  -  |
+**402** | Not enough credits. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -264,9 +265,9 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+**200** | successful operation. |  -  |
 **402** | Not enough credits. |  -  |
 **404** | configId not found. |  -  |
-**200** | successful operation. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -348,8 +349,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**402** | Not enough credits. |  -  |
 **202** | Input accepted: Wait for callback. |  -  |
+**402** | Not enough credits. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -440,9 +441,95 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+**200** | successful operation. |  -  |
 **402** | Not enough credits. |  -  |
 **404** | configId not found. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **check_text**
+> CheckResult check_text(config_id, data, detail=detail)
+
+Check a text with the AI.
+
+The response (_CheckResult_ schema) is returned immediately after the request.
+
+### Example
+
+* Api Key Authentication (LICENSE-KEY):
+
+```python
+import irisnet_client
+from irisnet_client.models.check_result import CheckResult
+from irisnet_client.models.data import Data
+from irisnet_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.irisnet.de
+# See configuration.py for a list of all supported configuration parameters.
+configuration = irisnet_client.Configuration(
+    host = "https://api.irisnet.de"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: LICENSE-KEY
+configuration.api_key['LICENSE-KEY'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['LICENSE-KEY'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with irisnet_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = irisnet_client.AICheckOperationsApi(api_client)
+    config_id = 'config_id_example' # str | The configuration id from the Basic Configuration operations.
+    data = {"data":"This is an example text."} # Data | The text that needs to be checked.
+    detail = 1 # int | Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information's (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object. (optional) (default to 1)
+
+    try:
+        # Check a text with the AI.
+        api_response = api_instance.check_text(config_id, data, detail=detail)
+        print("The response of AICheckOperationsApi->check_text:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AICheckOperationsApi->check_text: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **config_id** | **str**| The configuration id from the Basic Configuration operations. | 
+ **data** | [**Data**](Data.md)| The text that needs to be checked. | 
+ **detail** | **int**| Set the detail level of the response.  * _1_ - The response only contains the _Summary_ and possibly the _Encoded_ schemas for basic information&#39;s (better API performance). * _2_ - Additionally lists all broken rules (_BrokenRule_ schema) according to the configuration parameters that were requested. * _3_ - Also shows detections (e.g. _BaseDetection_ schema) that contains extended features to each found object. | [optional] [default to 1]
+
+### Return type
+
+[**CheckResult**](CheckResult.md)
+
+### Authorization
+
+[LICENSE-KEY](../README.md#LICENSE-KEY)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
 **200** | successful operation. |  -  |
+**402** | Not enough credits. |  -  |
+**404** | configId not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -531,9 +618,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+**202** | operation accepted: wait for callback. |  -  |
 **402** | Not enough credits. |  -  |
 **404** | configId not found. |  -  |
-**202** | operation accepted: wait for callback. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -615,8 +702,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**402** | Not enough credits. |  -  |
 **202** | Input accepted: Wait for callback. |  -  |
+**402** | Not enough credits. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -698,8 +785,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**402** | Not enough credits. |  -  |
 **202** | Input accepted: Send enduser to endUserIdentUrl and wait for status/callback. |  -  |
+**402** | Not enough credits. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

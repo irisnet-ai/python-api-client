@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **id** | **int** | The id of the detection object. | [optional] 
 **probability** | **int** | The probability that the object found matches the classification. | [optional] 
 **coordinates** | [**Coordinates**](Coordinates.md) |  | [optional] 
-**attributes** | [**List[BaseAttribute]**](BaseAttribute.md) | Attributes characterizing the _face_ detection. Mainly contains attributes that were activated with the _ageEstimation_ prototype. | [optional] 
+**attributes** | [**List[Attribute]**](Attribute.md) | Attributes characterizing the _face_ detection. Mainly contains attributes that were activated with the _ageEstimation_ prototype. | [optional] 
 **sub_detections** | [**List[Detection]**](Detection.md) | A set of sub-detection that are particular to the _face_ detection. Mainly contains detections that were activated with the _attributesCheck_ prototype. | [optional] 
 
 ## Example

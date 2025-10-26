@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **face_liveness_check_score** | **int** | Indicates the liveness score of the selfie image | [optional] 
 **document_front_liveness_score** | **int** | Indicates the liveness score of the front side image of the document | [optional] 
 **document_back_liveness_score** | **int** | Indicates the liveness score of the back side image of the document | [optional] 
-**processed_checks** | [**IdDocumentSubChecks**](IdDocumentSubChecks.md) |  | [optional] 
+**processed_checks** | [**IdDocumentSubChecks**](IdDocumentSubChecks.md) | The sub-checks that were processed | [optional] 
 **attributes** | [**List[IdDocumentAttribute]**](IdDocumentAttribute.md) | Attributes of the _idDocument_ detection. | [optional] 
 **document_holder_id** | **str** | The id of the documentHolder | [optional] 
 **known_faces** | [**List[KnownFace]**](KnownFace.md) | A list of known faces, describing which other documentHolders match this documentHolder with a certain similarity | [optional] 

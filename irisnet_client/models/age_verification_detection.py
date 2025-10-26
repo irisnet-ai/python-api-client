@@ -24,7 +24,6 @@ from irisnet_client.models.age_verification_attribute import AgeVerificationAttr
 from irisnet_client.models.age_verification_sub_checks import AgeVerificationSubChecks
 from irisnet_client.models.coordinates import Coordinates
 from irisnet_client.models.detection import Detection
-from irisnet_client.models.known_face import KnownFace
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -40,9 +39,9 @@ class AgeVerificationDetection(Detection):
     check_id: Optional[StrictStr] = Field(default=None, description="The id of the check that lead to the detection", alias="checkId")
     face_similarity: Optional[StrictInt] = Field(default=None, description="Indicates the similarity-level of whether two faces belong to the same person", alias="faceSimilarity")
     face_liveness_check_score: Optional[StrictInt] = Field(default=None, description="Indicates the liveness score of the selfie image", alias="faceLivenessCheckScore")
-    processed_checks: Optional[AgeVerificationSubChecks] = Field(default=None, alias="processedChecks")
+    processed_checks: Optional[AgeVerificationSubChecks] = Field(default=None, description="The sub-checks that were processed", alias="processedChecks")
     attributes: Optional[List[AgeVerificationAttribute]] = Field(default=None, description="Attributes of the _ageVerification_ detection.")
-    __properties: ClassVar[List[str]] = ["type", "classification", "group", "id", "probability", "coordinates", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks", "documentHolderId", "knownFaces"]
+    __properties: ClassVar[List[str]] = ["type", "classification", "group", "id", "probability", "coordinates", "checkId", "faceSimilarity", "faceLivenessCheckScore", "processedChecks", "attributes"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,6 +85,9 @@ class AgeVerificationDetection(Detection):
         # override the default output from pydantic by calling `to_dict()` of coordinates
         if self.coordinates:
             _dict['coordinates'] = self.coordinates.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of processed_checks
+        if self.processed_checks:
+            _dict['processedChecks'] = self.processed_checks.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in attributes (list)
         _items = []
         if self.attributes:
@@ -93,23 +95,6 @@ class AgeVerificationDetection(Detection):
                 if _item_attributes:
                     _items.append(_item_attributes.to_dict())
             _dict['attributes'] = _items
-        # override the default output from pydantic by calling `to_dict()` of each item in sub_detections (list)
-        _items = []
-        if self.sub_detections:
-            for _item_sub_detections in self.sub_detections:
-                if _item_sub_detections:
-                    _items.append(_item_sub_detections.to_dict())
-            _dict['subDetections'] = _items
-        # override the default output from pydantic by calling `to_dict()` of processed_checks
-        if self.processed_checks:
-            _dict['processedChecks'] = self.processed_checks.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of each item in known_faces (list)
-        _items = []
-        if self.known_faces:
-            for _item_known_faces in self.known_faces:
-                if _item_known_faces:
-                    _items.append(_item_known_faces.to_dict())
-            _dict['knownFaces'] = _items
         return _dict
 
     @classmethod
@@ -128,18 +113,11 @@ class AgeVerificationDetection(Detection):
             "id": obj.get("id"),
             "probability": obj.get("probability"),
             "coordinates": Coordinates.from_dict(obj["coordinates"]) if obj.get("coordinates") is not None else None,
-            "attributes": [AgeVerificationAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
-            "subDetections": [Detection.from_dict(_item) for _item in obj["subDetections"]] if obj.get("subDetections") is not None else None,
             "checkId": obj.get("checkId"),
-            "hasOfficialDocument": obj.get("hasOfficialDocument"),
-            "comparable": obj.get("comparable"),
             "faceSimilarity": obj.get("faceSimilarity"),
             "faceLivenessCheckScore": obj.get("faceLivenessCheckScore"),
-            "documentFrontLivenessScore": obj.get("documentFrontLivenessScore"),
-            "documentBackLivenessScore": obj.get("documentBackLivenessScore"),
             "processedChecks": AgeVerificationSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None,
-            "documentHolderId": obj.get("documentHolderId"),
-            "knownFaces": [KnownFace.from_dict(_item) for _item in obj["knownFaces"]] if obj.get("knownFaces") is not None else None
+            "attributes": [AgeVerificationAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None
         })
         return _obj
 

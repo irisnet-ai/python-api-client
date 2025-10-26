@@ -21,6 +21,7 @@ import json
 from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List, Optional
 from irisnet_client.models.rectangle import Rectangle
+from irisnet_client.models.segment import Segment
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -29,7 +30,8 @@ class Coordinates(BaseModel):
     Describes the position and bounds of the classification object.
     """ # noqa: E501
     rectangles: Optional[List[Rectangle]] = None
-    __properties: ClassVar[List[str]] = ["rectangles"]
+    segments: Optional[List[Segment]] = None
+    __properties: ClassVar[List[str]] = ["rectangles", "segments"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -77,6 +79,13 @@ class Coordinates(BaseModel):
                 if _item_rectangles:
                     _items.append(_item_rectangles.to_dict())
             _dict['rectangles'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in segments (list)
+        _items = []
+        if self.segments:
+            for _item_segments in self.segments:
+                if _item_segments:
+                    _items.append(_item_segments.to_dict())
+            _dict['segments'] = _items
         return _dict
 
     @classmethod
@@ -89,7 +98,8 @@ class Coordinates(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "rectangles": [Rectangle.from_dict(_item) for _item in obj["rectangles"]] if obj.get("rectangles") is not None else None
+            "rectangles": [Rectangle.from_dict(_item) for _item in obj["rectangles"]] if obj.get("rectangles") is not None else None,
+            "segments": [Segment.from_dict(_item) for _item in obj["segments"]] if obj.get("segments") is not None else None
         })
         return _obj
 

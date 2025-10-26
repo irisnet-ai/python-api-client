@@ -14,193 +14,116 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
-import json
 import pprint
 import re  # noqa: F401
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
-from typing import Optional
-from irisnet_client.models.age_verification_detection import AgeVerificationDetection
-from irisnet_client.models.base_detection import BaseDetection
-from irisnet_client.models.breast_detection import BreastDetection
-from irisnet_client.models.hair_detection import HairDetection
-from irisnet_client.models.id_document_detection import IdDocumentDetection
-from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
-from typing_extensions import Literal, Self
-from pydantic import Field
+import json
 
-DETECTION_ANY_OF_SCHEMAS = ["AgeVerificationDetection", "BaseDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection"]
+from importlib import import_module
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing import Optional, Set
+from typing_extensions import Self
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from irisnet_client.models.age_verification_detection import AgeVerificationDetection
+    from irisnet_client.models.breast_detection import BreastDetection
+    from irisnet_client.models.face_detection import FaceDetection
+    from irisnet_client.models.hair_detection import HairDetection
+    from irisnet_client.models.id_document_detection import IdDocumentDetection
+    from irisnet_client.models.image_analysis_detection import ImageAnalysisDetection
+    from irisnet_client.models.poa_document_detection import PoaDocumentDetection
+    from irisnet_client.models.text_detection import TextDetection
 
 class Detection(BaseModel):
     """
     Detection
-    """
+    """ # noqa: E501
+    type: Optional[StrictStr] = Field(default=None, description="Used as a type discriminator for json to object conversion.")
+    __properties: ClassVar[List[str]] = ["type"]
 
-    # data type: BaseDetection
-    anyof_schema_1_validator: Optional[BaseDetection] = None
-    # data type: FaceDetection
-    anyof_schema_2_validator: Optional[FaceDetection] = None
-    # data type: BreastDetection
-    anyof_schema_3_validator: Optional[BreastDetection] = None
-    # data type: HairDetection
-    anyof_schema_4_validator: Optional[HairDetection] = None
-    # data type: IdDocumentDetection
-    anyof_schema_5_validator: Optional[IdDocumentDetection] = None
-    # data type: AgeVerificationDetection
-    anyof_schema_6_validator: Optional[AgeVerificationDetection] = None
-    if TYPE_CHECKING:
-        actual_instance: Optional[Union[AgeVerificationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection]] = None
-    else:
-        actual_instance: Any = None
-    any_of_schemas: Set[str] = { "AgeVerificationDetection", "BaseDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection" }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
-    model_config = {
-        "validate_assignment": True,
-        "protected_namespaces": (),
+
+    # JSON field name that stores the object type
+    __discriminator_property_name: ClassVar[str] = 'type'
+
+    # discriminator mappings
+    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
+        'AgeVerificationDetection': 'AgeVerificationDetection','BreastDetection': 'BreastDetection','FaceDetection': 'FaceDetection','HairDetection': 'HairDetection','IdDocumentDetection': 'IdDocumentDetection','ImageAnalysisDetection': 'ImageAnalysisDetection','PoaDocumentDetection': 'PoaDocumentDetection','TextDetection': 'TextDetection'
     }
 
-    discriminator_value_class_map: Dict[str, str] = {
-        'AgeVerificationDetection': 'AgeVerificationDetection',
-        'BaseDetection': 'BaseDetection',
-        'BreastDetection': 'BreastDetection',
-        'FaceDetection': 'FaceDetection',
-        'HairDetection': 'HairDetection',
-        'IdDocumentDetection': 'IdDocumentDetection'
-    }
-
-    def __init__(self, *args, **kwargs) -> None:
-        if args:
-            if len(args) > 1:
-                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
-            if kwargs:
-                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
-            super().__init__(actual_instance=args[0])
-        else:
-            super().__init__(**kwargs)
-
-    @field_validator('actual_instance')
-    def actual_instance_must_validate_anyof(cls, v):
-        instance = Detection.model_construct()
-        error_messages = []
-        # validate data type: BaseDetection
-        if not isinstance(v, BaseDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `BaseDetection`")
-        else:
-            return v
-
-        # validate data type: FaceDetection
-        if not isinstance(v, FaceDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `FaceDetection`")
-        else:
-            return v
-
-        # validate data type: BreastDetection
-        if not isinstance(v, BreastDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `BreastDetection`")
-        else:
-            return v
-
-        # validate data type: HairDetection
-        if not isinstance(v, HairDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `HairDetection`")
-        else:
-            return v
-
-        # validate data type: IdDocumentDetection
-        if not isinstance(v, IdDocumentDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `IdDocumentDetection`")
-        else:
-            return v
-
-        # validate data type: AgeVerificationDetection
-        if not isinstance(v, AgeVerificationDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `AgeVerificationDetection`")
-        else:
-            return v
-
-        if error_messages:
-            # no match
-            raise ValueError("No match found when setting the actual_instance in Detection with anyOf schemas: AgeVerificationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
-        else:
-            return v
-
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Self:
-        return cls.from_json(json.dumps(obj))
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Self:
-        """Returns the object represented by the json string"""
-        instance = cls.model_construct()
-        error_messages = []
-        # anyof_schema_1_validator: Optional[BaseDetection] = None
-        try:
-            instance.actual_instance = BaseDetection.from_json(json_str)
-            return instance
-        except (ValidationError, ValueError) as e:
-             error_messages.append(str(e))
-        # anyof_schema_2_validator: Optional[FaceDetection] = None
-        try:
-            instance.actual_instance = FaceDetection.from_json(json_str)
-            return instance
-        except (ValidationError, ValueError) as e:
-             error_messages.append(str(e))
-        # anyof_schema_3_validator: Optional[BreastDetection] = None
-        try:
-            instance.actual_instance = BreastDetection.from_json(json_str)
-            return instance
-        except (ValidationError, ValueError) as e:
-             error_messages.append(str(e))
-        # anyof_schema_4_validator: Optional[HairDetection] = None
-        try:
-            instance.actual_instance = HairDetection.from_json(json_str)
-            return instance
-        except (ValidationError, ValueError) as e:
-             error_messages.append(str(e))
-        # anyof_schema_5_validator: Optional[IdDocumentDetection] = None
-        try:
-            instance.actual_instance = IdDocumentDetection.from_json(json_str)
-            return instance
-        except (ValidationError, ValueError) as e:
-             error_messages.append(str(e))
-        # anyof_schema_6_validator: Optional[AgeVerificationDetection] = None
-        try:
-            instance.actual_instance = AgeVerificationDetection.from_json(json_str)
-            return instance
-        except (ValidationError, ValueError) as e:
-             error_messages.append(str(e))
-
-        if error_messages:
-            # no match
-            raise ValueError("No match found when deserializing the JSON string into Detection with anyOf schemas: AgeVerificationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
+    def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
+        """Returns the discriminator value (object type) of the data"""
+        discriminator_value = obj[cls.__discriminator_property_name]
+        if discriminator_value:
+            return cls.__discriminator_value_class_map.get(discriminator_value)
         else:
-            return instance
-
-    def to_json(self) -> str:
-        """Returns the JSON representation of the actual instance"""
-        if self.actual_instance is None:
-            return "null"
-
-        if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
-            return self.actual_instance.to_json()
-        else:
-            return json.dumps(self.actual_instance)
-
-    def to_dict(self) -> Optional[Union[Dict[str, Any], AgeVerificationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection]]:
-        """Returns the dict representation of the actual instance"""
-        if self.actual_instance is None:
             return None
 
-        if hasattr(self.actual_instance, "to_dict") and callable(self.actual_instance.to_dict):
-            return self.actual_instance.to_dict()
-        else:
-            return self.actual_instance
-
     def to_str(self) -> str:
-        """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.model_dump())
+        """Returns the string representation of the model using alias"""
+        return pprint.pformat(self.model_dump(by_alias=True))
 
-from irisnet_client.models.face_detection import FaceDetection
-# TODO: Rewrite to not use raise_errors
-Detection.model_rebuild(raise_errors=False)
+    def to_json(self) -> str:
+        """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
+        return json.dumps(self.to_dict())
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Optional[Union[AgeVerificationDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection, ImageAnalysisDetection, PoaDocumentDetection, TextDetection]]:
+        """Create an instance of Detection from a JSON string"""
+        return cls.from_dict(json.loads(json_str))
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        excluded_fields: Set[str] = set([
+        ])
+
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude=excluded_fields,
+            exclude_none=True,
+        )
+        return _dict
+
+    @classmethod
+    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[AgeVerificationDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection, ImageAnalysisDetection, PoaDocumentDetection, TextDetection]]:
+        """Create an instance of Detection from a dict"""
+        # look up the object type based on discriminator mapping
+        object_type = cls.get_discriminator_value(obj)
+        if object_type ==  'AgeVerificationDetection':
+            return import_module("irisnet_client.models.age_verification_detection").AgeVerificationDetection.from_dict(obj)
+        if object_type ==  'BreastDetection':
+            return import_module("irisnet_client.models.breast_detection").BreastDetection.from_dict(obj)
+        if object_type ==  'FaceDetection':
+            return import_module("irisnet_client.models.face_detection").FaceDetection.from_dict(obj)
+        if object_type ==  'HairDetection':
+            return import_module("irisnet_client.models.hair_detection").HairDetection.from_dict(obj)
+        if object_type ==  'IdDocumentDetection':
+            return import_module("irisnet_client.models.id_document_detection").IdDocumentDetection.from_dict(obj)
+        if object_type ==  'ImageAnalysisDetection':
+            return import_module("irisnet_client.models.image_analysis_detection").ImageAnalysisDetection.from_dict(obj)
+        if object_type ==  'PoaDocumentDetection':
+            return import_module("irisnet_client.models.poa_document_detection").PoaDocumentDetection.from_dict(obj)
+        if object_type ==  'TextDetection':
+            return import_module("irisnet_client.models.text_detection").TextDetection.from_dict(obj)
+
+        raise ValueError("Detection failed to lookup discriminator value from " +
+                            json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
+                            ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+
 

@@ -15,7 +15,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.7.6"
+__version__ = "4.1.3"
 
 # Define package exports
 __all__ = [
@@ -35,7 +35,10 @@ __all__ = [
     "AgeVerificationAttribute",
     "AgeVerificationDetection",
     "AgeVerificationSubChecks",
+    "AiClassification",
+    "AiPrototype",
     "ApiNotice",
+    "Attribute",
     "BaseAttribute",
     "BaseDetection",
     "BiometricCheckRequestData",
@@ -43,6 +46,7 @@ __all__ = [
     "BrokenRule",
     "Callback",
     "CheckResult",
+    "CheckResultDetectionsInner",
     "Config",
     "Coordinates",
     "Data",
@@ -56,17 +60,25 @@ __all__ = [
     "IdDocumentAttribute",
     "IdDocumentDetection",
     "IdDocumentSubChecks",
+    "ImageAnalysisDetection",
     "KnownFace",
     "KycUiParameter",
+    "LanguageAttribute",
     "LicenseInfo",
     "LiveDocumentCheckRequestData",
     "LiveDocumentCheckResponseData",
     "Param",
     "ParamSet",
     "PoaCheckRequestData",
+    "PoaDocumentAttribute",
+    "PoaDocumentDetection",
+    "PoaDocumentSubChecks",
     "Pricing",
     "Rectangle",
+    "Segment",
     "Summary",
+    "TextDetection",
+    "ValueAttribute",
 ]
 
 # import apis into sdk package
@@ -90,7 +102,10 @@ from irisnet_client.exceptions import ApiException as ApiException
 from irisnet_client.models.age_verification_attribute import AgeVerificationAttribute as AgeVerificationAttribute
 from irisnet_client.models.age_verification_detection import AgeVerificationDetection as AgeVerificationDetection
 from irisnet_client.models.age_verification_sub_checks import AgeVerificationSubChecks as AgeVerificationSubChecks
+from irisnet_client.models.ai_classification import AiClassification as AiClassification
+from irisnet_client.models.ai_prototype import AiPrototype as AiPrototype
 from irisnet_client.models.api_notice import ApiNotice as ApiNotice
+from irisnet_client.models.attribute import Attribute as Attribute
 from irisnet_client.models.base_attribute import BaseAttribute as BaseAttribute
 from irisnet_client.models.base_detection import BaseDetection as BaseDetection
 from irisnet_client.models.biometric_check_request_data import BiometricCheckRequestData as BiometricCheckRequestData
@@ -98,6 +113,7 @@ from irisnet_client.models.breast_detection import BreastDetection as BreastDete
 from irisnet_client.models.broken_rule import BrokenRule as BrokenRule
 from irisnet_client.models.callback import Callback as Callback
 from irisnet_client.models.check_result import CheckResult as CheckResult
+from irisnet_client.models.check_result_detections_inner import CheckResultDetectionsInner as CheckResultDetectionsInner
 from irisnet_client.models.config import Config as Config
 from irisnet_client.models.coordinates import Coordinates as Coordinates
 from irisnet_client.models.data import Data as Data
@@ -111,14 +127,22 @@ from irisnet_client.models.hair_detection import HairDetection as HairDetection
 from irisnet_client.models.id_document_attribute import IdDocumentAttribute as IdDocumentAttribute
 from irisnet_client.models.id_document_detection import IdDocumentDetection as IdDocumentDetection
 from irisnet_client.models.id_document_sub_checks import IdDocumentSubChecks as IdDocumentSubChecks
+from irisnet_client.models.image_analysis_detection import ImageAnalysisDetection as ImageAnalysisDetection
 from irisnet_client.models.known_face import KnownFace as KnownFace
 from irisnet_client.models.kyc_ui_parameter import KycUiParameter as KycUiParameter
+from irisnet_client.models.language_attribute import LanguageAttribute as LanguageAttribute
 from irisnet_client.models.license_info import LicenseInfo as LicenseInfo
 from irisnet_client.models.live_document_check_request_data import LiveDocumentCheckRequestData as LiveDocumentCheckRequestData
 from irisnet_client.models.live_document_check_response_data import LiveDocumentCheckResponseData as LiveDocumentCheckResponseData
 from irisnet_client.models.param import Param as Param
 from irisnet_client.models.param_set import ParamSet as ParamSet
 from irisnet_client.models.poa_check_request_data import PoaCheckRequestData as PoaCheckRequestData
+from irisnet_client.models.poa_document_attribute import PoaDocumentAttribute as PoaDocumentAttribute
+from irisnet_client.models.poa_document_detection import PoaDocumentDetection as PoaDocumentDetection
+from irisnet_client.models.poa_document_sub_checks import PoaDocumentSubChecks as PoaDocumentSubChecks
 from irisnet_client.models.pricing import Pricing as Pricing
 from irisnet_client.models.rectangle import Rectangle as Rectangle
+from irisnet_client.models.segment import Segment as Segment
 from irisnet_client.models.summary import Summary as Summary
+from irisnet_client.models.text_detection import TextDetection as TextDetection
+from irisnet_client.models.value_attribute import ValueAttribute as ValueAttribute

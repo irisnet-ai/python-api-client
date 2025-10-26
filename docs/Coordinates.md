@@ -7,6 +7,7 @@ Describes the position and bounds of the classification object.
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **rectangles** | [**List[Rectangle]**](Rectangle.md) |  | [optional] 
+**segments** | [**List[Segment]**](Segment.md) |  | [optional] 
 
 ## Example
 

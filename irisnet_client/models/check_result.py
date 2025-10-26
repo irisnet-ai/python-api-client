@@ -22,7 +22,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from irisnet_client.models.api_notice import ApiNotice
 from irisnet_client.models.broken_rule import BrokenRule
-from irisnet_client.models.detection import Detection
+from irisnet_client.models.check_result_detections_inner import CheckResultDetectionsInner
 from irisnet_client.models.encoded import Encoded
 from irisnet_client.models.event import Event
 from irisnet_client.models.summary import Summary
@@ -36,7 +36,7 @@ class CheckResult(BaseModel):
     summary: Optional[Summary] = None
     encodings: Optional[List[Encoded]] = None
     broken_rules: Optional[List[BrokenRule]] = Field(default=None, alias="brokenRules")
-    detections: Optional[List[Detection]] = None
+    detections: Optional[List[CheckResultDetectionsInner]] = None
     events: Optional[List[Event]] = None
     notifications: Optional[List[ApiNotice]] = None
     check_id: Optional[StrictStr] = Field(default=None, description="The id of the async running check", alias="checkId")
@@ -134,7 +134,7 @@ class CheckResult(BaseModel):
             "summary": Summary.from_dict(obj["summary"]) if obj.get("summary") is not None else None,
             "encodings": [Encoded.from_dict(_item) for _item in obj["encodings"]] if obj.get("encodings") is not None else None,
             "brokenRules": [BrokenRule.from_dict(_item) for _item in obj["brokenRules"]] if obj.get("brokenRules") is not None else None,
-            "detections": [Detection.from_dict(_item) for _item in obj["detections"]] if obj.get("detections") is not None else None,
+            "detections": [CheckResultDetectionsInner.from_dict(_item) for _item in obj["detections"]] if obj.get("detections") is not None else None,
             "events": [Event.from_dict(_item) for _item in obj["events"]] if obj.get("events") is not None else None,
             "notifications": [ApiNotice.from_dict(_item) for _item in obj["notifications"]] if obj.get("notifications") is not None else None,
             "checkId": obj.get("checkId")

@@ -44,11 +44,11 @@ class IdDocumentDetection(Detection):
     face_liveness_check_score: Optional[StrictInt] = Field(default=None, description="Indicates the liveness score of the selfie image", alias="faceLivenessCheckScore")
     document_front_liveness_score: Optional[StrictInt] = Field(default=None, description="Indicates the liveness score of the front side image of the document", alias="documentFrontLivenessScore")
     document_back_liveness_score: Optional[StrictInt] = Field(default=None, description="Indicates the liveness score of the back side image of the document", alias="documentBackLivenessScore")
-    processed_checks: Optional[IdDocumentSubChecks] = Field(default=None, alias="processedChecks")
+    processed_checks: Optional[IdDocumentSubChecks] = Field(default=None, description="The sub-checks that were processed", alias="processedChecks")
     attributes: Optional[List[IdDocumentAttribute]] = Field(default=None, description="Attributes of the _idDocument_ detection.")
     document_holder_id: Optional[StrictStr] = Field(default=None, description="The id of the documentHolder", alias="documentHolderId")
     known_faces: Optional[List[KnownFace]] = Field(default=None, description="A list of known faces, describing which other documentHolders match this documentHolder with a certain similarity", alias="knownFaces")
-    __properties: ClassVar[List[str]] = ["type", "classification", "group", "id", "probability", "coordinates", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks", "documentHolderId", "knownFaces"]
+    __properties: ClassVar[List[str]] = ["type", "classification", "group", "id", "probability", "coordinates", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks", "attributes", "documentHolderId", "knownFaces"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -92,6 +92,9 @@ class IdDocumentDetection(Detection):
         # override the default output from pydantic by calling `to_dict()` of coordinates
         if self.coordinates:
             _dict['coordinates'] = self.coordinates.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of processed_checks
+        if self.processed_checks:
+            _dict['processedChecks'] = self.processed_checks.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in attributes (list)
         _items = []
         if self.attributes:
@@ -99,16 +102,6 @@ class IdDocumentDetection(Detection):
                 if _item_attributes:
                     _items.append(_item_attributes.to_dict())
             _dict['attributes'] = _items
-        # override the default output from pydantic by calling `to_dict()` of each item in sub_detections (list)
-        _items = []
-        if self.sub_detections:
-            for _item_sub_detections in self.sub_detections:
-                if _item_sub_detections:
-                    _items.append(_item_sub_detections.to_dict())
-            _dict['subDetections'] = _items
-        # override the default output from pydantic by calling `to_dict()` of processed_checks
-        if self.processed_checks:
-            _dict['processedChecks'] = self.processed_checks.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in known_faces (list)
         _items = []
         if self.known_faces:
@@ -134,8 +127,6 @@ class IdDocumentDetection(Detection):
             "id": obj.get("id"),
             "probability": obj.get("probability"),
             "coordinates": Coordinates.from_dict(obj["coordinates"]) if obj.get("coordinates") is not None else None,
-            "attributes": [IdDocumentAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
-            "subDetections": [Detection.from_dict(_item) for _item in obj["subDetections"]] if obj.get("subDetections") is not None else None,
             "checkId": obj.get("checkId"),
             "hasOfficialDocument": obj.get("hasOfficialDocument"),
             "comparable": obj.get("comparable"),
@@ -144,6 +135,7 @@ class IdDocumentDetection(Detection):
             "documentFrontLivenessScore": obj.get("documentFrontLivenessScore"),
             "documentBackLivenessScore": obj.get("documentBackLivenessScore"),
             "processedChecks": IdDocumentSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None,
+            "attributes": [IdDocumentAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
             "documentHolderId": obj.get("documentHolderId"),
             "knownFaces": [KnownFace.from_dict(_item) for _item in obj["knownFaces"]] if obj.get("knownFaces") is not None else None
         })

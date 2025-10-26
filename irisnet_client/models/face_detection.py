@@ -20,10 +20,9 @@ import json
 
 from pydantic import ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from irisnet_client.models.age_verification_sub_checks import AgeVerificationSubChecks
-from irisnet_client.models.base_attribute import BaseAttribute
+from irisnet_client.models.attribute import Attribute
 from irisnet_client.models.coordinates import Coordinates
-from irisnet_client.models.known_face import KnownFace
+from irisnet_client.models.detection import Detection
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -36,9 +35,9 @@ class FaceDetection(Detection):
     id: Optional[StrictInt] = Field(default=None, description="The id of the detection object.")
     probability: Optional[StrictInt] = Field(default=None, description="The probability that the object found matches the classification.")
     coordinates: Optional[Coordinates] = None
-    attributes: Optional[List[BaseAttribute]] = Field(default=None, description="Attributes characterizing the _face_ detection. Mainly contains attributes that were activated with the _ageEstimation_ prototype.")
+    attributes: Optional[List[Attribute]] = Field(default=None, description="Attributes characterizing the _face_ detection. Mainly contains attributes that were activated with the _ageEstimation_ prototype.")
     sub_detections: Optional[List[Detection]] = Field(default=None, description="A set of sub-detection that are particular to the _face_ detection. Mainly contains detections that were activated with the _attributesCheck_ prototype.", alias="subDetections")
-    __properties: ClassVar[List[str]] = ["type", "classification", "group", "id", "probability", "coordinates", "attributes", "subDetections", "checkId", "hasOfficialDocument", "comparable", "faceSimilarity", "faceLivenessCheckScore", "documentFrontLivenessScore", "documentBackLivenessScore", "processedChecks", "documentHolderId", "knownFaces"]
+    __properties: ClassVar[List[str]] = ["type", "classification", "group", "id", "probability", "coordinates", "attributes", "subDetections"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -96,16 +95,6 @@ class FaceDetection(Detection):
                 if _item_sub_detections:
                     _items.append(_item_sub_detections.to_dict())
             _dict['subDetections'] = _items
-        # override the default output from pydantic by calling `to_dict()` of processed_checks
-        if self.processed_checks:
-            _dict['processedChecks'] = self.processed_checks.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of each item in known_faces (list)
-        _items = []
-        if self.known_faces:
-            for _item_known_faces in self.known_faces:
-                if _item_known_faces:
-                    _items.append(_item_known_faces.to_dict())
-            _dict['knownFaces'] = _items
         return _dict
 
     @classmethod
@@ -124,22 +113,9 @@ class FaceDetection(Detection):
             "id": obj.get("id"),
             "probability": obj.get("probability"),
             "coordinates": Coordinates.from_dict(obj["coordinates"]) if obj.get("coordinates") is not None else None,
-            "attributes": [BaseAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
-            "subDetections": [Detection.from_dict(_item) for _item in obj["subDetections"]] if obj.get("subDetections") is not None else None,
-            "checkId": obj.get("checkId"),
-            "hasOfficialDocument": obj.get("hasOfficialDocument"),
-            "comparable": obj.get("comparable"),
-            "faceSimilarity": obj.get("faceSimilarity"),
-            "faceLivenessCheckScore": obj.get("faceLivenessCheckScore"),
-            "documentFrontLivenessScore": obj.get("documentFrontLivenessScore"),
-            "documentBackLivenessScore": obj.get("documentBackLivenessScore"),
-            "processedChecks": AgeVerificationSubChecks.from_dict(obj["processedChecks"]) if obj.get("processedChecks") is not None else None,
-            "documentHolderId": obj.get("documentHolderId"),
-            "knownFaces": [KnownFace.from_dict(_item) for _item in obj["knownFaces"]] if obj.get("knownFaces") is not None else None
+            "attributes": [Attribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
+            "subDetections": [Detection.from_dict(_item) for _item in obj["subDetections"]] if obj.get("subDetections") is not None else None
         })
         return _obj
 
-from irisnet_client.models.detection import Detection
-# TODO: Rewrite to not use raise_errors
-FaceDetection.model_rebuild(raise_errors=False)
 

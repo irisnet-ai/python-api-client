@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **summary** | [**Summary**](Summary.md) |  | [optional] 
 **encodings** | [**List[Encoded]**](Encoded.md) |  | [optional] 
 **broken_rules** | [**List[BrokenRule]**](BrokenRule.md) |  | [optional] 
-**detections** | [**List[Detection]**](Detection.md) |  | [optional] 
+**detections** | [**List[CheckResultDetectionsInner]**](CheckResultDetectionsInner.md) |  | [optional] 
 **events** | [**List[Event]**](Event.md) |  | [optional] 
 **notifications** | [**List[ApiNotice]**](ApiNotice.md) |  | [optional] 
 **check_id** | **str** | The id of the async running check | [optional] 

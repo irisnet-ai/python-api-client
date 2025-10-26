@@ -5,7 +5,7 @@ All URIs are relative to *https://api.irisnet.de*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_cost**](BalanceEndpointsApi.md#get_cost) | **GET** /v2/cost/{configId} | Get the cost of the configuration for a single image.
-[**get_license_info**](BalanceEndpointsApi.md#get_license_info) | **GET** /v2/info/ | Get information for the given license key.
+[**get_license_info**](BalanceEndpointsApi.md#get_license_info) | **GET** /v2/info | Get information for the given license key.
 [**get_video_cost**](BalanceEndpointsApi.md#get_video_cost) | **GET** /v2/cost/{configId}/{frames} | Get the cost of the configuration for moving images.
 [**get_video_cost1**](BalanceEndpointsApi.md#get_video_cost1) | **GET** /v2/cost/{configId}/{fps}/{duration} | Get the cost of the configuration for moving images.
 
@@ -85,9 +85,9 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**429** | The ai could not handle the request because it is either overloaded or currently down for maintenance. This is a temporary state. A &#39;Retry-After&#39; Header is included in the response to signal the client to retry after a certain amount of seconds. |  -  |
-**404** | configId not found. |  -  |
 **200** | The cost of the given configuration. |  -  |
+**404** | configId not found. |  -  |
+**429** | The ai could not handle the request because it is either overloaded or currently down for maintenance. This is a temporary state. A &#39;Retry-After&#39; Header is included in the response to signal the client to retry after a certain amount of seconds. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -162,8 +162,8 @@ This endpoint does not need any parameter.
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**404** | The entered license key was not found. |  -  |
 **200** | successful operation. |  -  |
+**404** | The entered license key was not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -246,9 +246,9 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**429** | The ai could not handle the request because it is either overloaded or currently down for maintenance. This is a temporary state. A &#39;Retry-After&#39; Header is included in the response to signal the client to retry after a certain amount of seconds. |  -  |
-**404** | configId not found. |  -  |
 **200** | The cost of the given configuration |  -  |
+**404** | configId not found. |  -  |
+**429** | The ai could not handle the request because it is either overloaded or currently down for maintenance. This is a temporary state. A &#39;Retry-After&#39; Header is included in the response to signal the client to retry after a certain amount of seconds. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -333,9 +333,9 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**429** | The ai could not handle the request because it is either overloaded or currently down for maintenance. This is a temporary state. A &#39;Retry-After&#39; Header is included in the response to signal the client to retry after a certain amount of seconds. |  -  |
-**404** | configId not found. |  -  |
 **200** | The cost of the given configuration. |  -  |
+**404** | configId not found. |  -  |
+**429** | The ai could not handle the request because it is either overloaded or currently down for maintenance. This is a temporary state. A &#39;Retry-After&#39; Header is included in the response to signal the client to retry after a certain amount of seconds. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

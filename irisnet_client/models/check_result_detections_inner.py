@@ -18,23 +18,26 @@ import json
 import pprint
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
 from typing import Any, List, Optional
-from irisnet_client.models.base_detection import BaseDetection
+from irisnet_client.models.age_verification_detection import AgeVerificationDetection
 from irisnet_client.models.breast_detection import BreastDetection
 from irisnet_client.models.face_detection import FaceDetection
 from irisnet_client.models.hair_detection import HairDetection
 from irisnet_client.models.id_document_detection import IdDocumentDetection
+from irisnet_client.models.image_analysis_detection import ImageAnalysisDetection
+from irisnet_client.models.poa_document_detection import PoaDocumentDetection
+from irisnet_client.models.text_detection import TextDetection
 from pydantic import StrictStr, Field
 from typing import Union, List, Set, Optional, Dict
 from typing_extensions import Literal, Self
 
-CHECKRESULTDETECTIONSINNER_ONE_OF_SCHEMAS = ["BaseDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection"]
+CHECKRESULTDETECTIONSINNER_ONE_OF_SCHEMAS = ["AgeVerificationDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection", "ImageAnalysisDetection", "PoaDocumentDetection", "TextDetection"]
 
 class CheckResultDetectionsInner(BaseModel):
     """
     CheckResultDetectionsInner
     """
-    # data type: BaseDetection
-    oneof_schema_1_validator: Optional[BaseDetection] = None
+    # data type: AgeVerificationDetection
+    oneof_schema_1_validator: Optional[AgeVerificationDetection] = None
     # data type: BreastDetection
     oneof_schema_2_validator: Optional[BreastDetection] = None
     # data type: FaceDetection
@@ -43,8 +46,14 @@ class CheckResultDetectionsInner(BaseModel):
     oneof_schema_4_validator: Optional[HairDetection] = None
     # data type: IdDocumentDetection
     oneof_schema_5_validator: Optional[IdDocumentDetection] = None
-    actual_instance: Optional[Union[BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection]] = None
-    one_of_schemas: Set[str] = { "BaseDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection" }
+    # data type: ImageAnalysisDetection
+    oneof_schema_6_validator: Optional[ImageAnalysisDetection] = None
+    # data type: PoaDocumentDetection
+    oneof_schema_7_validator: Optional[PoaDocumentDetection] = None
+    # data type: TextDetection
+    oneof_schema_8_validator: Optional[TextDetection] = None
+    actual_instance: Optional[Union[AgeVerificationDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection, ImageAnalysisDetection, PoaDocumentDetection, TextDetection]] = None
+    one_of_schemas: Set[str] = { "AgeVerificationDetection", "BreastDetection", "FaceDetection", "HairDetection", "IdDocumentDetection", "ImageAnalysisDetection", "PoaDocumentDetection", "TextDetection" }
 
     model_config = ConfigDict(
         validate_assignment=True,
@@ -70,9 +79,9 @@ class CheckResultDetectionsInner(BaseModel):
         instance = CheckResultDetectionsInner.model_construct()
         error_messages = []
         match = 0
-        # validate data type: BaseDetection
-        if not isinstance(v, BaseDetection):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `BaseDetection`")
+        # validate data type: AgeVerificationDetection
+        if not isinstance(v, AgeVerificationDetection):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `AgeVerificationDetection`")
         else:
             match += 1
         # validate data type: BreastDetection
@@ -95,12 +104,27 @@ class CheckResultDetectionsInner(BaseModel):
             error_messages.append(f"Error! Input type `{type(v)}` is not `IdDocumentDetection`")
         else:
             match += 1
+        # validate data type: ImageAnalysisDetection
+        if not isinstance(v, ImageAnalysisDetection):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `ImageAnalysisDetection`")
+        else:
+            match += 1
+        # validate data type: PoaDocumentDetection
+        if not isinstance(v, PoaDocumentDetection):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `PoaDocumentDetection`")
+        else:
+            match += 1
+        # validate data type: TextDetection
+        if not isinstance(v, TextDetection):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `TextDetection`")
+        else:
+            match += 1
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in CheckResultDetectionsInner with oneOf schemas: BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in CheckResultDetectionsInner with oneOf schemas: AgeVerificationDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection, ImageAnalysisDetection, PoaDocumentDetection, TextDetection. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when setting `actual_instance` in CheckResultDetectionsInner with oneOf schemas: BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in CheckResultDetectionsInner with oneOf schemas: AgeVerificationDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection, ImageAnalysisDetection, PoaDocumentDetection, TextDetection. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -115,9 +139,9 @@ class CheckResultDetectionsInner(BaseModel):
         error_messages = []
         match = 0
 
-        # deserialize data into BaseDetection
+        # deserialize data into AgeVerificationDetection
         try:
-            instance.actual_instance = BaseDetection.from_json(json_str)
+            instance.actual_instance = AgeVerificationDetection.from_json(json_str)
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
@@ -145,13 +169,31 @@ class CheckResultDetectionsInner(BaseModel):
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
+        # deserialize data into ImageAnalysisDetection
+        try:
+            instance.actual_instance = ImageAnalysisDetection.from_json(json_str)
+            match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        # deserialize data into PoaDocumentDetection
+        try:
+            instance.actual_instance = PoaDocumentDetection.from_json(json_str)
+            match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        # deserialize data into TextDetection
+        try:
+            instance.actual_instance = TextDetection.from_json(json_str)
+            match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
 
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into CheckResultDetectionsInner with oneOf schemas: BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when deserializing the JSON string into CheckResultDetectionsInner with oneOf schemas: AgeVerificationDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection, ImageAnalysisDetection, PoaDocumentDetection, TextDetection. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into CheckResultDetectionsInner with oneOf schemas: BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into CheckResultDetectionsInner with oneOf schemas: AgeVerificationDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection, ImageAnalysisDetection, PoaDocumentDetection, TextDetection. Details: " + ", ".join(error_messages))
         else:
             return instance
 
@@ -165,7 +207,7 @@ class CheckResultDetectionsInner(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection]]:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], AgeVerificationDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection, ImageAnalysisDetection, PoaDocumentDetection, TextDetection]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None
