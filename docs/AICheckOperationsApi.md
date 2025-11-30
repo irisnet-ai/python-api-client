@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**age_verification**](AICheckOperationsApi.md#age_verification) | **POST** /v2/age-verification/{configId} | Perform an age verfication check for a given selfie with the AI.
 [**check_id_document**](AICheckOperationsApi.md#check_id_document) | **POST** /v2/check-id-document/{configId} | Check an id document with the AI.
 [**check_image**](AICheckOperationsApi.md#check_image) | **POST** /v2/check-image/{configId} | Check an image with the AI.
-[**check_poa_document**](AICheckOperationsApi.md#check_poa_document) | **POST** /v2/check-poa-document/{configId} | Perform an proof of address check with the AI.
+[**check_poa_document**](AICheckOperationsApi.md#check_poa_document) | **POST** /v2/check-poa-document/{configId} | Perform a proof of address check with the AI.
 [**check_stream**](AICheckOperationsApi.md#check_stream) | **POST** /v2/check-stream/{configId} | Check a stream with the AI.
 [**check_text**](AICheckOperationsApi.md#check_text) | **POST** /v2/check-text/{configId} | Check a text with the AI.
 [**check_video**](AICheckOperationsApi.md#check_video) | **POST** /v2/check-video/{configId} | Check a video with the AI.
@@ -274,7 +274,7 @@ Name | Type | Description  | Notes
 # **check_poa_document**
 > CheckResult check_poa_document(config_id, poa_check_request_data)
 
-Perform an proof of address check with the AI.
+Perform a proof of address check with the AI.
 
 The response (_CheckResult_ schema) containing only the checkId and possibly ApiNotices is returned immediately after the request. The actual body (_CheckResult_ schema) is sent to the _callbackUrl_ after the AI has finished processing.
 
@@ -314,7 +314,7 @@ with irisnet_client.ApiClient(configuration) as api_client:
     poa_check_request_data = {"callback":{"callbackUrl":"https://www.example.com/callback?poacheck"},"documentType":"utility_bill","frontImage":"/9j/4AAQSkZJRgABAQEASABIAAD..."} # PoaCheckRequestData | The PoaCheckRequestData containing data needed for the proof of address check. The DocumentType in the request data must be either 'utility_bill' or 'bank_statement'.
 
     try:
-        # Perform an proof of address check with the AI.
+        # Perform a proof of address check with the AI.
         api_response = api_instance.check_poa_document(config_id, poa_check_request_data)
         print("The response of AICheckOperationsApi->check_poa_document:\n")
         pprint(api_response)

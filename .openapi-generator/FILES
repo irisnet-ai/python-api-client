@@ -121,15 +121,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_ai_classification.py
-test/test_ai_prototype.py
-test/test_attribute.py
-test/test_image_analysis_detection.py
-test/test_language_attribute.py
-test/test_poa_document_attribute.py
-test/test_poa_document_detection.py
-test/test_poa_document_sub_checks.py
-test/test_segment.py
-test/test_text_detection.py
-test/test_value_attribute.py
 tox.ini
