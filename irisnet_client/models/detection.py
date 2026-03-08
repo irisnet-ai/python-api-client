@@ -27,6 +27,7 @@ from typing_extensions import Self
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from irisnet_client.models.age_verification_detection import AgeVerificationDetection
+    from irisnet_client.models.base_detection import BaseDetection
     from irisnet_client.models.breast_detection import BreastDetection
     from irisnet_client.models.face_detection import FaceDetection
     from irisnet_client.models.hair_detection import HairDetection
@@ -54,7 +55,7 @@ class Detection(BaseModel):
 
     # discriminator mappings
     __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
-        'AgeVerificationDetection': 'AgeVerificationDetection','BreastDetection': 'BreastDetection','FaceDetection': 'FaceDetection','HairDetection': 'HairDetection','IdDocumentDetection': 'IdDocumentDetection','ImageAnalysisDetection': 'ImageAnalysisDetection','PoaDocumentDetection': 'PoaDocumentDetection','TextDetection': 'TextDetection'
+        'AgeVerificationDetection': 'AgeVerificationDetection','BaseDetection': 'BaseDetection','BreastDetection': 'BreastDetection','FaceDetection': 'FaceDetection','HairDetection': 'HairDetection','IdDocumentDetection': 'IdDocumentDetection','ImageAnalysisDetection': 'ImageAnalysisDetection','PoaDocumentDetection': 'PoaDocumentDetection','TextDetection': 'TextDetection'
     }
 
     @classmethod
@@ -76,7 +77,7 @@ class Detection(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Optional[Union[AgeVerificationDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection, ImageAnalysisDetection, PoaDocumentDetection, TextDetection]]:
+    def from_json(cls, json_str: str) -> Optional[Union[AgeVerificationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection, ImageAnalysisDetection, PoaDocumentDetection, TextDetection]]:
         """Create an instance of Detection from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -101,12 +102,14 @@ class Detection(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[AgeVerificationDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection, ImageAnalysisDetection, PoaDocumentDetection, TextDetection]]:
+    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[AgeVerificationDetection, BaseDetection, BreastDetection, FaceDetection, HairDetection, IdDocumentDetection, ImageAnalysisDetection, PoaDocumentDetection, TextDetection]]:
         """Create an instance of Detection from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
         if object_type ==  'AgeVerificationDetection':
             return import_module("irisnet_client.models.age_verification_detection").AgeVerificationDetection.from_dict(obj)
+        if object_type ==  'BaseDetection':
+            return import_module("irisnet_client.models.base_detection").BaseDetection.from_dict(obj)
         if object_type ==  'BreastDetection':
             return import_module("irisnet_client.models.breast_detection").BreastDetection.from_dict(obj)
         if object_type ==  'FaceDetection':

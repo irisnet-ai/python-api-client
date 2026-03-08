@@ -18,18 +18,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from irisnet_client.models.attribute import Attribute
 from irisnet_client.models.coordinates import Coordinates
+from irisnet_client.models.detection import Detection
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BaseDetection(BaseModel):
+class BaseDetection(Detection):
     """
     A detection describes the object found with all its details.
     """ # noqa: E501
-    type: Optional[StrictStr] = Field(default=None, description="Used as a type discriminator for json to object conversion.")
     classification: Optional[StrictStr] = Field(default=None, description="The classification of the recognized object.")
     group: Optional[StrictStr] = Field(default=None, description="The group of the classification.")
     id: Optional[StrictInt] = Field(default=None, description="The id of the detection object.")

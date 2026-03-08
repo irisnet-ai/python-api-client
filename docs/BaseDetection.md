@@ -6,7 +6,6 @@ A detection describes the object found with all its details.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** | Used as a type discriminator for json to object conversion. | [optional] 
 **classification** | **str** | The classification of the recognized object. | [optional] 
 **group** | **str** | The group of the classification. | [optional] 
 **id** | **int** | The id of the detection object. | [optional] 
