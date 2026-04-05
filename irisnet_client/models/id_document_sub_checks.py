@@ -35,6 +35,7 @@ class IdDocumentSubChecks(BaseModel):
     photo_location: Optional[StrictStr] = Field(default=None, description="Indicates whether the photo is in the correct location for a given document type", alias="photoLocation")
     blacklist_check: Optional[StrictStr] = Field(default=None, description="Indicates whether a competent authority deny-listed the ID document", alias="blacklistCheck")
     photocopy_check: Optional[StrictStr] = Field(default=None, description="Indicates whether the document is a photocopy", alias="photocopyCheck")
+    tampering_check: Optional[StrictStr] = Field(default=None, description="Indicates whether the document image has been digitally tampered with", alias="tamperingCheck")
     specimen_check: Optional[StrictStr] = Field(default=None, description="Indicates whether the document has been copied from the Internet", alias="specimenCheck")
     document_model_identification: Optional[StrictStr] = Field(default=None, description="Indicates whether the document model has been identified and whether or not the document conforms to official specifications", alias="documentModelIdentification")
     document_liveness_check: Optional[StrictStr] = Field(default=None, description="Indicates if the document image is genuine and not a photo of an image or of a screen", alias="documentLivenessCheck")
@@ -52,7 +53,7 @@ class IdDocumentSubChecks(BaseModel):
     issuing_date_consistency: Optional[StrictStr] = Field(default=None, description="Indicates if the issuing date on the document and the MRZ are consistent", alias="issuingDateConsistency")
     expiration_date_consistency: Optional[StrictStr] = Field(default=None, description="Indicates if the expiration date on the document and the MRZ are consistent", alias="expirationDateConsistency")
     known_faces_check: Optional[StrictStr] = Field(default=None, description="Indicates if the selfie image matches an aready existing client/customer", alias="knownFacesCheck")
-    __properties: ClassVar[List[str]] = ["mrzChecksum", "mrzFormat", "mrzConsistency", "expirationDate", "securityElements", "photoLocation", "blacklistCheck", "photocopyCheck", "specimenCheck", "documentModelIdentification", "documentLivenessCheck", "dataIntegrityCheck", "dataConsistencyCheck", "ageValidationCheck", "spoofedImageAnalysis", "faceLivenessCheck", "voiceChallengeCheck", "actionChallengeCheck", "firstNameConsistency", "lastNameConsistency", "dobConsistency", "documentNumberConsistency", "issuingDateConsistency", "expirationDateConsistency", "knownFacesCheck"]
+    __properties: ClassVar[List[str]] = ["mrzChecksum", "mrzFormat", "mrzConsistency", "expirationDate", "securityElements", "photoLocation", "blacklistCheck", "photocopyCheck", "tamperingCheck", "specimenCheck", "documentModelIdentification", "documentLivenessCheck", "dataIntegrityCheck", "dataConsistencyCheck", "ageValidationCheck", "spoofedImageAnalysis", "faceLivenessCheck", "voiceChallengeCheck", "actionChallengeCheck", "firstNameConsistency", "lastNameConsistency", "dobConsistency", "documentNumberConsistency", "issuingDateConsistency", "expirationDateConsistency", "knownFacesCheck"]
 
     @field_validator('mrz_checksum')
     def mrz_checksum_validate_enum(cls, value):
@@ -126,6 +127,16 @@ class IdDocumentSubChecks(BaseModel):
 
     @field_validator('photocopy_check')
     def photocopy_check_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
+    @field_validator('tampering_check')
+    def tampering_check_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
             return value
@@ -363,6 +374,7 @@ class IdDocumentSubChecks(BaseModel):
             "photoLocation": obj.get("photoLocation"),
             "blacklistCheck": obj.get("blacklistCheck"),
             "photocopyCheck": obj.get("photocopyCheck"),
+            "tamperingCheck": obj.get("tamperingCheck"),
             "specimenCheck": obj.get("specimenCheck"),
             "documentModelIdentification": obj.get("documentModelIdentification"),
             "documentLivenessCheck": obj.get("documentLivenessCheck"),

@@ -51,8 +51,8 @@ class Config(BaseModel):
             return value
 
         for i in value:
-            if i not in set(['identityDocumentCheck', 'automatedDocumentRecognition', 'biometricCheck', 'formAutofill', 'ageVerificationCheck', 'proofOfAddressCheck', 'faceAuthentication', 'liveIdentification', 'liveIdentityDocumentCheck', 'liveSelfie', 'liveProofOfAddressCheck', 'liveAgeVerificationCheck', 'liveFaceAuthentication', 'videoUploadIdentification', 'considerKnownFaces', 'addEncodingsToResult', 'iFrameFlow', 'redirectFlow']):
-                raise ValueError("each list item must be one of ('identityDocumentCheck', 'automatedDocumentRecognition', 'biometricCheck', 'formAutofill', 'ageVerificationCheck', 'proofOfAddressCheck', 'faceAuthentication', 'liveIdentification', 'liveIdentityDocumentCheck', 'liveSelfie', 'liveProofOfAddressCheck', 'liveAgeVerificationCheck', 'liveFaceAuthentication', 'videoUploadIdentification', 'considerKnownFaces', 'addEncodingsToResult', 'iFrameFlow', 'redirectFlow')")
+            if i not in set(['identityDocumentCheck', 'automatedDocumentRecognition', 'biometricCheck', 'formAutofill', 'ageVerificationCheck', 'proofOfAddressCheck', 'faceAuthentication', 'liveIdentification', 'liveIdentityDocumentCheck', 'liveSelfie', 'liveProofOfAddressCheck', 'liveAgeVerificationCheck', 'liveFaceAuthentication', 'videoUploadIdentification', 'videoUploadAgeVerificationCheck', 'considerKnownFaces', 'addEncodingsToResult', 'iFrameFlow', 'redirectFlow']):
+                raise ValueError("each list item must be one of ('identityDocumentCheck', 'automatedDocumentRecognition', 'biometricCheck', 'formAutofill', 'ageVerificationCheck', 'proofOfAddressCheck', 'faceAuthentication', 'liveIdentification', 'liveIdentityDocumentCheck', 'liveSelfie', 'liveProofOfAddressCheck', 'liveAgeVerificationCheck', 'liveFaceAuthentication', 'videoUploadIdentification', 'videoUploadAgeVerificationCheck', 'considerKnownFaces', 'addEncodingsToResult', 'iFrameFlow', 'redirectFlow')")
         return value
 
     model_config = ConfigDict(
