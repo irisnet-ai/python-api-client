@@ -32,6 +32,7 @@ Name | Type | Description | Notes
 **issuing_date_consistency** | **str** | Indicates if the issuing date on the document and the MRZ are consistent | [optional] 
 **expiration_date_consistency** | **str** | Indicates if the expiration date on the document and the MRZ are consistent | [optional] 
 **known_faces_check** | **str** | Indicates if the selfie image matches an aready existing client/customer | [optional] 
+**face_similarity_check** | **str** | Indicates if the selfie image and the ID document image belong to the same person | [optional] 
 
 ## Example
 

@@ -4,11 +4,10 @@
 .travis.yml
 README.md
 docs/AICheckOperationsApi.md
+docs/AgeAttribute.md
 docs/AgeVerificationAttribute.md
 docs/AgeVerificationDetection.md
 docs/AgeVerificationSubChecks.md
-docs/AiClassification.md
-docs/AiPrototype.md
 docs/ApiNotice.md
 docs/Attribute.md
 docs/BalanceEndpointsApi.md
@@ -66,11 +65,10 @@ irisnet_client/api_response.py
 irisnet_client/configuration.py
 irisnet_client/exceptions.py
 irisnet_client/models/__init__.py
+irisnet_client/models/age_attribute.py
 irisnet_client/models/age_verification_attribute.py
 irisnet_client/models/age_verification_detection.py
 irisnet_client/models/age_verification_sub_checks.py
-irisnet_client/models/ai_classification.py
-irisnet_client/models/ai_prototype.py
 irisnet_client/models/api_notice.py
 irisnet_client/models/attribute.py
 irisnet_client/models/base_attribute.py
@@ -121,4 +119,5 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_age_attribute.py
 tox.ini

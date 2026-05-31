@@ -18,24 +18,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from importlib import import_module
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import ConfigDict, Field, StrictInt
+from typing import Any, ClassVar, Dict, List, Optional
+from irisnet_client.models.attribute import Attribute
 from typing import Optional, Set
 from typing_extensions import Self
 
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from irisnet_client.models.age_attribute import AgeAttribute
-    from irisnet_client.models.language_attribute import LanguageAttribute
-    from irisnet_client.models.value_attribute import ValueAttribute
-
-class Attribute(BaseModel):
+class AgeAttribute(Attribute):
     """
-    Attribute
+    Attributes qualifying the _numericAgeEstimation_ classification.
     """ # noqa: E501
-    type: Optional[StrictStr] = Field(default=None, description="Used as a type discriminator for json to object conversion.")
-    __properties: ClassVar[List[str]] = ["type"]
+    age: Optional[StrictInt] = Field(default=None, description="The estimated age of the person in years.")
+    age_min: Optional[StrictInt] = Field(default=None, description="The estimated minimum age of the person in years.", alias="ageMin")
+    age_max: Optional[StrictInt] = Field(default=None, description="The estimated maximum age of the person in years.", alias="ageMax")
+    probability: Optional[StrictInt] = Field(default=None, description="The probability of the estimated age.")
+    __properties: ClassVar[List[str]] = ["type", "age", "ageMin", "ageMax", "probability"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -43,23 +40,6 @@ class Attribute(BaseModel):
         protected_namespaces=(),
     )
 
-
-    # JSON field name that stores the object type
-    __discriminator_property_name: ClassVar[str] = 'type'
-
-    # discriminator mappings
-    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
-        'AgeAttribute': 'AgeAttribute','LanguageAttribute': 'LanguageAttribute','ValueAttribute': 'ValueAttribute'
-    }
-
-    @classmethod
-    def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
-        """Returns the discriminator value (object type) of the data"""
-        discriminator_value = obj[cls.__discriminator_property_name]
-        if discriminator_value:
-            return cls.__discriminator_value_class_map.get(discriminator_value)
-        else:
-            return None
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
@@ -71,8 +51,8 @@ class Attribute(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Optional[Union[AgeAttribute, LanguageAttribute, ValueAttribute]]:
-        """Create an instance of Attribute from a JSON string"""
+    def from_json(cls, json_str: str) -> Optional[Self]:
+        """Create an instance of AgeAttribute from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -96,19 +76,21 @@ class Attribute(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[AgeAttribute, LanguageAttribute, ValueAttribute]]:
-        """Create an instance of Attribute from a dict"""
-        # look up the object type based on discriminator mapping
-        object_type = cls.get_discriminator_value(obj)
-        if object_type ==  'AgeAttribute':
-            return import_module("irisnet_client.models.age_attribute").AgeAttribute.from_dict(obj)
-        if object_type ==  'LanguageAttribute':
-            return import_module("irisnet_client.models.language_attribute").LanguageAttribute.from_dict(obj)
-        if object_type ==  'ValueAttribute':
-            return import_module("irisnet_client.models.value_attribute").ValueAttribute.from_dict(obj)
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of AgeAttribute from a dict"""
+        if obj is None:
+            return None
 
-        raise ValueError("Attribute failed to lookup discriminator value from " +
-                            json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                            ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+
+        _obj = cls.model_validate({
+            "type": obj.get("type"),
+            "age": obj.get("age"),
+            "ageMin": obj.get("ageMin"),
+            "ageMax": obj.get("ageMax"),
+            "probability": obj.get("probability")
+        })
+        return _obj
 
 

@@ -15,7 +15,7 @@
 """  # noqa: E501
 
 
-__version__ = "4.1.8"
+__version__ = "4.1.9"
 
 # Define package exports
 __all__ = [
@@ -32,11 +32,10 @@ __all__ = [
     "ApiKeyError",
     "ApiAttributeError",
     "ApiException",
+    "AgeAttribute",
     "AgeVerificationAttribute",
     "AgeVerificationDetection",
     "AgeVerificationSubChecks",
-    "AiClassification",
-    "AiPrototype",
     "ApiNotice",
     "Attribute",
     "BaseAttribute",
@@ -99,11 +98,10 @@ from irisnet_client.exceptions import ApiAttributeError as ApiAttributeError
 from irisnet_client.exceptions import ApiException as ApiException
 
 # import models into sdk package
+from irisnet_client.models.age_attribute import AgeAttribute as AgeAttribute
 from irisnet_client.models.age_verification_attribute import AgeVerificationAttribute as AgeVerificationAttribute
 from irisnet_client.models.age_verification_detection import AgeVerificationDetection as AgeVerificationDetection
 from irisnet_client.models.age_verification_sub_checks import AgeVerificationSubChecks as AgeVerificationSubChecks
-from irisnet_client.models.ai_classification import AiClassification as AiClassification
-from irisnet_client.models.ai_prototype import AiPrototype as AiPrototype
 from irisnet_client.models.api_notice import ApiNotice as ApiNotice
 from irisnet_client.models.attribute import Attribute as Attribute
 from irisnet_client.models.base_attribute import BaseAttribute as BaseAttribute

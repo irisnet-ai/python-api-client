@@ -21,7 +21,6 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing_extensions import Annotated
-from irisnet_client.models.ai_prototype import AiPrototype
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -38,8 +37,7 @@ class Param(BaseModel):
     grey: Optional[Annotated[int, Field(le=255, strict=True, ge=0)]] = Field(default=127, description="A grey scale color used in combination of _drawMode_ '2' or '3'. '0' will represent black, while the maximum '255' will be white.")
     scale: Optional[Union[Annotated[float, Field(le=4.0, strict=True, ge=0.5)], Annotated[int, Field(le=4, strict=True, ge=1)]]] = Field(default=1.0, description="Scale of the bounds around the classification object. Specify a value to increase or decrease the size of the bounds. This is applied to the resulting media as well as the JSON coordinates.")
     ignore: Optional[StrictBool] = Field(default=False, description="A shorthand to ignore the classification object. This is equal to setting _min=0_, _max=-1_ and _drawMode=0_.")
-    prototype_object: Optional[AiPrototype] = Field(default=None, alias="prototypeObject")
-    __properties: ClassVar[List[str]] = ["classification", "prototype", "min", "max", "severity", "drawMode", "grey", "scale", "ignore", "prototypeObject"]
+    __properties: ClassVar[List[str]] = ["classification", "prototype", "min", "max", "severity", "drawMode", "grey", "scale", "ignore"]
 
     @field_validator('classification')
     def classification_validate_enum(cls, value):
@@ -87,9 +85,6 @@ class Param(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of prototype_object
-        if self.prototype_object:
-            _dict['prototypeObject'] = self.prototype_object.to_dict()
         return _dict
 
     @classmethod
@@ -110,8 +105,7 @@ class Param(BaseModel):
             "drawMode": obj.get("drawMode"),
             "grey": obj.get("grey") if obj.get("grey") is not None else 127,
             "scale": obj.get("scale") if obj.get("scale") is not None else 1.0,
-            "ignore": obj.get("ignore") if obj.get("ignore") is not None else False,
-            "prototypeObject": AiPrototype.from_dict(obj["prototypeObject"]) if obj.get("prototypeObject") is not None else None
+            "ignore": obj.get("ignore") if obj.get("ignore") is not None else False
         })
         return _obj
 

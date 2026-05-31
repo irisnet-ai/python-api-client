@@ -15,11 +15,10 @@
 
 
 # import models into model package
+from irisnet_client.models.age_attribute import AgeAttribute
 from irisnet_client.models.age_verification_attribute import AgeVerificationAttribute
 from irisnet_client.models.age_verification_detection import AgeVerificationDetection
 from irisnet_client.models.age_verification_sub_checks import AgeVerificationSubChecks
-from irisnet_client.models.ai_classification import AiClassification
-from irisnet_client.models.ai_prototype import AiPrototype
 from irisnet_client.models.api_notice import ApiNotice
 from irisnet_client.models.attribute import Attribute
 from irisnet_client.models.base_attribute import BaseAttribute

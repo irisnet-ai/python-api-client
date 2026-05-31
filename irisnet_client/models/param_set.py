@@ -18,7 +18,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing_extensions import Annotated
 from irisnet_client.models.kyc_ui_parameter import KycUiParameter
@@ -36,8 +36,7 @@ class ParamSet(BaseModel):
     abort_on_severity: Optional[Annotated[int, Field(strict=True, ge=-1)]] = Field(default=-1, description="Set a severity on which to automatically stop the check operation. Works with moving images.Use '-1' to ignore this option.", alias="abortOnSeverity")
     params: Optional[List[Param]] = Field(default=None, description="A list of parameter sets that describe the rules of the objects.")
     kyc_ui_parameters: Optional[KycUiParameter] = Field(default=None, alias="kycUiParameters")
-    kyc_document_country_deny_list: Optional[StrictStr] = Field(default=None, description="A comma separated list of country codes (ISO 3166-1 alpha-2) for which id-documents should be rejected.", alias="kycDocumentCountryDenyList")
-    __properties: ClassVar[List[str]] = ["thresh", "grey", "minDuration", "abortOnSeverity", "params", "kycUiParameters", "kycDocumentCountryDenyList"]
+    __properties: ClassVar[List[str]] = ["thresh", "grey", "minDuration", "abortOnSeverity", "params", "kycUiParameters"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -105,8 +104,7 @@ class ParamSet(BaseModel):
             "minDuration": obj.get("minDuration") if obj.get("minDuration") is not None else 100,
             "abortOnSeverity": obj.get("abortOnSeverity") if obj.get("abortOnSeverity") is not None else -1,
             "params": [Param.from_dict(_item) for _item in obj["params"]] if obj.get("params") is not None else None,
-            "kycUiParameters": KycUiParameter.from_dict(obj["kycUiParameters"]) if obj.get("kycUiParameters") is not None else None,
-            "kycDocumentCountryDenyList": obj.get("kycDocumentCountryDenyList")
+            "kycUiParameters": KycUiParameter.from_dict(obj["kycUiParameters"]) if obj.get("kycUiParameters") is not None else None
         })
         return _obj
 

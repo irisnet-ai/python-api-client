@@ -53,7 +53,8 @@ class IdDocumentSubChecks(BaseModel):
     issuing_date_consistency: Optional[StrictStr] = Field(default=None, description="Indicates if the issuing date on the document and the MRZ are consistent", alias="issuingDateConsistency")
     expiration_date_consistency: Optional[StrictStr] = Field(default=None, description="Indicates if the expiration date on the document and the MRZ are consistent", alias="expirationDateConsistency")
     known_faces_check: Optional[StrictStr] = Field(default=None, description="Indicates if the selfie image matches an aready existing client/customer", alias="knownFacesCheck")
-    __properties: ClassVar[List[str]] = ["mrzChecksum", "mrzFormat", "mrzConsistency", "expirationDate", "securityElements", "photoLocation", "blacklistCheck", "photocopyCheck", "tamperingCheck", "specimenCheck", "documentModelIdentification", "documentLivenessCheck", "dataIntegrityCheck", "dataConsistencyCheck", "ageValidationCheck", "spoofedImageAnalysis", "faceLivenessCheck", "voiceChallengeCheck", "actionChallengeCheck", "firstNameConsistency", "lastNameConsistency", "dobConsistency", "documentNumberConsistency", "issuingDateConsistency", "expirationDateConsistency", "knownFacesCheck"]
+    face_similarity_check: Optional[StrictStr] = Field(default=None, description="Indicates if the selfie image and the ID document image belong to the same person", alias="faceSimilarityCheck")
+    __properties: ClassVar[List[str]] = ["mrzChecksum", "mrzFormat", "mrzConsistency", "expirationDate", "securityElements", "photoLocation", "blacklistCheck", "photocopyCheck", "tamperingCheck", "specimenCheck", "documentModelIdentification", "documentLivenessCheck", "dataIntegrityCheck", "dataConsistencyCheck", "ageValidationCheck", "spoofedImageAnalysis", "faceLivenessCheck", "voiceChallengeCheck", "actionChallengeCheck", "firstNameConsistency", "lastNameConsistency", "dobConsistency", "documentNumberConsistency", "issuingDateConsistency", "expirationDateConsistency", "knownFacesCheck", "faceSimilarityCheck"]
 
     @field_validator('mrz_checksum')
     def mrz_checksum_validate_enum(cls, value):
@@ -315,6 +316,16 @@ class IdDocumentSubChecks(BaseModel):
             raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
         return value
 
+    @field_validator('face_similarity_check')
+    def face_similarity_check_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['passed', 'failed', 'not_processed']):
+            raise ValueError("must be one of enum values ('passed', 'failed', 'not_processed')")
+        return value
+
     model_config = ConfigDict(
         populate_by_name=True,
         validate_assignment=True,
@@ -391,7 +402,8 @@ class IdDocumentSubChecks(BaseModel):
             "documentNumberConsistency": obj.get("documentNumberConsistency"),
             "issuingDateConsistency": obj.get("issuingDateConsistency"),
             "expirationDateConsistency": obj.get("expirationDateConsistency"),
-            "knownFacesCheck": obj.get("knownFacesCheck")
+            "knownFacesCheck": obj.get("knownFacesCheck"),
+            "faceSimilarityCheck": obj.get("faceSimilarityCheck")
         })
         return _obj
 
